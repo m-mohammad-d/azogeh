@@ -1,0 +1,39 @@
+{
+  "name": "ecommerce-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "data:import": "ts-node src/data/seeder.ts -i",
+    "data:destroy": "ts-node src/data/seeder.ts -d",
+    "server": "nodemon src/server.ts",
+    "client": "npm run dev --prefix client",
+    "start:dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node src/dist/server.js",
+    "build": "npm i && npm i --prefix client && tsc -p src && npm run build --prefix client"
+  },
+  "keywords": [],
+  "author": "Hossein Rezaei",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.11",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^7.0.0"
+  },
+  "nodemonConfig": {
+    "events": {
+      "start": "echo '--------------------\n'& clear || cls"
+    }
+  }
+}
