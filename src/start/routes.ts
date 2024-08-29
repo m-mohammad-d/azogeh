@@ -2,8 +2,10 @@ import { Express } from "express";
 import productRouter from "../routers/productRouter";
 import AppError from "../utils/appError";
 import globalErrorHandler from "../controllers/errorController";
+import viewRouter from "../routers/viewRouter";
 
 module.exports = (app: Express) => {
+  app.use("/server", viewRouter);
   app.use("/api/products", productRouter);
 
   // Unhandled Routes
