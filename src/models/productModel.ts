@@ -3,23 +3,24 @@ import slugify from "slugify";
 
 interface IProduct {
   name: string;
-  slug?: string;
+  slug: string;
   description: string;
 
-  imageCover: string;
+  image: string;
   images: string[];
+
+  countInStock: number;
+  isAvailable: boolean;
 
   brand: string;
   category: string;
 
-  ratingsAverage?: number;
-  ratingsQuantity?: number;
+  rating: number;
+  numReviews: number;
 
   price: number;
-  priceDiscount?: number;
-
-  isAvailable?: boolean;
-  countInStock?: number;
+  discount: number;
+  discountedPrice: number;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -33,16 +34,24 @@ const productSchema = new Schema<IProduct>(
     },
     description: {
       type: String,
-      required: [true, "Product description is required"],
+      required: [true, "Description is required"],
     },
 
-    imageCover: {
+    image: {
       type: String,
-      required: [true, "Product image cover is required"],
+      required: [true, "Product image is required"],
     },
     images: {
       type: [String],
-      required: [true, "Product images is required"],
+    },
+
+    countInStock: {
+      type: Number,
+      default: 1,
+    },
+    isAvailable: {
+      type: Boolean,
+      default: false,
     },
 
     brand: {
@@ -54,43 +63,37 @@ const productSchema = new Schema<IProduct>(
       required: [true, "Category is required"],
     },
 
-    ratingsAverage: {
+    rating: {
       type: Number,
-      default: 0,
+      default: 4.5,
     },
-    ratingsQuantity: {
+    numReviews: {
       type: Number,
-      default: 0,
+      default: 1,
     },
 
     price: {
       type: Number,
-      required: [true, "Product Price is required"],
+      required: [true, "Price is required"],
     },
-    priceDiscount: {
-      type: Number,
-      default: 0,
-    },
-
-    isAvailable: {
-      type: Boolean,
-      default: false,
-    },
-    countInStock: {
+    discount: {
       type: Number,
       default: 0,
     },
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-    timestamps: true,
-  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
 
 productSchema.pre("save", function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
+});
+
+productSchema.virtual("discountedPrice").get(function () {
+  if (this.discount === 0) return null;
+
+  const discountMultiplier = 1 - this.discount / 100;
+  return this.price * discountMultiplier;
 });
 
 const Product = model<IProduct>("Product", productSchema);
