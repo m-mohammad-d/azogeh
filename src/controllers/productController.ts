@@ -5,10 +5,9 @@ import AppError from "../utils/appError";
 
 export const getAllProducts: RequestHandler = async (req, res, next) => {
   const features = new APIFeatures(Product, req.query);
-  const { pagination, total, skip } = await features.filter().search().sort().limitFields().pagination();
+  const { pagination, total, skip, page } = await features.filter().search().sort().limitFields().pagination();
 
-  console.log(skip >= total);
-  if (skip >= total) return next(new AppError("این صفحه وجود ندارد", 400));
+  if (page) if (skip >= total) return next(new AppError("این صفحه وجود ندارد", 400));
 
   const products = await features.query;
 
