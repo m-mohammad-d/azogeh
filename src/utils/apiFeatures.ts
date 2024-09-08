@@ -63,6 +63,6 @@ export default class APIFeatures {
     if (this.queryRequest.page) this.query = this.query.skip(skip).limit(limit);
     const pagination = this.queryRequest.page ? { total, limit, pages, page, skip } : null;
 
-    return { pagination, total, skip, page };
+    return { pagination, total, skip };
   }
 }
