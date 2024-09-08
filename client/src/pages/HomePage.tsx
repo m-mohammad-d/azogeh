@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Banner from "../components/Banner";
 
 interface FetchResponse<T> {
   status: string; // Status of the response (e.g., "success")
@@ -50,17 +51,9 @@ function HomePage() {
   }, []);
 
   return (
-    <>
-      <h1 className="text-gray-400 text-5xl m-8 text-center">وبسایت اذوقه</h1>
-      <p className="text-center text-2xl text-Success-400">لیست محصولات </p>
-      <div className="mx-4">
-        {data?.data.products.map(p => (
-          <li className="text-primary-500" key={p.id}>
-            {p.name}
-          </li>
-        ))}
-      </div>
-    </>
+    <div className="max-w-screen-2xl mx-auto mt-16">
+      <Banner />
+    </div>
   );
 }
 
