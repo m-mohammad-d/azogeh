@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import CategoriesMenu from "../components/CategoriesMenu";
+import SpecialOffers from "../components/SpecialOffers";
 
 interface FetchResponse<T> {
   status: string; // Status of the response (e.g., "success")
@@ -53,8 +54,9 @@ function HomePage() {
 
   return (
     <div className="max-w-screen-2xl mx-auto mt-16">
-      <Banner />
+      <Banner img="banner" />
       <CategoriesMenu />
+      <SpecialOffers />
     </div>
   );
 }
