@@ -4,7 +4,7 @@ import CategoriesMenu from "../components/CategoriesMenu";
 import SpecialOffers from "../components/SpecialOffers";
 import BestSellers from "../components/BestSellers";
 import { FetchResponse, Product } from "../types/product";
-
+import BenefitsCard from "../components/BenefitsCard";
 
 function HomePage() {
   const [data, setData] = useState<FetchResponse<Product>>();
@@ -21,6 +21,7 @@ function HomePage() {
       <CategoriesMenu />
       <SpecialOffers />
       <BestSellers products={data?.data.products} />
+      <BenefitsCard />
     </div>
   );
 }
