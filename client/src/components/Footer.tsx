@@ -1,12 +1,12 @@
 function Footer() {
   return (
     <footer className="w-full max-w-screen-2xl my-12 px-6 mx-auto">
-      <div className="w-full min-h-0.5 mt-5 bg-gray-100"></div>
-      <div className="grid grid-cols-3 justify-items-center	gap-12 w-full mt-8">
+      <div className="w-full min-h-[0.5px] mt-5 bg-gray-100"></div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 w-full mt-8">
         <div>
-          <h2 className="text-xl font-semibold mb-4">راهنما و خدمات مشتریان</h2>
-          <div className="w-full min-h-0.5 mb-4 bg-gray-100"></div>
-          <ul className="space-y-4">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">راهنما و خدمات مشتریان</h2>
+          <div className="w-full min-h-[0.5px] mb-4 bg-gray-100"></div>
+          <ul className="space-y-4 text-sm sm:text-base">
             <li>نحوه ثبت سفارش</li>
             <li>رویه های ارسال سفارش</li>
             <li>شیوه های پرداخت</li>
@@ -15,9 +15,9 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h2 className="text-xl font-semibold mb-4">ارتباط با آذوقه</h2>
-          <div className="w-full min-h-0.5 mb-4 bg-gray-100"></div>
-          <ul className="space-y-4">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">ارتباط با آذوقه</h2>
+          <div className="w-full min-h-[0.5px] mb-4 bg-gray-100"></div>
+          <ul className="space-y-4 text-sm sm:text-base">
             <li>استخدام</li>
             <li>تماس با ما</li>
             <li>درخواست نمایندگی</li>
@@ -26,9 +26,9 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h2 className="text-xl font-semibold mb-4">درباره آذوقه</h2>
-          <div className="w-full min-h-0.5 mb-4 bg-gray-100"></div>
-          <ul className="space-y-4">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">درباره آذوقه</h2>
+          <div className="w-full min-h-[0.5px] mb-4 bg-gray-100"></div>
+          <ul className="space-y-4 text-sm sm:text-base">
             <li>آدرس دفتر فروش</li>
             <li>پیش ثبت نام خرید اقساطی</li>
             <li>مجله بلج</li>
