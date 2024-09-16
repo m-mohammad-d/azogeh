@@ -18,12 +18,16 @@ const categories = [
 
 function CategoriesMenu() {
   return (
-    <div className="mt-28 mb-6">
-      <h2 className="text-3xl">دسته بندی ها</h2>
+    <div className="mt-28 mb-6 px-4">
+      <h2 className="text-lg md:text-3xl font-semibold mb-4">دسته بندی ها</h2>
       <HighlightBar />
-      <div className="grid grid-cols-6 gap-4 gap-y-8 mt-10">
-        {categories.map(categorie => (
-          <CategoriesItem name={categorie.name} img={categorie.img} />
+      <div className="grid grid-cols-2  md:grid-cols-4 lg:grid-cols-6 gap-4 gap-y-6 mt-10">
+        {categories.map((categorie) => (
+          <CategoriesItem
+            key={categorie.name}
+            name={categorie.name}
+            img={categorie.img}
+          />
         ))}
       </div>
     </div>
