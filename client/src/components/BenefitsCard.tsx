@@ -9,7 +9,7 @@ const items = [
 function BenefitsCard() {
   return (
     <div className="w-2/3 mx-auto mt-16">
-      <div className="grid grid-cols-4 gap-x-5 items-center">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5  items-center">
         {items.map(item => (
           <BenefitsCardItem name={item.name} img={item.img} />
         ))}
