@@ -1,19 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import BestSallersProduct from "../components/BestSallersProduct";
 
 function ProductList() {
   const [availableOnly, setAvailableOnly] = useState(true);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 500000 });
-  const [selectedBrand, setSelectedBrand] = useState("all");
-  const [selectedType, setSelectedType] = useState("all");
 
   const { data, error, isLoading } = useGetProductsQuery({
     availableOnly,
     minPrice: priceRange.min,
     maxPrice: priceRange.max,
-    brand: selectedBrand !== "all" ? selectedBrand : undefined,
-    category: selectedType !== "all" ? selectedType : undefined,
   });
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, type: "min" | "max") => {
@@ -22,18 +18,6 @@ function ProductList() {
       [type]: Number(e.target.value),
     }));
   };
-
-  // Effect to update URL based on filters
-  useEffect(() => {
-    const params = new URLSearchParams();
-    params.set("availableOnly", availableOnly.toString());
-    params.set("minPrice", priceRange.min.toString());
-    params.set("maxPrice", priceRange.max.toString());
-    params.set("brand", selectedBrand);
-    params.set("category", selectedType);
-
-    window.history.pushState({}, "", `?${params.toString()}`);
-  }, [availableOnly, priceRange, selectedBrand, selectedType]);
 
   if (isLoading) return <div>در حال بارگذاری...</div>;
   if (error) return <div>خطایی رخ داده است.</div>;
@@ -50,8 +34,6 @@ function ProductList() {
                 onClick={() => {
                   setAvailableOnly(false);
                   setPriceRange({ min: 0, max: 500000 });
-                  setSelectedBrand("all");
-                  setSelectedType("all");
                 }}
               >
                 حذف فیلتر
@@ -59,26 +41,18 @@ function ProductList() {
             </div>
             <div className="mb-4">
               <label className="block mb-2">برند</label>
-              <select
-                className="w-full border rounded-lg p-2"
-                value={selectedBrand}
-                onChange={e => setSelectedBrand(e.target.value)}
-              >
-                <option value="all">همه</option>
-                <option value="golestan">گلستان</option>
-                <option value="cheetoz">چی توز</option>
+              <select className="w-full border rounded-lg p-2">
+                <option>همه</option>
+                <option>برند 1</option>
+                <option>برند 2</option>
               </select>
             </div>
             <div className="mb-4">
               <label className="block mb-2">نوع</label>
-              <select
-                className="w-full border rounded-lg p-2"
-                value={selectedType}
-                onChange={e => setSelectedType(e.target.value)}
-              >
-                <option value="all">همه</option>
-                <option value="Snacks">تنقلات</option>
-                <option value="Dairy">محصولات لبنی</option>
+              <select className="w-full border rounded-lg p-2">
+                <option>همه</option>
+                <option>نوع 1</option>
+                <option>نوع 2</option>
               </select>
             </div>
             <div className="mb-4 flex justify-between">
