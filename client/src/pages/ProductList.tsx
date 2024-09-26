@@ -1,22 +1,82 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import BestSallersProduct from "../components/BestSallersProduct";
+import { useSearchParams } from "react-router-dom";
 
 function ProductList() {
   const [availableOnly, setAvailableOnly] = useState(true);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 500000 });
+  const [brand, setBrand] = useState("all");
+  const [category, setCategory] = useState("all");
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    const isAvailableParam = searchParams.get("isAvailable");
+    const minPriceParam = searchParams.get("minprice");
+    const maxPriceParam = searchParams.get("maxprice");
+    const brandParam = searchParams.get("brand");
+    const categoryParam = searchParams.get("category");
+
+    if (isAvailableParam !== null) {
+      setAvailableOnly(isAvailableParam === "true");
+    }
+    if (minPriceParam !== null) {
+      setPriceRange(prevRange => ({
+        ...prevRange,
+        min: Number(minPriceParam),
+      }));
+    }
+    if (maxPriceParam !== null) {
+      setPriceRange(prevRange => ({
+        ...prevRange,
+        max: Number(maxPriceParam),
+      }));
+    }
+    if (brandParam !== null) {
+      setBrand(brandParam);
+    }
+    if (categoryParam !== null) {
+      setCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   const { data, error, isLoading } = useGetProductsQuery({
     availableOnly,
     minPrice: priceRange.min,
     maxPrice: priceRange.max,
+    brand,
+    category,
   });
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, type: "min" | "max") => {
+  function handleSetAvailableOnly() {
+    const newAvailableOnly = !availableOnly;
+    setAvailableOnly(newAvailableOnly);
+    searchParams.set("isAvailable", newAvailableOnly + "");
+    setSearchParams(searchParams);
+  }
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, category: "min" | "max") => {
+    const value = Number(e.target.value);
     setPriceRange(prevRange => ({
       ...prevRange,
-      [type]: Number(e.target.value),
+      [category]: value,
     }));
+
+    searchParams.set(category === "min" ? "minprice" : "maxprice", value.toString());
+    setSearchParams(searchParams);
+  };
+
+  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedBrand = e.target.value;
+    setBrand(selectedBrand);
+    searchParams.set("brand", selectedBrand);
+    setSearchParams(searchParams);
+  };
+
+  const handlecategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedcategory = e.target.value;
+    setCategory(selectedcategory);
+    searchParams.set("category", selectedcategory);
+    setSearchParams(searchParams);
   };
 
   if (isLoading) return <div>در حال بارگذاری...</div>;
@@ -34,6 +94,9 @@ function ProductList() {
                 onClick={() => {
                   setAvailableOnly(false);
                   setPriceRange({ min: 0, max: 500000 });
+                  setBrand("all");
+                  setCategory("all");
+                  setSearchParams({});
                 }}
               >
                 حذف فیلتر
@@ -41,18 +104,18 @@ function ProductList() {
             </div>
             <div className="mb-4">
               <label className="block mb-2">برند</label>
-              <select className="w-full border rounded-lg p-2">
-                <option>همه</option>
-                <option>برند 1</option>
-                <option>برند 2</option>
+              <select value={brand} onChange={handleBrandChange} className="w-full border rounded-lg p-2">
+                <option value="all">همه</option>
+                <option value="cheetoz">مزمز</option>
+                <option value="golestan">گلستان</option>
               </select>
             </div>
             <div className="mb-4">
               <label className="block mb-2">نوع</label>
-              <select className="w-full border rounded-lg p-2">
-                <option>همه</option>
-                <option>نوع 1</option>
-                <option>نوع 2</option>
+              <select value={category} onChange={handlecategoryChange} className="w-full border rounded-lg p-2">
+                <option value="all">همه</option>
+                <option value="Dairy">لبنیات</option>
+                <option value="Snacks">تنقلات</option>
               </select>
             </div>
             <div className="mb-4 flex justify-between">
@@ -62,7 +125,7 @@ function ProductList() {
                   <input
                     type="checkbox"
                     checked={availableOnly}
-                    onChange={() => setAvailableOnly(!availableOnly)}
+                    onChange={handleSetAvailableOnly}
                     className="sr-only peer"
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
