@@ -20,6 +20,7 @@ function ProductList() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedSort, setSelectedSort] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false); // اضافه شدن حالت فیلتر
 
   useEffect(() => {
     const isAvailableParam = searchParams.get("isAvailable");
@@ -123,12 +124,20 @@ function ProductList() {
   };
 
   if (isLoading) return <Spinner />;
-  if (error) return <div>خطایی رخ داده است.</div>;
+  if (error) return <div>خطایی رخ داده است. لطفا دوباره تلاش کنید.</div>;
 
   return (
     <div className="max-w-screen-2xl mx-auto mt-16">
-      <div className="flex">
-        <div className="w-1/4">
+      <div className="flex flex-col lg:flex-row">
+        <div className="block lg:hidden">
+          <Sorting
+            selectedSort={selectedSort}
+            onSortChange={handleSortChange}
+            isFilterOpen={isFilterOpen}
+            setIsFilterOpen={setIsFilterOpen}
+          />
+        </div>
+        <div className={`max-w-full lg:w-1/4 ${isFilterOpen ? "block" : "hidden lg:block"}`} id="filter-section">
           <Filter
             availableOnly={availableOnly}
             priceRange={priceRange}
@@ -141,11 +150,20 @@ function ProductList() {
             resetFilters={resetFilters}
           />
         </div>
-        <div className="w-3/4 mx-8">
-          <Sorting selectedSort={selectedSort} onSortChange={handleSortChange} />
+
+        <div className="w-full lg:w-3/4 lg:mx-8">
+          <div className="hidden lg:block">
+            <Sorting
+              selectedSort={selectedSort}
+              onSortChange={handleSortChange}
+              isFilterOpen={isFilterOpen}
+              setIsFilterOpen={setIsFilterOpen}
+            />
+          </div>
           <ProductGrid products={data?.data.products} />
         </div>
       </div>
+
       <Pagination currentPage={currentPage} totalPages={data?.pagination?.pages || 0} onPageChange={handlePageChange} />
     </div>
   );
