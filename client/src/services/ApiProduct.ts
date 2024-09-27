@@ -8,22 +8,38 @@ export const productsApi = createApi({
     getProducts: builder.query<
       FetchResponse<Product>,
       {
-        availableOnly: boolean;
-        minPrice: number;
-        maxPrice: number;
-        brand: string;
-        category: string;
-      }
+        availableOnly?: boolean;
+        minPrice?: number;
+        maxPrice?: number;
+        brand?: string;
+        page? : number
+        category?: string;
+      } | void
     >({
-      query: ({ availableOnly, minPrice, maxPrice, brand, category }) => {
-        let queryString = `products?page=1&isAvailable=${availableOnly}&price[gte]=${minPrice}&price[lte]=${maxPrice}`;
+      query: params => {
+        let queryString = `products?`;
 
-        if (brand && brand !== "all") {
-          queryString += `&brand=${brand}`;
+        if (params?.page !== undefined) {
+          queryString += `&page=${params.page}`;
+        }
+        if (params?.availableOnly !== undefined) {
+          queryString += `&isAvailable=${params.availableOnly}`;
         }
 
-        if (category && category !== "all") {
-          queryString += `&category=${category}`;
+        if (params?.minPrice !== undefined) {
+          queryString += `&price[gte]=${params.minPrice}`;
+        }
+
+        if (params?.maxPrice !== undefined) {
+          queryString += `&price[lte]=${params.maxPrice}`;
+        }
+
+        if (params?.brand && params.brand !== "all") {
+          queryString += `&brand=${params.brand}`;
+        }
+
+        if (params?.category && params.category !== "all") {
+          queryString += `&category=${params.category}`;
         }
 
         return queryString;

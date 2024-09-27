@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import CategoriesMenu from "../components/CategoriesMenu";
 import SpecialOffers from "../components/SpecialOffers";
 import BestSellers from "../components/BestSellers";
-import { FetchResponse, Product } from "../types/product";
 import BenefitsCard from "../components/BenefitsCard";
+import { useGetProductsQuery } from "../services/ApiProduct";
+import Spinner from "../components/Spinner";
 
 function HomePage() {
-  const [data, setData] = useState<FetchResponse<Product>>();
+  const { data, error, isLoading } = useGetProductsQuery();
 
-  useEffect(() => {
-    fetch("/api/products")
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, []);
+  if (isLoading) return <Spinner />;
+  if (error) return <div>خطایی رخ داده است.</div>;
 
   return (
     <div className="max-w-screen-2xl mx-auto mt-16">
