@@ -12,7 +12,8 @@ export const productsApi = createApi({
         minPrice?: number;
         maxPrice?: number;
         brand?: string;
-        page? : number
+        page?: number;
+        sort : string
         category?: string;
       } | void
     >({
@@ -41,7 +42,9 @@ export const productsApi = createApi({
         if (params?.category && params.category !== "all") {
           queryString += `&category=${params.category}`;
         }
-
+        if (params?.sort) {
+          queryString += `&sort=${params.sort}`; 
+        }
         return queryString;
       },
     }),

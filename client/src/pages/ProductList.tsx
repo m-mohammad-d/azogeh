@@ -5,6 +5,7 @@ import ProductGrid from "../components/ProductGrids";
 import Pagination from "../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import Sorting from "../components/Sorting";
 
 interface PriceRange {
   min: number;
@@ -18,6 +19,7 @@ function ProductList() {
   const [category, setCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedSort, setSelectedSort] = useState("");
 
   useEffect(() => {
     const isAvailableParam = searchParams.get("isAvailable");
@@ -26,6 +28,7 @@ function ProductList() {
     const brandParam = searchParams.get("brand");
     const categoryParam = searchParams.get("category");
     const pageParam = searchParams.get("page");
+    const sortParam = searchParams.get("sort");
 
     if (isAvailableParam !== null) {
       setAvailableOnly(isAvailableParam === "true");
@@ -51,6 +54,9 @@ function ProductList() {
     if (pageParam !== null) {
       setCurrentPage(Number(pageParam));
     }
+    if (sortParam !== null) {
+      setSelectedSort(sortParam);
+    }
   }, [searchParams]);
 
   const { data, error, isLoading } = useGetProductsQuery({
@@ -60,14 +66,15 @@ function ProductList() {
     brand,
     page: currentPage,
     category,
+    sort: selectedSort,
   });
 
-  function handleSetAvailableOnly() {
+  const handleSetAvailableOnly = () => {
     const newAvailableOnly = !availableOnly;
     setAvailableOnly(newAvailableOnly);
     searchParams.set("isAvailable", newAvailableOnly + "");
     setSearchParams(searchParams);
-  }
+  };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, category: "min" | "max") => {
     const value = Number(e.target.value);
@@ -79,6 +86,7 @@ function ProductList() {
     searchParams.set(category === "min" ? "minprice" : "maxprice", value.toString());
     setSearchParams(searchParams);
   };
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     searchParams.set("page", page.toString());
@@ -104,7 +112,14 @@ function ProductList() {
     setPriceRange({ min: 0, max: 500000 });
     setBrand("all");
     setCategory("all");
+    setSelectedSort("");
     setSearchParams({});
+  };
+
+  const handleSortChange = (sortOption: string) => {
+    setSelectedSort(sortOption);
+    searchParams.set("sort", sortOption);
+    setSearchParams(searchParams);
   };
 
   if (isLoading) return <Spinner />;
@@ -113,18 +128,23 @@ function ProductList() {
   return (
     <div className="max-w-screen-2xl mx-auto mt-16">
       <div className="flex">
-        <Filter
-          availableOnly={availableOnly}
-          priceRange={priceRange}
-          brand={brand}
-          category={category}
-          handleSetAvailableOnly={handleSetAvailableOnly}
-          handlePriceChange={handlePriceChange}
-          handleBrandChange={handleBrandChange}
-          handleCategoryChange={handleCategoryChange}
-          resetFilters={resetFilters}
-        />
-        <ProductGrid products={data?.data.products} />
+        <div className="w-1/4">
+          <Filter
+            availableOnly={availableOnly}
+            priceRange={priceRange}
+            brand={brand}
+            category={category}
+            handleSetAvailableOnly={handleSetAvailableOnly}
+            handlePriceChange={handlePriceChange}
+            handleBrandChange={handleBrandChange}
+            handleCategoryChange={handleCategoryChange}
+            resetFilters={resetFilters}
+          />
+        </div>
+        <div className="w-3/4 mx-8">
+          <Sorting selectedSort={selectedSort} onSortChange={handleSortChange} />
+          <ProductGrid products={data?.data.products} />
+        </div>
       </div>
       <Pagination currentPage={currentPage} totalPages={data?.pagination?.pages || 0} onPageChange={handlePageChange} />
     </div>

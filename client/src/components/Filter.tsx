@@ -24,7 +24,7 @@ const Filter: React.FC<FilterProps> = ({
   resetFilters,
 }) => {
   return (
-    <div className="w-1/4">
+
       <div className="p-4 rounded-lg border border-gray-100 shadow-md">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold mb-4">فیلتر ها</h3>
@@ -91,7 +91,6 @@ const Filter: React.FC<FilterProps> = ({
           <div className="text-sm mt-2">حداکثر قیمت: {priceRange.max.toLocaleString()} تومان</div>
         </div>
       </div>
-    </div>
   );
 };
 
