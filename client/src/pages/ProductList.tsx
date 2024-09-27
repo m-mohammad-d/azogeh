@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import BestSallersProduct from "../components/BestSallersProduct";
 import { useSearchParams } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 function ProductList() {
   const [availableOnly, setAvailableOnly] = useState(true);
@@ -79,7 +80,7 @@ function ProductList() {
     setSearchParams(searchParams);
   };
 
-  if (isLoading) return <div>در حال بارگذاری...</div>;
+  if (isLoading) return <Spinner />;
   if (error) return <div>خطایی رخ داده است.</div>;
 
   return (
