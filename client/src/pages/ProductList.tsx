@@ -16,6 +16,7 @@ function ProductList() {
   const [priceRange, setPriceRange] = useState<PriceRange>({ min: 0, max: 500000 });
   const [brand, setBrand] = useState<string>("all");
   const [category, setCategory] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ function ProductList() {
     const maxPriceParam = searchParams.get("maxprice");
     const brandParam = searchParams.get("brand");
     const categoryParam = searchParams.get("category");
+    const pageParam = searchParams.get("page");
 
     if (isAvailableParam !== null) {
       setAvailableOnly(isAvailableParam === "true");
@@ -46,6 +48,9 @@ function ProductList() {
     if (categoryParam !== null) {
       setCategory(categoryParam);
     }
+    if (pageParam !== null) {
+      setCurrentPage(Number(pageParam));
+    }
   }, [searchParams]);
 
   const { data, error, isLoading } = useGetProductsQuery({
@@ -53,6 +58,7 @@ function ProductList() {
     minPrice: priceRange.min,
     maxPrice: priceRange.max,
     brand,
+    page: currentPage,
     category,
   });
 
@@ -73,6 +79,11 @@ function ProductList() {
     searchParams.set(category === "min" ? "minprice" : "maxprice", value.toString());
     setSearchParams(searchParams);
   };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    searchParams.set("page", page.toString());
+    setSearchParams(searchParams);
+  };
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedBrand = e.target.value;
@@ -89,7 +100,7 @@ function ProductList() {
   };
 
   const resetFilters = () => {
-    setAvailableOnly(false);
+    setAvailableOnly(true);
     setPriceRange({ min: 0, max: 500000 });
     setBrand("all");
     setCategory("all");
@@ -115,7 +126,7 @@ function ProductList() {
         />
         <ProductGrid products={data?.data.products} />
       </div>
-      <Pagination />
+      <Pagination currentPage={currentPage} totalPages={data?.pagination?.pages || 0} onPageChange={handlePageChange} />
     </div>
   );
 }
