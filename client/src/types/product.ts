@@ -37,3 +37,8 @@ export interface Product {
   discountedPrice: number; // Price after discount
   id: string; // Alternate unique identifier for the product
 }
+
+export interface FetchResponseproduct<T> {
+  status: string; // Status of the response (e.g., "success")
+  product: T; // Data containing the products
+}

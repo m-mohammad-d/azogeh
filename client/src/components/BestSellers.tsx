@@ -11,7 +11,7 @@ function BestSellers({ products }: BestSellersProps) {
       <HighlightBar />
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 gap-y-6 mt-10">
         {products?.slice(0, 12).map(product => (
-          <BestSallersProduct name={product.name} img={product.image} price={product.price} />
+          <BestSallersProduct name={product.name} img={product.image} price={product.price} id={product.id} />
         ))}
       </div>
     </div>
