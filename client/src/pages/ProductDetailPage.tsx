@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import ProductInfo from "../components/ProductInfo";
 import { useGetProductByIdQuery } from "../services/ApiProduct";
 import Spinner from "../components/Spinner";
+import ProductDescription from "../components/ProductDescription";
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -25,6 +26,7 @@ function ProductDetailPage() {
           imageCarousel={product.product?.images?.map(img => `/public/images/${img}`)}
         />
       )}
+      <ProductDescription description={product?.product.description}/>
     </div>
   );
 }
