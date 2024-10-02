@@ -3,11 +3,11 @@ import ProductInfo from "../components/ProductInfo";
 import { useGetProductByIdQuery } from "../services/ApiProduct";
 import Spinner from "../components/Spinner";
 import ProductDescription from "../components/ProductDescription";
+import ProductComments from "../components/ProductComments";
 
 function ProductDetailPage() {
   const { id } = useParams();
   const { data: product, error, isLoading } = useGetProductByIdQuery(id as string);
-  
 
   if (isLoading) return <Spinner />;
   if (error) return <div>Error fetching product.</div>;
@@ -26,7 +26,8 @@ function ProductDetailPage() {
           imageCarousel={product.product?.images?.map(img => `/public/images/${img}`)}
         />
       )}
-      <ProductDescription description={product?.product.description}/>
+      <ProductDescription description={product?.product.description} />
+      <ProductComments />
     </div>
   );
 }
