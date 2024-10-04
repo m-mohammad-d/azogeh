@@ -8,10 +8,11 @@ import SignupPage from "./pages/SignupPage";
 import UserLayout from "./layout/UserLayout";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./layout/AdminLayout";
+import UpdateInfoPage from "./pages/UserPanel/UpdateInfoPage";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />, 
+    element: <AppLayout />,
     children: [
       {
         path: "/",
@@ -34,14 +35,16 @@ const router = createBrowserRouter([
         element: <SignupPage />,
       },
       {
-        element: <PrivateRoute />, 
+        element: <PrivateRoute />,
         children: [
           {
-          path : "user",
             element: <UserLayout />,
-            children : [
-
-            ]
+            children: [
+              {
+                path: "user/edit-profile",
+                element: <UpdateInfoPage />,
+              },
+            ],
           },
         ],
       },
@@ -51,11 +54,8 @@ const router = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       {
-        
         element: <AdminLayout />,
-        children : [
-
-        ]
+        children: [],
       },
     ],
   },
