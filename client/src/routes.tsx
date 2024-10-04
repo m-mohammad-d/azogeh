@@ -9,6 +9,7 @@ import UserLayout from "./layout/UserLayout";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./layout/AdminLayout";
 import UpdateInfoPage from "./pages/UserPanel/UpdateInfoPage";
+import PageNotFound from "./pages/PageNotFound";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
         children: [],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 
