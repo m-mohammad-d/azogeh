@@ -5,10 +5,13 @@ import ProductList from "./pages/ProductList";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import UserLayout from "./layout/UserLayout";
+import PrivateRoute from "./components/PrivateRoute";
+import AdminLayout from "./layout/AdminLayout";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: <AppLayout />, 
     children: [
       {
         path: "/",
@@ -29,6 +32,30 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage />,
+      },
+      {
+        element: <PrivateRoute />, 
+        children: [
+          {
+          path : "user",
+            element: <UserLayout />,
+            children : [
+
+            ]
+          },
+        ],
+      },
+    ],
+  },
+  {
+    element: <PrivateRoute />,
+    children: [
+      {
+        
+        element: <AdminLayout />,
+        children : [
+
+        ]
       },
     ],
   },
