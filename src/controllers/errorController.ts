@@ -75,7 +75,7 @@ const handleJWTExpiredError = () => {
 
 ////////////////////////////////
 
-const globalErrorHandler: ErrorRequestHandler = (err: IAppError, req, res, next) => {
+export const globalErrorHandler: ErrorRequestHandler = (err: IAppError, req, res, next) => {
   const environment = process.env.NODE_ENV;
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
@@ -98,5 +98,3 @@ const globalErrorHandler: ErrorRequestHandler = (err: IAppError, req, res, next)
     return sendErrorProd(error, res);
   }
 };
-
-export default globalErrorHandler;
