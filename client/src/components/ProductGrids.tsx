@@ -7,6 +7,7 @@ interface Product {
   price: number;
   image: string;
   slug: string;
+  discount : number | undefined
 }
 
 interface ProductGridProps {
@@ -25,6 +26,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
           price={product.price}
           img={product.image}
           id={product.id}
+          discount={product.discount}
         />
       ))}
     </div>

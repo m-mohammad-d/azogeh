@@ -5,12 +5,18 @@ interface BestSallersProductProps {
   name: string;
   img: string;
   price: number;
+  discount: number;
 }
 
-function BestSallersProduct({ name, img, price, id }: BestSallersProductProps) {
+function BestSallersProduct({ name, img, price, id, discount }: BestSallersProductProps) {
   return (
     <Link to={`/product/${id}`}>
-      <div className="border shadow-lg px-2 lg:px-4 py-6 flex flex-col items-center text-center rounded-lg transition-shadow duration-300 hover:shadow-lg">
+      <div className="border shadow-lg px-2 lg:px-4 py-6 flex relative flex-col items-center text-center rounded-lg transition-shadow duration-300 hover:shadow-lg">
+        {discount && (
+          <span className="bg-green-100 text-green-800 absolute top-1 left-0 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">
+            {discount} %
+          </span>
+        )}
         <div className="w-full h-28 mb-2 rounded-md overflow-hidden">
           <img src={`/public/images/${img}`} alt={name} className="w-full h-full object-contain" />
         </div>
