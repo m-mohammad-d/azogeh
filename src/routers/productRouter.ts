@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 import * as productController from "../controllers/productController";
-import catchAsync from "../middlewares/catchAsync";
+import catchAsync from "../utils/catchAsync";
 
 router
   //
