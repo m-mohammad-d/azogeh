@@ -3,9 +3,9 @@ import { Express } from "express";
 
 const app = require("express")() as Express;
 
-process.on("uncaughtException", err => {
-  console.log(err.message);
-  console.log("❌ Uncaught Exception! Shutting down...");
+process.on("uncaughtException", (err: Error) => {
+  console.error("🔹Uncaught Exception! Shutting down...");
+  console.error("🔹Error Message:", err.message);
   process.exit(1);
 });
 
@@ -14,10 +14,10 @@ require("./start/config")(app);
 require("./start/routes")(app);
 
 const port = process.env.PORT || 3000;
-let server = app.listen(port, () => console.log(`Server running on port ${port}`));
+const server = app.listen(port, () => console.log(`🔹Server running on port ${port}`));
 
-process.on("unhandledRejection", err => {
-  console.log((err as Error).message);
-  console.log("❌ Unhandled Rejection! Shutting down...");
+process.on("unhandledRejection", (err: Error) => {
+  console.error("🔹Unhandled Rejection! Shutting down...");
+  console.error("🔹Error Message:", err.message);
   server.close(() => process.exit(1));
 });

@@ -33,7 +33,7 @@ const sendErrorProd = (err: IAppError, res: Response) => {
   }
 
   // Unknown Errors
-  console.log("❌ ERROR: ", err);
+  console.error("🔹Unknown Error: ", err);
   return res.status(500).json({
     status: "error",
     message: "یک چیزی خیلی اشتباه پیش رفت",
