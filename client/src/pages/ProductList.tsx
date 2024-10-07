@@ -127,7 +127,7 @@ function ProductList() {
   if (error) return <div>خطایی رخ داده است. لطفا دوباره تلاش کنید.</div>;
 
   return (
-    <div className="max-w-screen-2xl mx-auto mt-16">
+    <div className="max-w-screen-xl mx-auto mt-16">
       <div className="flex flex-col lg:flex-row">
         <div className="block lg:hidden">
           <Sorting

@@ -14,7 +14,7 @@ function Header() {
   return (
     <header>
       <div className="bg-primary-500 w-full h-12"></div>
-      <div className="max-w-screen-2xl flex justify-between items-center p-4 mx-auto mt-10">
+      <div className="max-w-screen-xl flex justify-between items-center p-4 mx-auto mt-10">
         <div className="flex items-center gap-8">
           <div>
             <img src="public/logo.png" alt="Logo" className="h-10" />
@@ -124,7 +124,6 @@ function Header() {
           </Link>
         </nav>
       </div>
-
     </header>
   );
 }

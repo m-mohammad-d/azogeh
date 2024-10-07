@@ -18,9 +18,9 @@ function BestSallersProduct({ name, img, price, id }: BestSallersProductProps) {
           <div className="h-12">
             <p className="text-base xl:text-lg font-semibold line-clamp-2">{name}</p>
           </div>
-          <div className="flex flex-col 2xl:flex-row justify-between items-center mt-4 flex-nowrap">
+          <div className="flex flex-col justify-between items-center mt-4 flex-nowrap">
             <p className="text-primary-500 whitespace-nowrap">{price} تومان </p>
-            <button className="bg-primary-500 mt-2 2xl:mt-0 px-4 py-2 text-[10px] rounded-md shadow-md text-white hover:bg-primary-600 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg whitespace-nowrap">
+            <button className="bg-primary-500 mt-2  px-4 py-2 text-[10px] rounded-md shadow-md text-white hover:bg-primary-600 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg whitespace-nowrap">
               افزودن به سبد خرید
             </button>
           </div>

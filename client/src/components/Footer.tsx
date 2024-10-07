@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="w-full max-w-screen-2xl my-12 px-6 mx-auto">
+    <footer className="w-full max-w-screen-xl my-12 px-6 mx-auto">
       <div className="w-full min-h-[0.5px] mt-5 bg-gray-100"></div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 w-full mt-8">
         <div>

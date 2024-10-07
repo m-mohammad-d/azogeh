@@ -13,7 +13,7 @@ function HomePage() {
   if (error) return <div>خطایی رخ داده است.</div>;
 
   return (
-    <div className="max-w-screen-2xl mx-auto mt-16">
+    <div className="max-w-screen-xl mx-auto mt-16">
       <Banner img="banner" />
       <CategoriesMenu />
       <SpecialOffers />
