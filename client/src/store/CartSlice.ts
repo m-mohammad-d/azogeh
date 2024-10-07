@@ -21,23 +21,38 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<CartItem>) => {
-      const existingItem = state.items.find(item => item._id === action.payload._id);
+    addItem: (state, action: PayloadAction<Product>) => {
+      const newItem = action.payload;
+      const existingItemIndex = state.items.findIndex(item => item._id === newItem._id);
 
-      if (existingItem) {
-        existingItem.quantity += action.payload.quantity; // Update quantity if item already exists
+      if (existingItemIndex !== -1) {
+        state.items[existingItemIndex].quantity += 1;
       } else {
-        state.items.push(action.payload); // Add new item
+        state.items.push({ ...newItem, quantity: 1 } as CartItem);
       }
 
       setItemLocal("cart", state.items); // Update local storage
     },
-
     removeItem: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(item => item._id !== action.payload); // Remove item by ID
+      state.items = state.items.filter(item => item._id !== action.payload);
       setItemLocal("cart", state.items); // Update local storage
     },
-
+    increaseQuantity: (state, action: PayloadAction<string>) => {
+      const itemIndex = state.items.findIndex(item => item._id === action.payload);
+      if (itemIndex !== -1) {
+        state.items[itemIndex].quantity += 1;
+      }
+      setItemLocal("cart", state.items); // Update local storage
+    },
+    decreaseQuantity: (state, action: PayloadAction<string>) => {
+      const itemIndex = state.items.findIndex(item => item._id === action.payload);
+      if (itemIndex !== -1 && state.items[itemIndex].quantity > 1) {
+        state.items[itemIndex].quantity -= 1;
+      } else {
+        state.items = state.items.filter(item => item._id !== action.payload);
+      }
+      setItemLocal("cart", state.items); // Update local storage
+    },
     clearCart: state => {
       state.items = [];
       setItemLocal("cart", state.items); // Clear local storage
@@ -45,5 +60,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, increaseQuantity, decreaseQuantity , clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

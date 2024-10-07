@@ -4,10 +4,23 @@ import { useGetProductByIdQuery } from "../services/ApiProduct";
 import Spinner from "../components/Spinner";
 import ProductDescription from "../components/ProductDescription";
 import ProductComments from "../components/ProductComments";
+import { addItem } from "../store/CartSlice";
+import { useDispatch } from "react-redux";
 
 function ProductDetailPage() {
   const { id } = useParams();
   const { data: product, error, isLoading } = useGetProductByIdQuery(id as string);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    if (product) {
+      dispatch(
+        addItem({
+          ...product.product,
+        })
+      );
+    }
+  };
 
   if (isLoading) return <Spinner />;
   if (error) return <div>Error fetching product.</div>;
@@ -24,6 +37,8 @@ function ProductDetailPage() {
           mainImageUrl={`/public/images/${product.product.image}`}
           altText={product.product.name}
           imageCarousel={product.product?.images?.map(img => `/public/images/${img}`)}
+          productId={product.product._id}
+          onAddToCart={handleAddToCart}
         />
       )}
       <ProductDescription description={product?.product.description} />
