@@ -10,6 +10,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./layout/AdminLayout";
 import UpdateInfoPage from "./pages/UserPanel/UpdateInfoPage";
 import PageNotFound from "./pages/PageNotFound";
+import CartPage from "./pages/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
       },
       {
         path: "/signup",

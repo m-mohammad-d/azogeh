@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Search from "./Search";
 import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser, FaDoorClosed } from "react-icons/fa";
 import { CiMenuBurger } from "react-icons/ci";
+import { LuShoppingCart } from "react-icons/lu";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -50,7 +51,10 @@ function Header() {
         </div>
 
         {/* Show Login Button only in desktop view */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex lg:items-center gap-4">
+          <Link to="/cart">
+            <LuShoppingCart size={30} className="text-gray-300" />
+          </Link>
           <Link
             to="/login"
             className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
@@ -112,7 +116,14 @@ function Header() {
             <FaPhoneAlt className="h-5 w-5" />
             <span>تماس با ما</span>
           </Link>
-
+          <Link
+            to="/cart"
+            onClick={toggleSidebar}
+            className="mb-4 flex items-center gap-2 text-gray-700 hover:text-primary-500 transition duration-200"
+          >
+            <LuShoppingCart size={30} className="text-gray-300" />
+            <p>سبد خرید</p>
+          </Link>
           {/* Login Button in Sidebar */}
           <Link
             to="/login"
