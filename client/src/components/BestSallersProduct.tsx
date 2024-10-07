@@ -5,7 +5,7 @@ interface BestSallersProductProps {
   name: string;
   img: string;
   price: number;
-  discount: number;
+  discount: number | undefined;
 }
 
 function BestSallersProduct({ name, img, price, id, discount }: BestSallersProductProps) {
