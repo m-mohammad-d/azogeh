@@ -11,6 +11,7 @@ import AdminLayout from "./layout/AdminLayout";
 import UpdateInfoPage from "./pages/UserPanel/UpdateInfoPage";
 import PageNotFound from "./pages/PageNotFound";
 import CartPage from "./pages/CartPage";
+import ChangePasswordPage from "./pages/UserPanel/ChangePasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
               {
                 path: "user/edit-profile",
                 element: <UpdateInfoPage />,
+              },
+              {
+                path: "user/change-password",
+                element: <ChangePasswordPage />,
               },
             ],
           },
