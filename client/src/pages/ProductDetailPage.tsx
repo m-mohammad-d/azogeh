@@ -41,7 +41,7 @@ function ProductDetailPage() {
           onAddToCart={handleAddToCart}
         />
       )}
-      <ProductDescription description={product?.product.description} />
+      <ProductDescription description={product?.product?.description || ""} />
       <ProductComments />
     </div>
   );
