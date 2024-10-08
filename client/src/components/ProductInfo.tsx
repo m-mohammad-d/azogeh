@@ -1,8 +1,8 @@
 import React from "react";
 import ProductImage from "./ProductImage";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../store"; // فرض بر این است که نوع RootState تعریف شده
-import { increaseQuantity, decreaseQuantity, removeItem } from "../store/CartSlice"; // اضافه کردن اکشن‌ها
+import { RootState } from "../store";
+import { increaseQuantity, decreaseQuantity, removeItem } from "../store/CartSlice";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 type ProductProps = {
@@ -32,20 +32,24 @@ const ProductInfo: React.FC<ProductProps> = ({
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const cartItem = cartItems.find(item => item._id === productId); // بررسی وجود محصول در سبد خرید
+  const cartItem = cartItems.find(item => item._id === productId);
 
   const handleDecrement = () => {
-    if (cartItem && cartItem.quantity > 1) {
-      dispatch(decreaseQuantity(productId));
-    } else if (cartItem && cartItem.quantity === 1) {
-      dispatch(removeItem(productId));
+    if (cartItem) {
+      if (cartItem.quantity > 1) {
+        dispatch(decreaseQuantity(productId));
+      } else {
+        dispatch(removeItem(productId));
+      }
     }
   };
 
   return (
-    <div className="flex px-8 w-2/3 justify-between">
-      <ProductImage mainImageUrl={mainImageUrl} altText={altText} imageCarousel={imageCarousel} />
-      <div className="space-y-4 mr-11">
+    <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between">
+      <div className="mb-6 mx-auto">
+        <ProductImage mainImageUrl={mainImageUrl} altText={altText} imageCarousel={imageCarousel} />
+      </div>
+      <div className="space-y-4 mr-0 md:mr-11">
         <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-lg mb-1">
           <span className="font-bold">برند:</span> {brand}
@@ -65,15 +69,10 @@ const ProductInfo: React.FC<ProductProps> = ({
             <button
               id="increment-btn"
               onClick={() => dispatch(increaseQuantity(productId))}
-              className="flex justify-center items-center w-8 h-8 rounded-full text-white focus:outline-none bg-green-500 hover:bg-green-600"
+              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600"
+              aria-label="Increase quantity"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12M6 12h12"></path>
               </svg>
             </button>
@@ -81,16 +80,11 @@ const ProductInfo: React.FC<ProductProps> = ({
             <button
               id="decrement-btn"
               onClick={handleDecrement}
-              className="flex justify-center items-center w-8 h-8 rounded-full text-white focus:outline-none bg-red-500 hover:bg-red-600"
+              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600"
+              aria-label="Decrease quantity or remove item"
             >
               {cartItem.quantity > 1 ? (
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path>
                 </svg>
               ) : (
