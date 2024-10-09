@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { AiOutlineHistory } from "react-icons/ai";
-import { FiShoppingCart } from "react-icons/fi";
 import { FaUserEdit } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md";
 
@@ -31,12 +30,6 @@ const ProfileCard: React.FC = () => {
             <Link to="/user/order-history" className="flex gap-2 items-center">
               <AiOutlineHistory size={20} />
               <span>تاریخچه سفارشات</span>
-            </Link>
-          </li>
-          <li className="flex gap-2 items-center">
-            <Link to="/user/cart" className="flex gap-2 items-center">
-              <FiShoppingCart size={20} />
-              <span>سبد خرید</span>
             </Link>
           </li>
           <li className="flex gap-2 items-center">

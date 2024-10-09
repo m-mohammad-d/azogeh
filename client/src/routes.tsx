@@ -12,6 +12,8 @@ import UpdateInfoPage from "./pages/UserPanel/UpdateInfoPage";
 import PageNotFound from "./pages/PageNotFound";
 import CartPage from "./pages/CartPage";
 import ChangePasswordPage from "./pages/UserPanel/ChangePasswordPage";
+import Userfavorites from "./pages/UserPanel/Userfavorites";
+import OrderHistory from "./pages/UserPanel/OrderHistory";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
               {
                 path: "user/change-password",
                 element: <ChangePasswordPage />,
+              },
+              {
+                path: "user/favorites",
+                element: <Userfavorites />,
+              },
+              {
+                path: "user/order-history",
+                element: <OrderHistory />,
               },
             ],
           },
