@@ -6,7 +6,7 @@ import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md
 
 const ProfileCard: React.FC = () => {
   return (
-    <div className="bg-white rounded-xl shadow-md max-w-xs">
+    <div className="bg-white rounded-xl shadow-md max-w-xs mx-4">
       <div className="flex flex-col items-center py-8">
         <img className="w-24 h-24 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Profile" />
         <h2 className="text-lg font-semibold mt-4">نگار زمانی</h2>
