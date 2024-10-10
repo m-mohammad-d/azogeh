@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import { AiOutlineHistory } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md";
 
 const ProfileCard: React.FC = () => {
   return (
-    <div className="bg-white rounded-xl shadow-md max-w-xs mx-4">
+    <div className="bg-white rounded-xl shadow-md max-w-xs mx-auto md:max-w-full">
       <div className="flex flex-col items-center py-8">
         <img className="w-24 h-24 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Profile" />
         <h2 className="text-lg font-semibold mt-4">نگار زمانی</h2>
@@ -19,7 +19,7 @@ const ProfileCard: React.FC = () => {
           <span>45</span>
         </div>
         <div className="flex justify-between text-sm mb-4">
-          <span>تعداد سفارش ها</span>
+          <span>تعداد سفارش‌ها</span>
           <span>70</span>
         </div>
       </div>
