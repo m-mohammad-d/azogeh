@@ -25,7 +25,7 @@ const UpdateInfoPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
+    <div className="max-w-screen-xl mx-auto p-4">
       <form onSubmit={handleSubmit}>
         <h2 className="text-xl md:text-2xl font-bold text-gray-400 mb-4 text-center">ویرایش مشخصات</h2>
         <div className="mb-4">
