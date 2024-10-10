@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
+import CustomInput from "../components/CustomInput";
+import { useState } from "react";
 
 function SignUpPage() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="flex items-center justify-center my-20 mx-4">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border-gray-100 border">
@@ -10,38 +16,38 @@ function SignUpPage() {
 
         <form>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-right font-medium text-gray-300">
-              نام کاربری
-            </label>
-            <input
+            <CustomInput
               type="text"
               id="username"
-              placeholder="نام کاربری خود را وارد کنید"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              placeholder="نام کاربری"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              className="mt-1"
+              label="نام کاربری" 
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-right font-medium text-gray-300">
-              ایمیل
-            </label>
-            <input
+            <CustomInput
               type="email"
               id="email"
-              placeholder="ایمیل خود را وارد کنید"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              placeholder="ایمیل"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              className="mt-1"
+              label="ایمیل" 
             />
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-right font-medium text-gray-300">
-              پسورد
-            </label>
-            <input
+            <CustomInput
               type="password"
               id="password"
-              placeholder="پسورد خود را وارد کنید"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              placeholder="پسورد"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className="mt-1"
+              label="پسورد" 
             />
           </div>
 
