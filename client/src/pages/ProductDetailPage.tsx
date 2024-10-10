@@ -6,6 +6,8 @@ import ProductDescription from "../components/ProductDescription";
 import ProductComments from "../components/ProductComments";
 import { addItem } from "../store/CartSlice";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -20,6 +22,7 @@ function ProductDetailPage() {
         })
       );
     }
+    toast.success("محصول به سبد خرید اضافه شد")
   };
 
   if (isLoading) return <Spinner />;

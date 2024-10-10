@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { increaseQuantity, decreaseQuantity, removeItem } from "../store/CartSlice";
 import { FaRegTrashAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 type ProductProps = {
   title: string;
@@ -40,6 +41,7 @@ const ProductInfo: React.FC<ProductProps> = ({
         dispatch(decreaseQuantity(productId));
       } else {
         dispatch(removeItem(productId));
+        toast.success("محصول با موفقیت از سبد خرید حذف شد")
       }
     }
   };

@@ -5,6 +5,7 @@ import { useState } from "react";
 import Pagination from "../components/Pagination";
 import CartItem from "../components/CartItem";
 import { separateThousands } from "../utils/FormatNumber";
+import toast from "react-hot-toast";
 
 function CartPage() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function CartPage() {
 
   const handleRemove = (itemId: string) => {
     dispatch(removeItem(itemId));
+    toast.success("محصول با موفقیت حذف شد")
   };
 
   const handleIncrease = (itemId: string) => {
@@ -28,6 +30,7 @@ function CartPage() {
 
   const handleClearCart = () => {
     dispatch(clearCart());
+    toast.success("سبد خرید شما پاک شد")
   };
 
   const calculateTotal = () => {
