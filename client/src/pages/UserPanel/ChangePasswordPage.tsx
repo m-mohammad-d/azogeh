@@ -24,9 +24,9 @@ function ChangePasswordPage() {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-400 mb-4 text-center">ویرایش رمز عبور</h2>
+    <div className="max-w-screen-xl mx-auto p-4 sm:p-6">
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-4 sm:p-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-400 mb-4 text-center">ویرایش رمز عبور</h2>
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
             ایمیل
@@ -56,13 +56,13 @@ function ChangePasswordPage() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
+          <label htmlFor="repeatPassword" className="block text-gray-700 font-medium mb-2">
             تکرار رمز عبور
           </label>
           <input
             type="password"
-            name="password"
-            id="password"
+            name="repeatPassword"
+            id="repeatPassword"
             value={userProfile.repeatPassword}
             onChange={handleChange}
             placeholder="تکرار رمز عبور"
