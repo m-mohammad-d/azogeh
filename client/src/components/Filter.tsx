@@ -11,7 +11,34 @@ interface FilterProps {
   handleCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   resetFilters: () => void;
 }
-
+const categories = [
+  { value: "Snacks", name: "تنقلات و خوراکی" },
+  { value: "Dairy", name: "لبنیات" },
+  { value: "Fruits", name: "میوه و سبزیجات" },
+  { value: "Canned", name: "محصولات کنسروی" },
+  { value: "Cold-beverage", name: "نوشیدنی سرد" },
+  { value: "Hot-beverage", name: "نوشیدنی گرم" },
+  { value: "Bakery", name: "نان و بیکری" },
+  { value: "Spices", name: "ادویه جات" },
+  { value: "Protein", name: "مواد پروتئینی" },
+  { value: "Legumes", name: "حبوبات" },
+  { value: "Pickles", name: "ترشیجات" },
+  { value: "Sweets", name: "شیرینی جات" },
+];
+const brands = [
+  {value : "golestan" ,name : "گلستان"},
+  {value : "cheetoz" ,name : "چی توز"},
+  {value : "Lina" ,name : "لینا"},
+  {value : "seven" ,name : "سون"},
+  {value : "Damdaran" ,name : "دامداران"},
+  {value : "Domino" ,name : "دومینو"},
+  {value : "Tabiat" ,name : "طبیعت"},
+  {value : "Sanich" ,name : "سن ایچ"},
+  {value : "Mahya" ,name : "مهیا"},
+  {value : "Pemina" ,name : "پمینا"},
+  {value : "farmand" ,name : "فرمند"},
+  {value : "Sahar" ,name : "سحر"},
+]
 const Filter: React.FC<FilterProps> = ({
   availableOnly,
   priceRange,
@@ -35,8 +62,9 @@ const Filter: React.FC<FilterProps> = ({
         <label className="block mb-2">برند</label>
         <select value={brand} onChange={handleBrandChange} className="w-full border rounded-lg p-2">
           <option value="all">همه</option>
-          <option value="cheetoz">مزمز</option>
-          <option value="golestan">گلستان</option>
+          {brands.map((brand) => (
+            <option value={brand.value}>{brand.name}</option>
+          ))}
         </select>
       </div>
 
@@ -45,8 +73,9 @@ const Filter: React.FC<FilterProps> = ({
         <label className="block mb-2">نوع</label>
         <select value={category} onChange={handleCategoryChange} className="w-full border rounded-lg p-2">
           <option value="all">همه</option>
-          <option value="Dairy">لبنیات</option>
-          <option value="Snacks">تنقلات</option>
+          {categories.map((category) => (
+            <option value={category.value}>{category.name}</option>
+          ))}
         </select>
       </div>
 
