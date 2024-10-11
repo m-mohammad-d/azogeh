@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
-import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser, FaDoorClosed } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
 
@@ -67,14 +68,14 @@ function Header() {
 
       {/* Sidebar for mobile menu */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${
+        className={`fixed top-0 z-50 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:hidden`}
       >
         <div className="p-4 flex justify-between items-center">
           <h2 className="text-xl font-semibold">منو</h2>
           <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
-            <FaDoorClosed />
+            <IoMdClose />
           </button>
         </div>
 
