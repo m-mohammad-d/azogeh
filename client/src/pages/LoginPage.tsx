@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
 import { useState } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+import { FaEye, FaGithub, FaGoogle } from "react-icons/fa";
+import { RiEyeCloseLine } from "react-icons/ri";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
@@ -26,9 +28,9 @@ function LoginPage() {
               label="ایمیل"
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <CustomInput
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               placeholder="پسورد"
               value={password}
@@ -36,6 +38,17 @@ function LoginPage() {
               className="mt-1"
               label="پسورد"
             />
+            {showPassword ? (
+              <FaEye
+                className="absolute top-7 left-6"
+                onClick={() => setShowPassword(false)}
+              />
+            ) : (
+              <RiEyeCloseLine
+                className="absolute top-7 left-6"
+                onClick={() => setShowPassword(true)}
+              />
+            )}
           </div>
 
           <div className="flex items-center justify-between mb-4">
