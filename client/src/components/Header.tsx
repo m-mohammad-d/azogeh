@@ -18,7 +18,7 @@ function Header() {
       <div className="max-w-screen-xl flex justify-between items-center p-4 mx-auto mt-10">
         <div className="flex items-center gap-8">
           <div>
-            <img src="public/logo.png" alt="Logo" className="h-10" />
+            <img src="/LOGO.png" alt="Logo" className="h-10" />
           </div>
         </div>
 
