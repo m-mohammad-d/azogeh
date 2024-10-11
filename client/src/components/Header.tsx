@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
@@ -8,11 +8,24 @@ import { LuShoppingCart } from "react-icons/lu";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <header>
       <div className="bg-primary-500 w-full h-12"></div>
@@ -71,6 +84,7 @@ function Header() {
         className={`fixed top-0 z-50 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:hidden`}
+        ref={sidebarRef}
       >
         <div className="p-4 flex justify-between items-center">
           <h2 className="text-xl font-semibold">منو</h2>
