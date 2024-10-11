@@ -7,7 +7,8 @@ interface Product {
   price: number;
   image: string;
   slug: string;
-  discount : number | undefined
+  discount: number | undefined;
+  discountedPrice: number;
 }
 
 interface ProductGridProps {
@@ -16,7 +17,7 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   console.log(products);
-  
+
   return (
     <div className="grid mx-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
       {products?.map(product => (
@@ -27,6 +28,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
           img={product.image}
           id={product.id}
           discount={product.discount}
+          discountedPrice={product.discountedPrice}
         />
       ))}
     </div>

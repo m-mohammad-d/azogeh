@@ -25,6 +25,7 @@ function BestSellers({ products }: BestSellersProps) {
             price={product.price}
             id={product.id}
             discount={product.discount}
+            discountedPrice={product.discountedPrice}
           />
         ))}
       </div>
