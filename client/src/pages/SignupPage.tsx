@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
 import { useState } from "react";
+import { RiEyeCloseLine } from "react-icons/ri";
+import { FaEye } from "react-icons/fa";
 
 function SignUpPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
@@ -23,7 +26,7 @@ function SignUpPage() {
               value={username}
               onChange={e => setUsername(e.target.value)}
               className="mt-1"
-              label="نام کاربری" 
+              label="نام کاربری"
             />
           </div>
 
@@ -35,20 +38,25 @@ function SignUpPage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="mt-1"
-              label="ایمیل" 
+              label="ایمیل"
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <CustomInput
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               placeholder="پسورد"
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="mt-1"
-              label="پسورد" 
+              label="پسورد"
             />
+            {showPassword ? (
+              <FaEye className="absolute top-7 left-6" onClick={() => setShowPassword(false)} />
+            ) : (
+              <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowPassword(true)} />
+            )}
           </div>
 
           <div className="flex items-center justify-between mb-4">
