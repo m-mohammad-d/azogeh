@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import CustomInput from "../components/CustomInput"; 
+import CustomInput from "../components/CustomInput";
 import { useState } from "react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ function LoginPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="mt-1"
-              label="پسورد"  
+              label="پسورد"
             />
           </div>
 
@@ -57,14 +58,16 @@ function LoginPage() {
           <div className="flex gap-4 mb-6">
             <button
               type="button"
-              className="w-full flex items-center justify-center py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
             >
+              <FaGoogle />
               ورود با Google
             </button>
             <button
               type="button"
-              className="w-full flex items-center justify-center py-2 px-4 bg-gray-400 text-white rounded-lg hover:bg-gray-900"
+              className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-gray-400 text-white rounded-lg hover:bg-gray-900"
             >
+              <FaGithub />
               ورود با GitHub
             </button>
           </div>
