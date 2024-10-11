@@ -5,6 +5,7 @@ import { RootState } from "../store";
 import { increaseQuantity, decreaseQuantity, removeItem } from "../store/CartSlice";
 import { FaRegTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { separateThousands } from "../utils/FormatNumber";
 
 type ProductProps = {
   title: string;
@@ -17,12 +18,13 @@ type ProductProps = {
   imageCarousel: string[];
   productId: string;
   onAddToCart: () => void;
+  price: number;
+  discountedPrice: number;
 };
 
 const ProductInfo: React.FC<ProductProps> = ({
   title,
   brand,
-  category,
   sales,
   rating,
   mainImageUrl,
@@ -30,6 +32,7 @@ const ProductInfo: React.FC<ProductProps> = ({
   imageCarousel,
   productId,
   onAddToCart,
+  discountedPrice,
 }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -41,7 +44,7 @@ const ProductInfo: React.FC<ProductProps> = ({
         dispatch(decreaseQuantity(productId));
       } else {
         dispatch(removeItem(productId));
-        toast.success("محصول با موفقیت از سبد خرید حذف شد")
+        toast.success("محصول با موفقیت از سبد خرید حذف شد");
       }
     }
   };
@@ -57,13 +60,13 @@ const ProductInfo: React.FC<ProductProps> = ({
           <span className="font-bold">برند:</span> {brand}
         </p>
         <p className="text-lg mb-1">
-          <span className="font-bold">دسته بندی:</span> {category}
-        </p>
-        <p className="text-lg mb-1">
           <span className="font-bold">تعداد فروش:</span> {sales} نفر
         </p>
         <p className="text-lg mb-1">
           <span className="font-bold">امتیاز:</span> {rating}
+        </p>
+        <p className="text-lg mb-1">
+          <span className="font-bold">قیمت:</span> {separateThousands(discountedPrice)} تومن
         </p>
 
         {cartItem ? (

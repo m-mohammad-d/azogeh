@@ -42,6 +42,8 @@ function ProductDetailPage() {
           imageCarousel={product.product?.images?.map(img => `/public/images/${img}`)}
           productId={product.product._id}
           onAddToCart={handleAddToCart}
+          price={product.product.price}
+          discountedPrice={product.product.discountedPrice}
         />
       )}
       <ProductDescription description={product?.product?.description || ""} />
