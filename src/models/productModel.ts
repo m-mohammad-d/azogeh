@@ -60,7 +60,11 @@ const productSchema = new Schema<IProduct>(
       default: 0,
     },
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  },
 );
 
 //////////// Virtual Property ////////////

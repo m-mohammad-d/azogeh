@@ -33,12 +33,12 @@ export interface IUser {
 
   name: string;
   email: string;
-  phone?: string;
-  roles: "user" | "admin"; // default: user
+  photo?: string;
+  role: "user" | "admin"; // default: user
   active: boolean; // default: true
 
   password: string;
-  passwordConfirmation: string;
+  passwordConfirmation?: string;
   passwordChangedAt?: Date;
   passwordResetToken?: String;
   passwordResetExpires?: Number;

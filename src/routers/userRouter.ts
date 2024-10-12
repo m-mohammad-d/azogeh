@@ -1,10 +1,13 @@
 import express from "express";
 import * as userController from "../controllers/userController";
+import * as authController from "../controllers/authController";
 import catchAsync from "../utils/catchAsync";
 
 const router = express.Router();
 
 //////////// @access PUBLIC ////////////
+
+router.post("/signup", catchAsync(authController.signup));
 
 //////////// @access USERS ////////////
 
