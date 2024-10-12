@@ -30,3 +30,13 @@ export interface ForgotPasswordRequestHandler<
   },
   ReqQuery = any,
 > extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}
+
+export interface ResetPasswordRequestHandler<
+  P = any,
+  ResBody = any,
+  ReqBody = {
+    password: string;
+    passwordConfirmation: string;
+  },
+  ReqQuery = { resetToken?: string },
+> extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}

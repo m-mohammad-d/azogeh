@@ -1,5 +1,11 @@
+import crypto from "node:crypto";
 import User from "../models/userModel";
-import { ForgotPasswordRequestHandler, LoginRequestHandler, SignupRequestHandler } from "../dtos";
+import {
+  ForgotPasswordRequestHandler,
+  LoginRequestHandler,
+  ResetPasswordRequestHandler,
+  SignupRequestHandler,
+} from "../dtos";
 import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
 import AppError from "../utils/appError";
 import sendEmail from "../utils/email";
@@ -59,4 +65,25 @@ export const forgotPassword: ForgotPasswordRequestHandler = async (req, res, nex
 
     return next(new AppError("در ارسال ایمیل خطایی روی داد. لطفا بعدا دوباره امتحان کنید!", 500));
   }
+};
+
+// @route   POST /api/v1/users/reset-password
+// @access  Public
+export const resetPassword: ResetPasswordRequestHandler = async (req, res, next) => {
+  const { password, passwordConfirmation } = req.body;
+
+  const { resetToken } = req.query;
+  if (!resetToken) return next(new AppError("لطفا ریست توکن را ارائه دهید", 400));
+
+  const passwordResetToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+  const user = await User.findOne({ passwordResetToken, passwordResetExpires: { $gt: Date.now() } });
+  if (!user) return next(new AppError("توکن نامعتبر است یا منقضی شده است!", 401));
+
+  user.password = password;
+  user.passwordConfirmation = passwordConfirmation;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  return createSendTokenAndResponse(user, 200, res);
 };
