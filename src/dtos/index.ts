@@ -21,3 +21,12 @@ export interface LoginRequestHandler<
   },
   ReqQuery = any,
 > extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}
+
+export interface ForgotPasswordRequestHandler<
+  P = any,
+  ResBody = any,
+  ReqBody = {
+    email: string;
+  },
+  ReqQuery = any,
+> extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}
