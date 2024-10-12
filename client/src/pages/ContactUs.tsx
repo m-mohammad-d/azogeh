@@ -2,7 +2,7 @@ import { FaGithub, FaLinkedin, FaTelegram, FaGlobe } from "react-icons/fa";
 
 const ContactUs = () => {
   return (
-    <div className="bg-gray-50 py-12" dir="rtl">
+    <div className="bg-gray-50 py-12 mt-12">
       <div className="container mx-auto text-center mb-12">
         <h1 className="text-5xl font-bold text-gray-800 mb-4">تماس با ما</h1>
         <p className="text-xl text-gray-600 mb-8">
@@ -20,7 +20,7 @@ const ContactUs = () => {
             />
             <h2 className="text-3xl font-bold text-gray-800 mb-4">برنامه‌نویس فرانت‌اند</h2>
             <p className="text-lg text-gray-600 mb-4">
-              سلام! من محمد، یک برنامه‌نویس فرانت‌اند با علاقه‌ای عمیق به ساخت رابط‌های کاربری زیبا و کاربرپسند هستم. با
+              سلام! من محمد هستم، یک برنامه‌نویس فرانت‌اند با علاقه‌ای عمیق به ساخت رابط‌های کاربری زیبا و کاربرپسند هستم. با
               تخصص در React و Tailwind CSS، تلاش می‌کنم تا تجربه‌های دیجیتالی روان و منحصربه‌فردی ایجاد کنم. پروژه‌هایی
               که انجام داده‌ام، توانایی من در حل مسائل پیچیده و ارائه راه‌حل‌های خلاقانه را به نمایش می‌گذارند. همیشه در
               جستجوی یادگیری تکنولوژی‌های جدید هستم و به دنبال چالش‌های جدید برای پیشرفت در حرفه‌ام هستم.
