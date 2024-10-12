@@ -1,6 +1,15 @@
 import express, { Express } from "express";
 import morgan from "morgan";
 import path from "node:path";
+import { IUser } from "../types";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user: IUser;
+    }
+  }
+}
 
 module.exports = (app: Express) => {
   // Parsing Request

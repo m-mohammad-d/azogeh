@@ -48,7 +48,7 @@ const handleValidationError = (err: any) => {
 };
 
 const handleJWTTokenError = () => {
-  const message = "رمز نامعتبر است! لطفا دوباره وارد شوید!";
+  const message = "توکن نامعتبر است! لطفا دوباره وارد شوید!";
   return new AppError(message, 401);
 };
 

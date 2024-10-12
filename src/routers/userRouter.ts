@@ -1,6 +1,7 @@
 import express from "express";
 import * as userController from "../controllers/userController";
 import * as authController from "../controllers/authController";
+import * as authMiddleware from "../middlewares/authMiddleware";
 import catchAsync from "../utils/catchAsync";
 
 const router = express.Router();
@@ -11,6 +12,8 @@ router.post("/signup", catchAsync(authController.signup));
 router.post("/login", catchAsync(authController.login));
 
 //////////// @access USERS ////////////
+
+router.use(catchAsync(authMiddleware.protect));
 
 //////////// @access ADMIN ////////////
 

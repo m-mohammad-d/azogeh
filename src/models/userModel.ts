@@ -77,6 +77,10 @@ userSchema.methods.correctPassword = async function (candidate_password: string)
   return await bcrypt.compare(candidate_password, this.password);
 };
 
+userSchema.methods.changePasswordAfter = function (jwtTimeStamp: number) {
+  return this.password_changed_at ? this.password_changed_at.getTime() / 1000 >= jwtTimeStamp : false;
+};
+
 //////////// Query Middleware ////////////
 
 // userSchema.pre(/^find/, function (next) {
