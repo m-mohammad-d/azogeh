@@ -13,8 +13,9 @@ export const protect: RequestHandler = async (req, res, next) => {
 
   const decoded = (await verifyToken(token)) as { id: string; iat: number; exp: number };
 
-  const user = await User.findOne({ _id: decoded.id });
+  const user = await User.findOne({ _id: decoded.id }).select("+active");
   if (!user) return next(new AppError("کاربر متعلق به این توکن دیگر وجود ندارد!", 401));
+  if (!user.active) return next(new AppError("کاربری که به این ایمیل مرتبط است غیرفعال شده!", 404));
 
   if (user.changePasswordAfter(decoded.iat))
     return next(new AppError("کاربر اخیرا رمز عبور را تغییر داده است! لطفا دوباره وارد شوید.", 401));

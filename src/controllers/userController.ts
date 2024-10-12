@@ -5,6 +5,15 @@ import AppError from "../utils/appError";
 import _ from "lodash";
 import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
 
+// @route   GET /api/v1/users/get-me
+// @access  USERS
+export const getMe: RequestHandler = async (req, res, next) => {
+  return res.status(200).json({
+    status: "success",
+    data: { user: _.pick(req.user, ["id", "name", "email", "role"]) },
+  });
+};
+
 // @route   PATCH /api/v1/users/update-me
 // @access  USERS
 export const updateMe: UpdateMeRequestHandler = async (req, res, next) => {
@@ -13,7 +22,14 @@ export const updateMe: UpdateMeRequestHandler = async (req, res, next) => {
   if (password || passwordConfirmation)
     return next(new AppError("با این درخواست نمی توانید رمز عبور را آپدیت کنید", 400));
 
-  const updatedUser = await User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true });
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user._id,
+    { name, email },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   return res.status(200).json({
     status: "success",
@@ -36,6 +52,17 @@ export const updateMePassword: UpdateMePasswordRequestHandler = async (req, res,
   await user!.save();
 
   return createSendTokenAndResponse(user!, 200, res);
+};
+
+// @route   PATCH /api/v1/users/delete-me
+// @access  USERS
+export const deleteMe: RequestHandler = async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user._id, { active: false });
+
+  return res.status(204).json({
+    status: "success",
+    data: null,
+  });
 };
 
 //////////////////////// CRUD ////////////////////////

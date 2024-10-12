@@ -17,8 +17,10 @@ router.patch("/reset-password", catchAsync(authController.resetPassword));
 
 router.use(catchAsync(authMiddleware.protect));
 
+router.get("/get-me", catchAsync(userController.getMe));
 router.patch("/update-me", catchAsync(userController.updateMe));
 router.patch("/update-me-password", catchAsync(userController.updateMePassword));
+router.delete("/delete-me", catchAsync(userController.deleteMe));
 
 //////////// @access ADMIN ////////////
 
