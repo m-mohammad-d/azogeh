@@ -11,13 +11,13 @@ const createSendTokenAndResponse = (user: IUser, statusCode: number, res: Respon
   //   httpOnly: true,
   // });
 
-  // TODO: Set token into response's header
-
-  return res.status(statusCode).json({
-    status: "success",
-    token,
-    data: { user: _.pick(user, ["id", "name", "email", "role"]) },
-  });
+  return res
+    .status(statusCode)
+    .header("x-auth-token", token)
+    .json({
+      status: "success",
+      data: { user: _.pick(user, ["id", "name", "email", "role"]) },
+    });
 };
 
 export default createSendTokenAndResponse;

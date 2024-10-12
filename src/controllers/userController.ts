@@ -54,7 +54,7 @@ export const updateMePassword: UpdateMePasswordRequestHandler = async (req, res,
   return createSendTokenAndResponse(user!, 200, res);
 };
 
-// @route   PATCH /api/v1/users/delete-me
+// @route   DELETE /api/v1/users/delete-me
 // @access  USERS
 export const deleteMe: RequestHandler = async (req, res, next) => {
   await User.findByIdAndUpdate(req.user._id, { active: false });

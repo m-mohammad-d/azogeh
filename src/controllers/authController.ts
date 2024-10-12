@@ -9,6 +9,7 @@ import {
 import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
 import AppError from "../utils/appError";
 import sendEmail from "../utils/email";
+import { RequestHandler } from "express";
 
 // @route   POST /api/v1/users/signup
 // @access  Public
@@ -34,6 +35,16 @@ export const login: LoginRequestHandler = async (req, res, next) => {
   if (!correct) return next(new AppError("ایمیل یا رمز عبور نادرست!", 401));
 
   return createSendTokenAndResponse(user, 200, res);
+};
+
+export const logout: RequestHandler = (req, res, next) => {
+  // res.cookie("jwt", "loggedout", {
+  //   expires: new Date(Date.now() + ms(process.env.JWT_COOKIE_EXPIRES_IN!)),
+  //   secure: process.env.ENVIRONMENT === "production",
+  //   httpOnly: true,
+  // });
+
+  return res.status(204).header("x-auth-token", "").json({});
 };
 
 // @route   POST /api/v1/users/forgot-password

@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.post("/signup", catchAsync(authController.signup));
 router.post("/login", catchAsync(authController.login));
+router.get("/logout", catchAsync(authController.logout));
 router.post("/forgot-password", catchAsync(authController.forgotPassword));
 router.patch("/reset-password", catchAsync(authController.resetPassword));
 
