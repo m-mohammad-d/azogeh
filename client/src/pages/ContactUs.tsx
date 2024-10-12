@@ -14,7 +14,7 @@ const ContactUs = () => {
           {/* فرانت‌اند دولوپر */}
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <img
-              src="https://via.placeholder.com/150"
+              src="avatar-frontend.jpg"
               alt="Frontend Developer Avatar"
               className="w-32 h-32 mx-auto mb-4 rounded-full"
             />
