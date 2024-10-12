@@ -8,6 +8,7 @@ const router = express.Router();
 //////////// @access PUBLIC ////////////
 
 router.post("/signup", catchAsync(authController.signup));
+router.post("/login", catchAsync(authController.login));
 
 //////////// @access USERS ////////////
 

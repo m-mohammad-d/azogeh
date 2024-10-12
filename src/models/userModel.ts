@@ -73,6 +73,10 @@ userSchema.methods.signToken = function (): string {
   });
 };
 
+userSchema.methods.correctPassword = async function (candidate_password: string) {
+  return await bcrypt.compare(candidate_password, this.password);
+};
+
 //////////// Query Middleware ////////////
 
 // userSchema.pre(/^find/, function (next) {
