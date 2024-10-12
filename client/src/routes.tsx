@@ -14,6 +14,7 @@ import CartPage from "./pages/CartPage";
 import ChangePasswordPage from "./pages/UserPanel/ChangePasswordPage";
 import Userfavorites from "./pages/UserPanel/Userfavorites";
 import OrderHistory from "./pages/UserPanel/OrderHistory";
+import AboutUs from "./pages/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
       },
       {
         element: <PrivateRoute />,
