@@ -1,27 +1,6 @@
 import { model, Schema } from "mongoose";
 import slugify from "slugify";
-
-interface IProduct {
-  name: string;
-  slug: string;
-  description: string;
-
-  image: string;
-  images: string[];
-
-  countInStock: number;
-  isAvailable: boolean;
-
-  brand: string;
-  category: string;
-
-  rating: number;
-  numReviews: number;
-
-  price: number;
-  discount: number;
-  discountedPrice: number;
-}
+import { IProduct } from "../types";
 
 const productSchema = new Schema<IProduct>(
   {
@@ -51,7 +30,7 @@ const productSchema = new Schema<IProduct>(
     },
     isAvailable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     brand: {
@@ -84,16 +63,21 @@ const productSchema = new Schema<IProduct>(
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
 
-productSchema.pre("save", function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
-});
+//////////// Virtual Property ////////////
 
 productSchema.virtual("discountedPrice").get(function () {
-  if (this.discount === 0) return null;
+  const defaultValue = 0;
+  if (this.discount === defaultValue) return null;
 
   const discountMultiplier = 1 - this.discount / 100;
   return this.price * discountMultiplier;
+});
+
+//////////// Document Middleware ////////////
+
+productSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 const Product = model<IProduct>("Product", productSchema);
