@@ -22,3 +22,12 @@ export const protect: RequestHandler = async (req, res, next) => {
   req.user = user;
   return next();
 };
+
+export const restrictTo = (...roles: string[]): RequestHandler => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError("شما اجازه انجام این عمل را ندارید!", 403));
+    }
+    return next();
+  };
+};

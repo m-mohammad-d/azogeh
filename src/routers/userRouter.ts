@@ -17,6 +17,8 @@ router.use(catchAsync(authMiddleware.protect));
 
 //////////// @access ADMIN ////////////
 
+router.use(catchAsync(authMiddleware.restrictTo("admin")));
+
 router
   //
   .route("/")
