@@ -40,3 +40,26 @@ export interface ResetPasswordRequestHandler<
   },
   ReqQuery = { resetToken?: string },
 > extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}
+
+export interface UpdateMeRequestHandler<
+  P = any,
+  ResBody = any,
+  ReqBody = {
+    name: string;
+    email: string;
+    password?: string; // Just only for type checking
+    passwordConfirmation?: string; // Just only for type checking
+  },
+  ReqQuery = any,
+> extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}
+
+export interface UpdateMePasswordRequestHandler<
+  P = any,
+  ResBody = any,
+  ReqBody = {
+    passwordCurrent: string;
+    password: string;
+    passwordConfirmation: string;
+  },
+  ReqQuery = any,
+> extends RequestHandler<P, ResBody, ReqBody, ReqQuery> {}

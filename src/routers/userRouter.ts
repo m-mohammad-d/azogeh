@@ -17,6 +17,9 @@ router.patch("/reset-password", catchAsync(authController.resetPassword));
 
 router.use(catchAsync(authMiddleware.protect));
 
+router.patch("/update-me", catchAsync(userController.updateMe));
+router.patch("/update-me-password", catchAsync(userController.updateMePassword));
+
 //////////// @access ADMIN ////////////
 
 router.use(catchAsync(authMiddleware.restrictTo("admin")));
