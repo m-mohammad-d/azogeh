@@ -3,12 +3,37 @@ import CustomInput from "../components/CustomInput";
 import { useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
+import { useSignUpMutation } from "../services/UsersApi";
+import { setItemLocal } from "../utils/localStorageUtils";
+import { log } from "console";
 
 function SignUpPage() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [signup] = useSignUpMutation();
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log(formData);
+
+    const response = await signup(formData).unwrap();
+    console.log(response);
+
+    setItemLocal("token", response.data.user);
+  }
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
@@ -17,14 +42,14 @@ function SignUpPage() {
           ثبت نام در <span className="text-primary-500">اذوقه</span>
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <CustomInput
               type="text"
-              id="username"
+              name="name"
               placeholder="نام کاربری"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
+              value={formData.name}
+              onChange={handleChange}
               className="mt-1"
               label="نام کاربری"
             />
@@ -33,10 +58,10 @@ function SignUpPage() {
           <div className="mb-4">
             <CustomInput
               type="email"
-              id="email"
+              name="email"
               placeholder="ایمیل"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1"
               label="ایمیل"
             />
@@ -45,10 +70,10 @@ function SignUpPage() {
           <div className="mb-6 relative">
             <CustomInput
               type={showPassword ? "text" : "password"}
-              id="password"
+              name="password"
               placeholder="پسورد"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               className="mt-1"
               label="پسورد"
             />
@@ -56,6 +81,23 @@ function SignUpPage() {
               <FaEye className="absolute top-7 left-6" onClick={() => setShowPassword(false)} />
             ) : (
               <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowPassword(true)} />
+            )}
+          </div>
+
+          <div className="mb-6 relative">
+            <CustomInput
+              type={showConfirmPassword ? "text" : "password"}
+              name="passwordConfirmation"
+              placeholder="تکرار پسورد"
+              value={formData.passwordConfirmation}
+              onChange={handleChange}
+              className="mt-1"
+              label=" تکرار پسورد"
+            />
+            {showConfirmPassword ? (
+              <FaEye className="absolute top-7 left-6" onClick={() => setShowConfirmPassword(false)} />
+            ) : (
+              <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowConfirmPassword(true)} />
             )}
           </div>
 
