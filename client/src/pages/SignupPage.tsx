@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
 import { useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 import { useSignUpMutation } from "../services/UsersApi";
 import { setItemLocal } from "../utils/localStorageUtils";
-import { log } from "console";
+import { toast } from "react-hot-toast";
+import { ErrorResponse } from "../types/ErrorType";
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,14 @@ function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signup] = useSignUpMutation();
+  const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData({
@@ -27,12 +36,59 @@ function SignUpPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(formData);
 
-    const response = await signup(formData).unwrap();
-    console.log(response);
+    setErrors({
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+    });
 
-    setItemLocal("token", response.data.user);
+    if (!formData.name) {
+      setErrors(prev => ({ ...prev, name: "نام نمی‌تواند خالی باشد." }));
+      return;
+    }
+    if (formData.name.length < 3 || formData.password.length > 15) {
+      setErrors(prev => ({ ...prev, name: "نام باید بین 3 تا 15 کاراکتر باشد." }));
+      return;
+    }
+
+    if (!formData.email) {
+      setErrors(prev => ({ ...prev, email: "ایمیل نمی‌تواند خالی باشد." }));
+      return;
+    }
+
+    if (!formData.password) {
+      setErrors(prev => ({ ...prev, password: "پسورد نمی‌تواند خالی باشد." }));
+      return;
+    }
+
+    if (formData.password.length < 8 || formData.password.length > 15) {
+      setErrors(prev => ({ ...prev, password: "پسورد باید بین 8 تا 15 کاراکتر باشد." }));
+      return;
+    }
+
+    if (formData.password !== formData.passwordConfirmation) {
+      setErrors(prev => ({ ...prev, passwordConfirmation: "پسوردها مطابقت ندارند." }));
+      return;
+    }
+
+    try {
+      const response = await signup(formData).unwrap();
+      if (response.status === "success") {
+        setItemLocal("token", response.data.user);
+        navigate("/user/edit-profile");
+      }
+    } catch (error: unknown) {
+      if ((error as ErrorResponse).data.message) {
+        const serverError = error as ErrorResponse;
+        toast.error(serverError.data.message, {
+          duration: 6000,
+        });
+      } else {
+        toast.error("خطای ناشناخته‌ای رخ داد.");
+      }
+    }
   }
 
   return (
@@ -53,6 +109,7 @@ function SignUpPage() {
               className="mt-1"
               label="نام کاربری"
             />
+            {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
           </div>
 
           <div className="mb-4">
@@ -65,6 +122,7 @@ function SignUpPage() {
               className="mt-1"
               label="ایمیل"
             />
+            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
           </div>
 
           <div className="mb-6 relative">
@@ -82,6 +140,7 @@ function SignUpPage() {
             ) : (
               <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowPassword(true)} />
             )}
+            {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
           </div>
 
           <div className="mb-6 relative">
@@ -92,13 +151,14 @@ function SignUpPage() {
               value={formData.passwordConfirmation}
               onChange={handleChange}
               className="mt-1"
-              label=" تکرار پسورد"
+              label="تکرار پسورد"
             />
             {showConfirmPassword ? (
               <FaEye className="absolute top-7 left-6" onClick={() => setShowConfirmPassword(false)} />
             ) : (
               <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowConfirmPassword(true)} />
             )}
+            {errors.passwordConfirmation && <p className="text-red-500 text-xs">{errors.passwordConfirmation}</p>}
           </div>
 
           <div className="flex items-center justify-between mb-4">
