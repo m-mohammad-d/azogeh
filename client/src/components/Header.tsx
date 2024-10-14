@@ -5,10 +5,13 @@ import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const userInfo = useSelector((s: RootState) => s.auth.userInfo);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -69,13 +72,23 @@ function Header() {
           <Link to="/cart">
             <LuShoppingCart size={30} className="text-gray-300" />
           </Link>
-          <Link
-            to="/login"
-            className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
-          >
-            <FaUser className="h-6 w-6" />
-            <span>ورود / ثبت نام</span>
-          </Link>
+          {userInfo ? (
+            <Link
+              to="/user/edit-profile"
+              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+            >
+              <FaUser className="h-6 w-6" />
+              <span>داشبورد</span>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+            >
+              <FaUser className="h-6 w-6" />
+              <span>ورود / ثبت نام</span>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -140,14 +153,25 @@ function Header() {
             <p>سبد خرید</p>
           </Link>
           {/* Login Button in Sidebar */}
-          <Link
-            to="/login"
-            onClick={toggleSidebar}
-            className="flex items-center gap-2 bg-primary-500 px-4 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
-          >
-            <FaUser className="h-6 w-6" />
-            <span>ورود / ثبت نام</span>
-          </Link>
+          {userInfo ? (
+            <Link
+              to="/user/edit-profile"
+              onClick={toggleSidebar}
+              className="flex items-center gap-2 bg-primary-500 px-4 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+            >
+              <FaUser className="h-6 w-6" />
+              <span>داشبورد</span>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              onClick={toggleSidebar}
+              className="flex items-center gap-2 bg-primary-500 px-4 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+            >
+              <FaUser className="h-6 w-6" />
+              <span>ورود / ثبت نام</span>
+            </Link>
+          )}
         </nav>
       </div>
     </header>
