@@ -1,13 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
 import { useState } from "react";
 import { FaEye, FaGithub, FaGoogle } from "react-icons/fa";
 import { RiEyeCloseLine } from "react-icons/ri";
+import { setItemLocal } from "../utils/localStorageUtils";
+import { useLoginMutation } from "../services/UsersApi";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const response = await login({ email, password }).unwrap();
+    console.log(response.status);
+    
+    if (response.status === "success") {
+      navigate("/user/edit-profile");
+    }
+
+    setItemLocal("token", response.data.user);
+  }
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
@@ -16,11 +33,11 @@ function LoginPage() {
           به <span className="text-primary-500">اذوقه</span> خوش آمدید
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <CustomInput
               type="email"
-              id="email"
+              name="email"
               placeholder="ایمیل"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -31,7 +48,7 @@ function LoginPage() {
           <div className="mb-6 relative">
             <CustomInput
               type={showPassword ? "text" : "password"}
-              id="password"
+              name="password"
               placeholder="پسورد"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -39,15 +56,9 @@ function LoginPage() {
               label="پسورد"
             />
             {showPassword ? (
-              <FaEye
-                className="absolute top-7 left-6"
-                onClick={() => setShowPassword(false)}
-              />
+              <FaEye className="absolute top-7 left-6" onClick={() => setShowPassword(false)} />
             ) : (
-              <RiEyeCloseLine
-                className="absolute top-7 left-6"
-                onClick={() => setShowPassword(true)}
-              />
+              <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowPassword(true)} />
             )}
           </div>
 
