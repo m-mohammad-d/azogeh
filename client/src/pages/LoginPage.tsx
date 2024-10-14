@@ -1,10 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { ErrorResponse, Link, useNavigate } from "react-router-dom";
 import CustomInput from "../components/CustomInput";
 import { useState } from "react";
 import { FaEye, FaGithub, FaGoogle } from "react-icons/fa";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { setItemLocal } from "../utils/localStorageUtils";
 import { useLoginMutation } from "../services/UsersApi";
+import { toast } from "react-hot-toast";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,17 +14,41 @@ function LoginPage() {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const response = await login({ email, password }).unwrap();
-    console.log(response.status);
-    
-    if (response.status === "success") {
-      navigate("/user/edit-profile");
+    setErrors({ email: "", password: "" });
+    if (!email) {
+      setErrors(prev => ({ ...prev, email: "ایمیل نمی‌تواند خالی باشد." }));
+      return;
     }
 
-    setItemLocal("token", response.data.user);
+    if (!password) {
+      setErrors(prev => ({ ...prev, password: "پسورد نمی‌تواند خالی باشد." }));
+      return;
+    }
+
+    if (password.length < 8 || password.length > 15) {
+      setErrors(prev => ({ ...prev, password: "پسورد باید بین 8 تا 15 کاراکتر باشد." }));
+      return;
+    }
+
+    try {
+      const response = await login({ email, password }).unwrap();
+      if (response.status === "success") {
+        setItemLocal("token", response.data.user);
+        navigate("/user/edit-profile");
+      }
+    } catch (error: unknown) {
+      toast.error((error as ErrorResponse).data.message, {
+        duration: 6000,
+      });
+    }
   }
 
   return (
@@ -44,6 +69,7 @@ function LoginPage() {
               className="mt-1"
               label="ایمیل"
             />
+            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
           </div>
           <div className="mb-6 relative">
             <CustomInput
@@ -56,10 +82,11 @@ function LoginPage() {
               label="پسورد"
             />
             {showPassword ? (
-              <FaEye className="absolute top-7 left-6" onClick={() => setShowPassword(false)} />
+              <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(false)} />
             ) : (
-              <RiEyeCloseLine className="absolute top-7 left-6" onClick={() => setShowPassword(true)} />
+              <RiEyeCloseLine className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(true)} />
             )}
+            {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
           </div>
 
           <div className="flex items-center justify-between mb-4">
