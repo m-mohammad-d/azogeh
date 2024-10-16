@@ -46,17 +46,19 @@ const apiSlice = createApi({
         body: userData,
       }),
     }),
+    updatePassword: builder.mutation({
+      query: userData => ({
+        url: "/update-me-password",
+        method: "PATCH",
+        body: userData,
+      }),
+    }),
     getMe: builder.query({
       query: () => "/get-me",
     }),
   }),
 });
 
-export const {
-  useSignUpMutation,
-  useLoginMutation,
-  useUpdateInfoMutation,
-  useGetMeQuery, 
-} = apiSlice;
+export const { useSignUpMutation, useLoginMutation, useUpdateInfoMutation, useGetMeQuery , useUpdatePasswordMutation } = apiSlice;
 
 export default apiSlice;
