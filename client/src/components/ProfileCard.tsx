@@ -3,8 +3,51 @@ import { Link } from "react-router-dom";
 import { AiOutlineHistory } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md";
+import { clearCredentials } from "../store/AuthSlice";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 const ProfileCard: React.FC = () => {
+  const dispatch = useDispatch();
+  const confirmLogOut = () => {
+    dispatch(clearCredentials());
+    toast.success("با موفقیت خارج شدید.");
+  };
+
+  const handleLogOut = () => {
+    toast.custom(
+      t => (
+        <div
+          className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-auto transform transition-transform duration-300 ${
+            t.visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          }`}
+        >
+          <p className="text-gray-800 text-lg">آیا مطمئن هستید که می‌خواهید خارج شوید؟</p>
+          <div className="flex justify-end mt-6 space-x-4 rtl:space-x-reverse">
+            <button
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md transition-colors duration-200"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              انصراف
+            </button>
+            <button
+              className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md transition-colors duration-200"
+              onClick={() => {
+                confirmLogOut();
+                toast.dismiss(t.id);
+              }}
+            >
+              بله، خارج شو
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: Infinity,
+      }
+    );
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md max-w-xs mx-auto md:max-w-full">
       <div className="flex flex-col items-center py-8">
@@ -50,11 +93,9 @@ const ProfileCard: React.FC = () => {
               <span>تغییر رمز عبور</span>
             </Link>
           </li>
-          <li className="flex gap-2 items-center">
-            <Link to="/user/logout" className="flex gap-2 items-center">
-              <MdOutlineLogout size={20} />
-              <span>خروج</span>
-            </Link>
+          <li className="flex gap-2 items-center cursor-pointer" onClick={handleLogOut}>
+            <MdOutlineLogout size={20} />
+            <span>خروج</span>
           </li>
         </ul>
       </div>
