@@ -6,15 +6,16 @@ import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md
 import { clearCredentials } from "../store/AuthSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { useGetMeQuery } from "../services/UsersApi";
-
-const ProfileCard: React.FC = () => {
+import { GetMeResponse } from "../types/UserType";
+interface ProfileCardProps {
+  userInfo?: GetMeResponse;
+}
+const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   const dispatch = useDispatch();
   const confirmLogOut = () => {
     dispatch(clearCredentials());
     toast.success("با موفقیت خارج شدید.");
   };
-  const { data: userInfo } = useGetMeQuery({});
 
   const handleLogOut = () => {
     toast.custom(
