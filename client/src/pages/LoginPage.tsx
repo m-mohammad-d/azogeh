@@ -3,7 +3,6 @@ import CustomInput from "../components/CustomInput";
 import { useState } from "react";
 import { FaEye, FaGithub, FaGoogle } from "react-icons/fa";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { setItemLocal } from "../utils/localStorageUtils";
 import { useLoginMutation } from "../services/UsersApi";
 import { toast } from "react-hot-toast";
 
@@ -40,8 +39,9 @@ function LoginPage() {
 
     try {
       const response = await login({ email, password }).unwrap();
+      console.log(response);
+
       if (response.status === "success") {
-        setItemLocal("token", response.data.user);
         navigate("/user/edit-profile");
       }
     } catch (error: unknown) {

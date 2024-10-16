@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGetMeQuery, useUpdateInfoMutation } from "../../services/UsersApi";
 
 interface UserProfile {
-  username: string;
-  fullName: string;
+  name: string;
   email: string;
 }
 
 const UpdateInfoPage: React.FC = () => {
+  const [updateinfo] = useUpdateInfoMutation();
+  const { data: info } = useGetMeQuery({});
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    username: "",
-    fullName: "",
-    email: "user@example.com",
+    name: "",
+    email: "",
   });
 
+  useEffect(() => {
+    if (info) {
+      setUserProfile({
+        name: info?.data?.user?.name,
+        email: info?.data?.user?.email,
+      });
+    }
+  }, [info]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserProfile({ ...userProfile, [name]: value });
@@ -20,8 +29,7 @@ const UpdateInfoPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log("Updated Profile:", userProfile);
+    updateinfo({ name: userProfile.name }).unwrap();
   };
 
   return (
@@ -43,30 +51,15 @@ const UpdateInfoPage: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700 font-medium mb-2">
+          <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
             یوزرنیم
           </label>
           <input
             type="text"
-            name="username"
-            id="username"
-            value={userProfile.username}
+            name="name"
+            id="name"
+            value={userProfile.name}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="fullName" className="block text-gray-700 font-medium mb-2">
-            نام و نام خانوادگی
-          </label>
-          <input
-            type="text"
-            name="fullName"
-            id="fullName"
-            value={userProfile.fullName}
-            onChange={handleChange}
-            placeholder="نام و نام خانوادگی"
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300"
             required
           />

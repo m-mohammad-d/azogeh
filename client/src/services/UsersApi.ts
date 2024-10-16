@@ -1,17 +1,29 @@
+// apiSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: "/api/users",
+  prepareHeaders: headers => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
 
 const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "api/users",
-    prepareHeaders: headers => {
-      const token = localStorage.getItem("token"); // دریافت توکن از localStorage
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`); // اضافه کردن توکن به هدر
-      }
-      return headers;
-    },
-  }),
+  baseQuery: async (args, api, extraOptions) => {
+    const result = await baseQuery(args, api, extraOptions);
+
+    const token = result?.meta?.response?.headers?.get("x-auth-token");
+    if (token) {
+      localStorage.setItem("authToken", token);
+    }
+
+    return result;
+  },
   endpoints: builder => ({
     signUp: builder.mutation({
       query: userData => ({
@@ -27,8 +39,24 @@ const apiSlice = createApi({
         body: userData,
       }),
     }),
+    updateInfo: builder.mutation({
+      query: userData => ({
+        url: "/update-me",
+        method: "PATCH",
+        body: userData,
+      }),
+    }),
+    getMe: builder.query({
+      query: () => "/get-me",
+    }),
   }),
 });
 
-export const { useSignUpMutation, useLoginMutation } = apiSlice;
+export const {
+  useSignUpMutation,
+  useLoginMutation,
+  useUpdateInfoMutation,
+  useGetMeQuery, 
+} = apiSlice;
+
 export default apiSlice;
