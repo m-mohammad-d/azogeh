@@ -6,6 +6,7 @@ import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md
 import { clearCredentials } from "../store/AuthSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useGetMeQuery } from "../services/UsersApi";
 
 const ProfileCard: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const ProfileCard: React.FC = () => {
     dispatch(clearCredentials());
     toast.success("با موفقیت خارج شدید.");
   };
+  const { data: userInfo } = useGetMeQuery({});
 
   const handleLogOut = () => {
     toast.custom(
@@ -52,8 +54,8 @@ const ProfileCard: React.FC = () => {
     <div className="bg-white rounded-xl shadow-md max-w-xs mx-auto md:max-w-full">
       <div className="flex flex-col items-center py-8">
         <img className="w-24 h-24 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Profile" />
-        <h2 className="text-lg font-semibold mt-4">نگار زمانی</h2>
-        <p className="text-gray-500">xxxxxxx@Yahoo.com</p>
+        <h2 className="text-lg font-semibold mt-4">{userInfo?.data?.user?.name}</h2>
+        <p className="text-gray-500">{userInfo?.data?.user?.email}</p>
       </div>
 
       <div className="border-t border-gray-200 px-6 py-4">
