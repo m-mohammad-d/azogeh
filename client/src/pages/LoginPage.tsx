@@ -99,9 +99,9 @@ function LoginPage() {
           </div>
 
           <div className="flex justify-between items-center text-sm mb-4">
-            <a href="#" className="text-primary-600 hover:underline">
+            <Link to="/forget-password" className="text-primary-600 hover:underline">
               فراموشی رمز عبور
-            </a>
+            </Link>
           </div>
 
           <div className="text-center mb-4 text-gray-500">یا وارد شوید با</div>
