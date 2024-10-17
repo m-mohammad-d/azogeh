@@ -17,6 +17,7 @@ import OrderHistory from "./pages/UserPanel/OrderHistory";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import ForgotPassword from "./pages/ForgetPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/forget-password",
         element: <ForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPasswordPage />,
       },
       {
         element: <PrivateRoute />,

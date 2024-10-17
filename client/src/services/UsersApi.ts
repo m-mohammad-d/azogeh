@@ -60,13 +60,27 @@ const apiSlice = createApi({
         body: userData,
       }),
     }),
+    resetPassword: builder.mutation({
+      query: ({ resetToken, password, passwordConfirmation }) => ({
+        url: `/reset-password?resetToken=${resetToken}`,
+        method: "PATCH",
+        body: { password, passwordConfirmation },
+      }),
+    }),
     getMe: builder.query({
       query: () => "/get-me",
     }),
   }),
 });
 
-export const { useSignUpMutation, useLoginMutation, useUpdateInfoMutation, useGetMeQuery, useUpdatePasswordMutation , useForgetPasswordMutation } =
-  apiSlice;
+export const {
+  useSignUpMutation,
+  useLoginMutation,
+  useUpdateInfoMutation,
+  useGetMeQuery,
+  useUpdatePasswordMutation,
+  useForgetPasswordMutation,
+  useResetPasswordMutation,
+} = apiSlice;
 
 export default apiSlice;
