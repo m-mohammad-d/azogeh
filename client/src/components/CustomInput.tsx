@@ -19,11 +19,18 @@ const CustomInput: React.FC<CustomInputProps> = ({
   onChange,
   label,
 }) => {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    inputRef.current?.focus();
+  };
+
   return (
     <div className={`relative mb-4 ${className}`}>
-      <div className="bg-white p-4 rounded-lg">
+      <div className="bg-white p-4 rounded-lg" onClick={handleClick}>
         <div className="relative bg-inherit">
           <input
+            ref={inputRef}
             type={type}
             name={name}
             className="peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
