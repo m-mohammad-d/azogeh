@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import CustomInput from "../components/CustomInput";
+import { useForgetPasswordMutation } from "../services/UsersApi";
+import toast from "react-hot-toast";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
+  const [forgetPassword] = useForgetPasswordMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    forgetPassword({ email: email }).unwrap();
+    toast.success("لینک بازنشانی پسورد به ایمیل شما ارسال شد ایمیل خود را چک کنید");
   };
 
   return (
