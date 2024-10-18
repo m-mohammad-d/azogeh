@@ -4,7 +4,6 @@ import { useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 import { useSignUpMutation } from "../services/UsersApi";
-import { setItemLocal } from "../utils/localStorageUtils";
 import { toast } from "react-hot-toast";
 import { ErrorResponse } from "../types/ErrorType";
 
@@ -76,7 +75,6 @@ function SignUpPage() {
     try {
       const response = await signup(formData).unwrap();
       if (response.status === "success") {
-        setItemLocal("token", response.data.user);
         navigate("/user/edit-profile");
       }
     } catch (error: unknown) {
