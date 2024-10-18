@@ -1,13 +1,14 @@
-export default class APIFeatures {
-  public query;
+import { Query, Model } from "mongoose";
 
-  constructor(
-    private readonly Model: any,
-    private readonly queryRequest: any,
-  ) {
+export default class APIFeatures {
+  private readonly Model: Model<any>;
+  private readonly queryRequest: any;
+  public query: Query<any, any>;
+
+  constructor(Model: Model<any>, queryRequest: any, initialFilter?: any) {
     this.Model = Model;
-    this.query = this.Model.find();
     this.queryRequest = queryRequest;
+    this.query = this.Model.find(initialFilter);
   }
 
   filter(): this {
@@ -17,7 +18,7 @@ export default class APIFeatures {
 
     const queryString = JSON.stringify(queryObject).replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-    this.query = this.Model.find(JSON.parse(queryString));
+    this.query = this.query.find(JSON.parse(queryString));
 
     return this;
   }
