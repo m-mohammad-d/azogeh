@@ -47,7 +47,7 @@ function SignUpPage() {
       setErrors(prev => ({ ...prev, name: "نام نمی‌تواند خالی باشد." }));
       return;
     }
-    if (formData.name.length < 3 || formData.password.length > 15) {
+    if (formData.name.length < 3 || formData.name.length > 15) {
       setErrors(prev => ({ ...prev, name: "نام باید بین 3 تا 15 کاراکتر باشد." }));
       return;
     }
@@ -99,11 +99,11 @@ function SignUpPage() {
             <CustomInput
               type="text"
               name="name"
-              placeholder="نام کاربری"
+              placeholder="نام و نام خانوادگی"
               value={formData.name}
               onChange={handleChange}
               className="mt-1"
-              label="نام کاربری"
+              label="نام و نام خانوادگی"
             />
             {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
           </div>

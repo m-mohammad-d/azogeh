@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGetMeQuery, useUpdateInfoMutation } from "../../services/UsersApi";
+import toast from "react-hot-toast";
 
 interface UserProfile {
   name: string;
@@ -29,6 +30,10 @@ const UpdateInfoPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (userProfile.name.length < 3 || userProfile.name.length > 15) {
+      toast.error("نام باید بین 3 تا 15 کاراکتر باشد.");
+      return;
+    }
     updateinfo({ name: userProfile.name }).unwrap();
   };
 
@@ -52,7 +57,7 @@ const UpdateInfoPage: React.FC = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
-            یوزرنیم
+            نام و نام خانوادگی
           </label>
           <input
             type="text"
