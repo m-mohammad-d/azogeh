@@ -38,12 +38,8 @@ function LoginPage() {
     }
 
     try {
-      const response = await login({ email, password }).unwrap();
-      console.log(response);
-
-      if (response.status === "success") {
-        navigate("/user/edit-profile");
-      }
+      await login({ email, password }).unwrap();
+      navigate("/");
     } catch (error: unknown) {
       toast.error((error as ErrorResponse).data.message, {
         duration: 6000,

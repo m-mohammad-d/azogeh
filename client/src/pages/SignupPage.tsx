@@ -73,10 +73,8 @@ function SignUpPage() {
     }
 
     try {
-      const response = await signup(formData).unwrap();
-      if (response.status === "success") {
-        navigate("/user/edit-profile");
-      }
+      await signup(formData).unwrap();
+      navigate("/");
     } catch (error: unknown) {
       if ((error as ErrorResponse).data.message) {
         const serverError = error as ErrorResponse;
