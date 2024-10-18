@@ -2,18 +2,18 @@ import CategoriesItem from "./CategoriesItem";
 import HighlightBar from "./HighlightBar";
 
 const categories = [
-  { id: "snacks", name: "تنقلات و خوراکی", img: "snacks" },
-  { id: "dairy", name: "لبنیات", img: "dairy" },
-  { id: "frout", name: "میوه و سبزیجات", img: "frout" },
-  { id: "canned", name: "محصولات کنسروی", img: "canned" },
-  { id: "cold-beverage", name: "نوشیدنی سرد", img: "cold-beverage" },
-  { id: "hot-beverage", name: "نوشیدنی گرم", img: "hot-beverage" },
-  { id: "bread", name: "نان و بیکری", img: "bread" },
-  { id: "spice", name: "ادویه جات", img: "spice" },
+  { id: "Snacks", name: "تنقلات و خوراکی", img: "snacks" },
+  { id: "Dairy", name: "لبنیات", img: "dairy" },
+  { id: "Fruits", name: "میوه و سبزیجات", img: "frout" },
+  { id: "Canned", name: "محصولات کنسروی", img: "canned" },
+  { id: "Cold-beverage", name: "نوشیدنی سرد", img: "cold-beverage" },
+  { id: "Hot-beverage", name: "نوشیدنی گرم", img: "hot-beverage" },
+  { id: "Bakery", name: "نان و بیکری", img: "bread" },
+  { id: "Spices", name: "ادویه جات", img: "spice" },
   { id: "protein", name: "مواد پروتئینی", img: "protein" },
-  { id: "legumes", name: "حبوبات", img: "Legumes" },
-  { id: "pickles", name: "ترشیجات", img: "pickles" },
-  { id: "sweets", name: "شیرینی جات", img: "sweets" },
+  { id: "Legumes", name: "حبوبات", img: "Legumes" },
+  { id: "Pickles", name: "ترشیجات", img: "pickles" },
+  { id: "Sweets", name: "شیرینی جات", img: "sweets" },
 ];
 
 function CategoriesMenu() {
