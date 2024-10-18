@@ -1,51 +1,43 @@
 import { ErrorResponse, Link, useNavigate } from "react-router-dom";
-import CustomInput from "../components/CustomInput";
 import { useState } from "react";
 import { FaEye, FaGithub, FaGoogle } from "react-icons/fa";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { useLoginMutation } from "../services/UsersApi";
 import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  email: z.string().email("ایمیل نامعتبر است.").nonempty("ایمیل نمی‌تواند خالی باشد."),
+  password: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
+});
+
+type FormData = z.infer<typeof schema>;
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
   });
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    setErrors({ email: "", password: "" });
-    if (!email) {
-      setErrors(prev => ({ ...prev, email: "ایمیل نمی‌تواند خالی باشد." }));
-      return;
-    }
-
-    if (!password) {
-      setErrors(prev => ({ ...prev, password: "پسورد نمی‌تواند خالی باشد." }));
-      return;
-    }
-
-    if (password.length < 8 || password.length > 15) {
-      setErrors(prev => ({ ...prev, password: "پسورد باید بین 8 تا 15 کاراکتر باشد." }));
-      return;
-    }
-
+  const onSubmit = async (data: FormData) => {
     try {
-      await login({ email, password }).unwrap();
+      await login(data).unwrap();
       navigate("/");
     } catch (error: unknown) {
       toast.error((error as ErrorResponse).data.message, {
         duration: 6000,
       });
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
@@ -54,35 +46,60 @@ function LoginPage() {
           به <span className="text-primary-500">اذوقه</span> خوش آمدید
         </h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <CustomInput
-              type="email"
-              name="email"
-              placeholder="ایمیل"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="mt-1"
-              label="ایمیل"
-            />
-            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+            <div className="relative mb-4">
+              <div className="bg-white p-4 rounded-lg">
+                <div className="relative bg-inherit">
+                  <input
+                    id="email"
+                    type="email"
+                    {...register("email")}
+                    className={`peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ${
+                      errors.email ? "ring-red-500" : "ring-gray-500"
+                    } focus:ring-sky-600 focus:outline-none focus:border-rose-600`}
+                    placeholder="ایمیل"
+                  />
+                  <label
+                    htmlFor="email"
+                    className="absolute cursor-text right-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
+                  >
+                    ایمیل
+                  </label>
+                </div>
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+              </div>
+            </div>
           </div>
+
           <div className="mb-6 relative">
-            <CustomInput
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="پسورد"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="mt-1"
-              label="پسورد"
-            />
+            <div className="relative mb-4">
+              <div className="bg-white p-4 rounded-lg">
+                <div className="relative bg-inherit">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password")}
+                    className={`peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ${
+                      errors.password ? "ring-red-500" : "ring-gray-500"
+                    } focus:ring-sky-600 focus:outline-none focus:border-rose-600`}
+                    placeholder="پسورد"
+                  />
+                  <label
+                    htmlFor="password"
+                    className="absolute cursor-text right-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
+                  >
+                    پسورد
+                  </label>
+                </div>
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+              </div>
+            </div>
             {showPassword ? (
               <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(false)} />
             ) : (
               <RiEyeCloseLine className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(true)} />
             )}
-            {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
           </div>
 
           <div className="flex items-center justify-between mb-4">
