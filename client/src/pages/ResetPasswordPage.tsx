@@ -1,13 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import CustomInput from "../components/CustomInput";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import InputField from "../components/InputField";
 import toast from "react-hot-toast";
 import { useResetPasswordMutation } from "../services/UsersApi";
 
+const schema = z
+  .object({
+    newPassword: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
+    confirmPassword: z
+      .string()
+      .min(8, "تایید پسورد باید حداقل 8 کاراکتر باشد.")
+      .max(15, "تایید پسورد باید حداکثر 15 کاراکتر باشد."),
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: "پسوردها مطابقت ندارند",
+    path: ["confirmPassword"],
+  });
+
+type FormData = z.infer<typeof schema>;
+
 function ResetPasswordPage() {
   const location = useLocation();
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [resetPassword] = useResetPasswordMutation();
   const [resetToken, setResetToken] = useState<string | null>(null);
 
@@ -17,13 +33,15 @@ function ResetPasswordPage() {
     setResetToken(token);
   }, [location]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (newPassword !== confirmPassword) {
-      toast.error("پسورد ها مطابقت ندارد");
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
+  const onSubmit = async (data: FormData) => {
     if (!resetToken) {
       toast.error("توکن بازنشانی معتبر نیست.");
       return;
@@ -32,8 +50,8 @@ function ResetPasswordPage() {
     try {
       await resetPassword({
         resetToken,
-        password: newPassword,
-        passwordConfirmation: confirmPassword,
+        password: data.newPassword,
+        passwordConfirmation: data.confirmPassword,
       }).unwrap();
       toast.success("رمز عبور شما با موفقیت تغییر کرد.");
     } catch (error) {
@@ -45,29 +63,26 @@ function ResetPasswordPage() {
     <div className="flex items-center justify-center my-20 mx-4">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border border-gray-100">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">تغییر رمز عبور</h1>
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <CustomInput
-              label="رمز عبور جدید"
+            <InputField
+              id="newPassword"
               type="password"
-              name="newPassword"
+              label="رمز عبور جدید"
               placeholder="رمز عبور جدید خود را وارد کنید"
-              value={newPassword}
-              onChange={e => setNewPassword(e.target.value)}
-              className="mt-1"
+              register={register}
+              error={errors.newPassword}
             />
           </div>
 
           <div className="mb-4">
-            <CustomInput
-              label="تایید رمز عبور"
+            <InputField
+              id="confirmPassword"
               type="password"
-              name="confirmPassword"
+              label="تایید رمز عبور"
               placeholder="رمز عبور خود را دوباره وارد کنید"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              className="mt-1"
+              register={register}
+              error={errors.confirmPassword}
             />
           </div>
 
