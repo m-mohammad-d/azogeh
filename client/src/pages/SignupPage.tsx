@@ -8,6 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "../types/ErrorType";
+import InputField from "../components/InputField"
 
 const schema = z
   .object({
@@ -64,79 +65,33 @@ function SignUpPage() {
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <div className="relative mb-4">
-              <div className="bg-white p-4 rounded-lg">
-                <div className="relative bg-inherit">
-                  <input
-                    id="name"
-                    type="text"
-                    {...register("name")}
-                    className={`peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ${
-                      errors.name ? "ring-red-500" : "ring-gray-500"
-                    } focus:ring-sky-600 focus:outline-none focus:border-rose-600`}
-                    placeholder="نام و نام خانوادگی"
-                  />
-                  <label
-                    htmlFor="name"
-                    className="absolute cursor-text right-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
-                  >
-                    نام و نام خانوادگی
-                  </label>
-                </div>
-                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
-              </div>
-            </div>
-          </div>
+          <InputField
+            id="name"
+            type="text"
+            label="نام و نام خانوادگی"
+            placeholder="نام و نام خانوادگی"
+            register={register}
+            error={errors.name}
+          />
 
-          <div className="mb-4">
-            <div className="relative mb-4">
-              <div className="bg-white p-4 rounded-lg">
-                <div className="relative bg-inherit">
-                  <input
-                    id="email"
-                    type="email"
-                    {...register("email")}
-                    className={`peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ${
-                      errors.email ? "ring-red-500" : "ring-gray-500"
-                    } focus:ring-sky-600 focus:outline-none focus:border-rose-600`}
-                    placeholder="ایمیل"
-                  />
-                  <label
-                    htmlFor="email"
-                    className="absolute cursor-text right-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
-                  >
-                    ایمیل
-                  </label>
-                </div>
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
-              </div>
-            </div>
-          </div>
+          <InputField
+            id="email"
+            type="email"
+            label="ایمیل"
+            placeholder="ایمیل"
+            register={register}
+            error={errors.email}
+          />
 
+          <InputField
+            id="password"
+            type={showPassword ? "text" : "password"}
+            label="پسورد"
+            placeholder="پسورد"
+            register={register}
+            error={errors.password}
+          />
           <div className="mb-6 relative">
-            <div className="relative mb-4">
-              <div className="bg-white p-4 rounded-lg">
-                <div className="relative bg-inherit">
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    {...register("password")}
-                    className={`peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ${
-                      errors.password ? "ring-red-500" : "ring-gray-500"
-                    } focus:ring-sky-600 focus:outline-none focus:border-rose-600`}
-                    placeholder="پسورد"
-                  />
-                  <label
-                    htmlFor="password"
-                    className="absolute cursor-text right-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
-                  >
-                    پسورد
-                  </label>
-                </div>
-                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
-              </div>
-            </div>
             {showPassword ? (
               <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(false)} />
             ) : (
@@ -144,31 +99,15 @@ function SignUpPage() {
             )}
           </div>
 
+          <InputField
+            id="passwordConfirmation"
+            type={showConfirmPassword ? "text" : "password"}
+            label="تکرار پسورد"
+            placeholder="تکرار پسورد"
+            register={register}
+            error={errors.passwordConfirmation}
+          />
           <div className="mb-6 relative">
-            <div className="relative mb-4">
-              <div className="bg-white p-4 rounded-lg">
-                <div className="relative bg-inherit">
-                  <input
-                    id="passwordConfirmation"
-                    type={showConfirmPassword ? "text" : "password"}
-                    {...register("passwordConfirmation")}
-                    className={`peer bg-transparent h-10 w-full rounded-lg text-gray-200 placeholder-transparent ring-2 px-2 ${
-                      errors.passwordConfirmation ? "ring-red-500" : "ring-gray-500"
-                    } focus:ring-sky-600 focus:outline-none focus:border-rose-600`}
-                    placeholder="تکرار پسورد"
-                  />
-                  <label
-                    htmlFor="passwordConfirmation"
-                    className="absolute cursor-text right-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
-                  >
-                    تکرار پسورد
-                  </label>
-                </div>
-                {errors.passwordConfirmation && (
-                  <p className="text-red-500 text-xs mt-1">{errors.passwordConfirmation.message}</p>
-                )}
-              </div>
-            </div>
             {showConfirmPassword ? (
               <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowConfirmPassword(false)} />
             ) : (
