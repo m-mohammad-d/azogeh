@@ -6,19 +6,19 @@ const productSchema = new Schema<IProduct>(
   {
     name: {
       type: String,
-      required: [true, "Product name is required"],
+      required: [true, "نام محصول را وارد کنید"],
     },
     slug: {
       type: String,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
+      required: [true, "توضیحات محصول را وارد کنید"],
     },
 
     image: {
       type: String,
-      required: [true, "Product image is required"],
+      required: [true, "تصویر محصول را وارد کنید"],
     },
     images: {
       type: [String],
@@ -35,11 +35,11 @@ const productSchema = new Schema<IProduct>(
 
     brand: {
       type: String,
-      required: [true, "Brand is required"],
+      required: [true, "برند محصول را وارد کنید"],
     },
     category: {
       type: String,
-      required: [true, "Category is required"],
+      required: [true, "کتگوری محصول را وارد کنید"],
     },
 
     rating: {
@@ -53,7 +53,7 @@ const productSchema = new Schema<IProduct>(
 
     price: {
       type: Number,
-      required: [true, "Price is required"],
+      required: [true, "قیمت محصول را وارد کنید"],
     },
     discount: {
       type: Number,

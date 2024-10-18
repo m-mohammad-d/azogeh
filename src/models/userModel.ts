@@ -10,14 +10,14 @@ const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "نام کاربر الزامی است"],
     },
     email: {
       type: String,
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, "Please enter a valid email address"],
-      required: [true, "Please enter your email address"],
+      validate: [validator.isEmail, "لطفا یک آدرس ایمیل معتبر وارد کنید"],
+      required: [true, "لطفا آدرس ایمیل خود را وارد کنید"],
     },
     photo: {
       type: String,
@@ -37,7 +37,7 @@ const userSchema = new Schema<IUser>(
       type: String,
       minLength: 8,
       select: false,
-      required: [true, "Please enter your password"],
+      required: [true, "لطفا رمز عبور خود را وارد کنید"],
     },
     passwordConfirmation: {
       type: String,
@@ -46,9 +46,9 @@ const userSchema = new Schema<IUser>(
         validator: function (this: IUser, value: string): boolean {
           return value === this.password;
         },
-        message: "Passwords are not the same!",
+        message: "رمزهای عبور یکسان نیستند!",
       },
-      required: [true, "Please enter your password confirmation"],
+      required: [true, "لطفا تایید رمز عبور خود را وارد کنید"],
     },
     passwordChangedAt: {
       type: Date,

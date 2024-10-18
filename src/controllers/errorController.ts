@@ -37,7 +37,7 @@ const handleCastError = (err: CastError) => {
 };
 
 const handleDuplicateFields = (err: any) => {
-  const msg = " قبلا ثبت شده است، لطفا از آدرس ایمیل دیگری استفاده کنید " + `(${err.keyValue.email})` + " این ایمیل ";
+  const msg = `این ایمیل ${err.keyValue.email}  قبلا ثبت شده است! لطفا از آدرس ایمیل دیگری استفاده کنید.`;
   return new AppError(msg, 400);
 };
 
