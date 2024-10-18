@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("express-async-errors");
 import { Express } from "express";
 
 const app = require("express")() as Express;

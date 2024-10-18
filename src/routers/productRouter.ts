@@ -1,19 +1,18 @@
 import express from "express";
+import * as productController from "../controllers/productController";
 
 const router = express.Router();
-import * as productController from "../controllers/productController";
-import catchAsync from "../utils/catchAsync";
 
 router
   //
   .route("/")
-  .get(catchAsync(productController.getAllProducts))
-  .post(catchAsync(productController.createProduct));
+  .get(productController.getAllProducts)
+  .post(productController.createProduct);
 
 router
   //
   .route("/:id")
-  .get(catchAsync(productController.getProduct))
-  .delete(catchAsync(productController.deleteProduct));
+  .get(productController.getProduct)
+  .delete(productController.deleteProduct);
 
 export default router;
