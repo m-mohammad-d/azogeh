@@ -1,26 +1,51 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useGetProductsQuery } from "../services/ApiProduct";
+import { Product } from "../types/product";
 import { Link } from "react-router-dom";
-import Search from "./Search";
 import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import Search from "./Search";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSearchFullScreen, setIsSearchFullScreen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const searchResultsRef = useRef<HTMLDivElement>(null);
   const userInfo = useSelector((s: RootState) => s.auth.userInfo);
+
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useGetProductsQuery(searchTerm.length > 3 ? { search: searchTerm, sort: "default" } : undefined);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const toggleSearchFullScreen = () => {
+    setIsSearchFullScreen(!isSearchFullScreen);
+    if (isSearchFullScreen) setSearchTerm(""); // Reset search term when closing
+    setIsSidebarOpen(false);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Close sidebar and search results if clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
         setIsSidebarOpen(false);
+      }
+      if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
+        setSearchTerm("");
       }
     };
 
@@ -29,6 +54,7 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <header>
       <div className="bg-primary-500 w-full h-12"></div>
@@ -108,7 +134,14 @@ function Header() {
 
         {/* Sidebar Search Bar */}
         <div className="p-4">
-          <Search /> {/* Search bar inside the sidebar */}
+          <input
+            type="text"
+            placeholder="جستجو"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onFocus={toggleSearchFullScreen}
+            className="w-full bg-[#F6F5F5] px-4 py-2 rounded-xl focus:outline-none focus:border-gray-200 focus:ring-gray-300 transition duration-200 ease-in-out"
+          />
         </div>
 
         <nav className="flex flex-col p-4">
@@ -174,6 +207,52 @@ function Header() {
           )}
         </nav>
       </div>
+
+      {/* Full-screen Search Overlay */}
+      {isSearchFullScreen && (
+        <div className="fixed h-screen top-0 left-0 right-0 bottom-0 z-50  bg-white flex flex-col p-4">
+          <button onClick={toggleSearchFullScreen} className="self-end mb-4 text-gray-500 focus:outline-none">
+            <IoMdClose size={24} />
+          </button>
+          <input
+            type="text"
+            placeholder="جستجو"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="w-full bg-[#F6F5F5] px-4 py-2 rounded-xl focus:outline-none focus:border-gray-200 focus:ring-gray-300 transition duration-200 ease-in-out mb-4"
+          />
+          <div ref={searchResultsRef} className="flex-1 p-2">
+            {searchTerm.length > 3 && (
+              <div className="bg-white">
+                {isLoading ? (
+                  <p className="text-center">در حال بارگذاری...</p>
+                ) : error ? (
+                  <p className="text-center text-error-400">خطا در دریافت محصولات</p>
+                ) : products?.data?.products?.length ? (
+                  <ul>
+                    {products.data.products.map((product: Product) => (
+                      <li
+                        key={product.id}
+                        className="flex items-center border-b m-0 border-gray-200 overflow-hidden mb-4 w-full"
+                      >
+                        <Link to={`/product/${product.id}`} className="flex w-full" onClick={() => setSearchTerm("")}>
+                          <img src={`images/${product.image}`} alt={product.name} className="w-16 h-16 object-cover" />
+                          <div className="flex-1 p-4 text-right">
+                            <h3 className="text-lg font-bold text-gray-800 line-clamp-1">{product.name}</h3>
+                            <p className="text-gray-600">{product.price} تومان</p>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-center text-error-400">محصولی یافت نشد.</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
