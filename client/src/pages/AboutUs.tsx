@@ -1,8 +1,8 @@
 const AboutUs = () => {
   return (
-    <div className=" py-12 mt-16">
+    <div className="py-12 mt-16 mx-4">
       <div className="container mx-auto text-center mb-12">
-        <h1 className="text-5xl font-bold text-gray-800 mb-4">درباره اذوقه</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">درباره اذوقه</h1>
         <p className="text-xl text-gray-600">
           اذوقه با هدف ارائه بهترین محصولات غذایی سالم و ارگانیک، تجربه خرید آنلاین را برای شما آسان کرده است.
         </p>
@@ -13,7 +13,7 @@ const AboutUs = () => {
           <img src="/officeTeam.jpg" alt="تیم ما" className="object-cover rounded-lg shadow-lg w-[500px] h-[500px]" />
         </div>
         <div className="md:w-1/2 px-4">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">تیم ما</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">تیم ما</h2>
           <p className="text-lg text-gray-600 mb-4">
             ما در اذوقه با تیمی مجرب و حرفه‌ای تلاش می‌کنیم تا بهترین محصولات غذایی را با کیفیتی عالی و قیمت مناسب به
             شما ارائه کنیم.
@@ -27,7 +27,7 @@ const AboutUs = () => {
 
       <div className="container mx-auto flex flex-col-reverse md:flex-row items-center mb-16">
         <div className="md:w-1/2 px-4">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">ماموریت ما</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">ماموریت ما</h2>
           <p className="text-lg text-gray-600 mb-4">
             هدف ما ارائه محصولات تازه و سالم به شماست، تا بتوانید به راحتی و با اطمینان از کیفیت، مواد غذایی مورد
             نیازتان را تهیه کنید.
@@ -54,7 +54,7 @@ const AboutUs = () => {
           />
         </div>
         <div className="md:w-1/2 px-4">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">کیفیت محصولات</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">کیفیت محصولات</h2>
           <p className="text-lg text-gray-600 mb-4">
             ما در اذوقه به کیفیت محصولات اهمیت ویژه‌ای می‌دهیم. تمامی محصولات ما از بهترین تولیدکنندگان داخلی و خارجی
             تهیه شده و از سلامت و تازگی آن‌ها اطمینان حاصل شده است.

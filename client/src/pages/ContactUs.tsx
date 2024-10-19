@@ -1,4 +1,4 @@
-import { CiHeart } from "react-icons/ci";
+
 import { FaGithub, FaLinkedin, FaTelegram, FaGlobe } from "react-icons/fa";
 
 const ContactUs = () => {
