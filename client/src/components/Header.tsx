@@ -63,7 +63,7 @@ function Header() {
         </nav>
 
         {/* Show Search bar only in desktop view */}
-        <div className="hidden lg:block">
+        <div className="max-w-lg w-full mx-4 hidden lg:block">
           <Search />
         </div>
 
