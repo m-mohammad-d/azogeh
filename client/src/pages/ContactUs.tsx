@@ -1,10 +1,11 @@
+import { CiHeart } from "react-icons/ci";
 import { FaGithub, FaLinkedin, FaTelegram, FaGlobe } from "react-icons/fa";
 
 const ContactUs = () => {
   return (
-    <div className="bg-gray-50 py-12 mt-12">
+    <div className="py-12 mt-12 mx-4">
       <div className="container mx-auto text-center mb-12">
-        <h1 className="text-5xl font-bold text-gray-800 mb-4">تماس با ما</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">تماس با ما</h1>
         <p className="text-xl text-gray-600 mb-8">
           ما یک تیم دو نفره از برنامه‌نویسان هستیم که بر روی پروژه‌های مختلف کار می‌کنیم. اگر سوالی دارید یا می‌خواهید
           با ما در تماس باشید، از طریق لینک‌های زیر با ما ارتباط برقرار کنید.
@@ -18,7 +19,7 @@ const ContactUs = () => {
               alt="Frontend Developer Avatar"
               className="w-32 h-32 mx-auto mb-4 rounded-full"
             />
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">برنامه‌نویس فرانت‌اند</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">برنامه‌نویس فرانت‌اند</h2>
             <p className="text-lg text-gray-600 mb-4">
               {" "}
               سلام! من محمد هستم، یک برنامه‌نویس فرانت‌اند که به ساخت تجربه‌های کاربری کاربرپسند و جذاب علاقه‌مندم. تخصص
@@ -49,7 +50,7 @@ const ContactUs = () => {
               alt="Backend Developer Avatar"
               className="w-32 h-32 mx-auto mb-4 rounded-full"
             />
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">برنامه‌نویس بک‌اند</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">برنامه‌نویس بک‌اند</h2>
             <p className="text-lg text-gray-600 mb-4">
               من مسئول توسعه و پیاده‌سازی سرور و APIها هستم. با استفاده از تکنولوژی‌هایی مثل Node.js و MongoDB،
               سیستم‌های پایدار و مقیاس‌پذیر ایجاد می‌کنم.
@@ -72,7 +73,7 @@ const ContactUs = () => {
         </div>
 
         <p className="text-xl text-gray-600">
-          خوشحال می‌شویم اگر با ما در ارتباط باشید و نظرات یا پیشنهادات خود را به اشتراک بگذارید!
+          خوشحال می‌شویم اگر با ما در ارتباط باشید و نظرات یا پیشنهادات خود را به اشتراک بگذارید!❤
         </p>
       </div>
     </div>
