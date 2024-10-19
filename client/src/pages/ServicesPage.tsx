@@ -1,8 +1,8 @@
 const ServicesPage = () => {
   return (
-    <div className="py-12 mt-16">
+    <div className="py-12 mt-16 mx-4">
       <div className="container mx-auto text-center mb-12">
-        <h1 className="text-5xl font-bold text-gray-800 mb-4">سرویس‌های ما</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">سرویس‌های ما</h1>
         <p className="text-xl text-gray-600">
           در اذوقه، با ارائه خدمات متنوع و با کیفیت، تجربه خرید آنلاین مواد غذایی را برای شما آسان‌تر و سریع‌تر
           کرده‌ایم.
@@ -18,7 +18,7 @@ const ServicesPage = () => {
           />
         </div>
         <div className="md:w-1/2 px-4">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">خدمات تحویل سریع</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">خدمات تحویل سریع</h2>
           <p className="text-lg text-gray-600 mb-4">
             ما در اذوقه با ارائه خدمات تحویل سریع، اطمینان حاصل می‌کنیم که محصولات غذایی شما در کوتاه‌ترین زمان ممکن به
             دست شما برسد.
@@ -31,7 +31,7 @@ const ServicesPage = () => {
 
       <div className="container mx-auto flex flex-col-reverse md:flex-row items-center mb-16">
         <div className="md:w-1/2 px-4">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">پشتیبانی ۲۴ ساعته</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">پشتیبانی ۲۴ ساعته</h2>
           <p className="text-lg text-gray-600 mb-4">
             تیم پشتیبانی ما همیشه آماده پاسخگویی به سوالات و رفع مشکلات شماست. در هر ساعت از شبانه‌روز می‌توانید با ما
             در تماس باشید.
@@ -58,7 +58,7 @@ const ServicesPage = () => {
           />
         </div>
         <div className="md:w-1/2 px-4">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">ارسال رایگان</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">ارسال رایگان</h2>
           <p className="text-lg text-gray-600 mb-4">
             اذوقه برای رفاه حال مشتریان، ارسال رایگان برای تمامی سفارشات بالای مبلغ مشخصی ارائه می‌دهد.
           </p>
