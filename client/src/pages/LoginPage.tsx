@@ -56,21 +56,22 @@ function LoginPage() {
             register={register}
             error={errors.email}
           />
-
-          <InputField
-            id="password"
-            type={showPassword ? "text" : "password"}
-            label="پسورد"
-            placeholder="پسورد"
-            register={register}
-            error={errors.password}
-          />
           <div className="mb-6 relative">
-            {showPassword ? (
-              <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(false)} />
-            ) : (
-              <RiEyeCloseLine className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(true)} />
-            )}
+            <InputField
+              id="password"
+              type={showPassword ? "text" : "password"}
+              label="پسورد"
+              placeholder="پسورد"
+              register={register}
+              error={errors.password}
+            />
+            <div className="absolute top-7 left-6 cursor-pointer text-gray-500">
+              {showPassword ? (
+                <FaEye onClick={() => setShowPassword(false)} />
+              ) : (
+                <RiEyeCloseLine onClick={() => setShowPassword(true)} />
+              )}
+            </div>
           </div>
 
           <div className="flex items-center justify-between mb-4">
@@ -111,7 +112,7 @@ function LoginPage() {
         <div className="text-center space-x-5">
           <p className="text-sm text-gray-600">
             حساب کاربری ندارید؟
-            <Link to="/signup" className="text-primary-400 hover:underline ml-2">
+            <Link to="/signup" className="text-primary-400 hover:underline mr-1">
               ثبت نام
             </Link>
           </p>

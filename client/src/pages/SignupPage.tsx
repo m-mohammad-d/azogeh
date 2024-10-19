@@ -8,7 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "../types/ErrorType";
-import InputField from "../components/InputField"
+import InputField from "../components/InputField";
 
 const schema = z
   .object({
@@ -83,39 +83,40 @@ function SignUpPage() {
             error={errors.email}
           />
 
-          <InputField
-            id="password"
-            type={showPassword ? "text" : "password"}
-            label="پسورد"
-            placeholder="پسورد"
-            register={register}
-            error={errors.password}
-          />
-          <div className="mb-6 relative">
-            {showPassword ? (
-              <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(false)} />
-            ) : (
-              <RiEyeCloseLine className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowPassword(true)} />
-            )}
+          <div className="relative mb-6">
+            <InputField
+              id="password"
+              type={showPassword ? "text" : "password"}
+              label="پسورد"
+              placeholder="پسورد"
+              register={register}
+              error={errors.password}
+            />
+            <div className="absolute top-7 left-6 cursor-pointer text-gray-500">
+              {showPassword ? (
+                <FaEye onClick={() => setShowPassword(false)} />
+              ) : (
+                <RiEyeCloseLine onClick={() => setShowPassword(true)} />
+              )}
+            </div>
           </div>
 
-          <InputField
-            id="passwordConfirmation"
-            type={showConfirmPassword ? "text" : "password"}
-            label="تکرار پسورد"
-            placeholder="تکرار پسورد"
-            register={register}
-            error={errors.passwordConfirmation}
-          />
-          <div className="mb-6 relative">
-            {showConfirmPassword ? (
-              <FaEye className="absolute top-7 left-6 cursor-pointer" onClick={() => setShowConfirmPassword(false)} />
-            ) : (
-              <RiEyeCloseLine
-                className="absolute top-7 left-6 cursor-pointer"
-                onClick={() => setShowConfirmPassword(true)}
-              />
-            )}
+          <div className="relative mb-6">
+            <InputField
+              id="passwordConfirmation"
+              type={showConfirmPassword ? "text" : "password"}
+              label="تکرار پسورد"
+              placeholder="تکرار پسورد"
+              register={register}
+              error={errors.passwordConfirmation}
+            />
+            <div className="absolute top-7 left-6 cursor-pointer text-gray-500">
+              {showConfirmPassword ? (
+                <FaEye onClick={() => setShowConfirmPassword(false)} />
+              ) : (
+                <RiEyeCloseLine onClick={() => setShowConfirmPassword(true)} />
+              )}
+            </div>
           </div>
 
           <div className="flex items-center justify-between mb-4">
@@ -128,10 +129,10 @@ function SignUpPage() {
           </div>
         </form>
 
-        <div className="text-center space-x-5">
+        <div className="text-center">
           <p className="text-sm text-gray-600">
             حساب کاربری دارید؟
-            <Link to="/login" className="text-primary-400 hover:underline ml-2">
+            <Link to="/login" className="text-primary-400 hover:underline mr-1">
               ورود
             </Link>
           </p>
