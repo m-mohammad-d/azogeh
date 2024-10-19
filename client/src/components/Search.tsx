@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import { Product } from "../types/product";
 import { Link } from "react-router-dom";
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const searchResultsRef = useRef<HTMLDivElement>(null);
 
   const {
     data: products,
@@ -19,6 +20,23 @@ function Search() {
   const handleProductClick = () => {
     setSearchTerm(""); // Reset search term to close results
   };
+
+  // Close search results if clicking outside the search result box
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
+        setSearchTerm("");
+      }
+    };
+
+    if (searchTerm.length > 3) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchTerm]);
 
   return (
     <div className="relative w-full max-w-4xl">
@@ -36,7 +54,10 @@ function Search() {
       </div>
 
       {searchTerm.length > 3 && (
-        <div className="absolute w-full max-w-4xl mx-auto mt-4 z-10 bg-white p-4 rounded-lg shadow-lg">
+        <div
+          ref={searchResultsRef}
+          className="absolute w-full max-w-4xl mx-auto mt-4 p-2 z-10 bg-white rounded-lg shadow-lg"
+        >
           {isLoading ? (
             <p className="text-center">در حال بارگذاری...</p>
           ) : error ? (
@@ -44,15 +65,8 @@ function Search() {
           ) : products?.data?.products?.length ? (
             <ul>
               {products.data.products.map((product: Product) => (
-                <li
-                  key={product.id}
-                  className="flex items-center border rounded-lg overflow-hidden shadow-lg mb-4 w-full"
-                >
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="flex w-full"
-                    onClick={handleProductClick} 
-                  >
+                <li key={product.id} className="flex items-center border-b m-0 border-gray-200 overflow-hidden mb-4 w-full">
+                  <Link to={`/product/${product.id}`} className="flex w-full" onClick={handleProductClick}>
                     <img src={`images/${product.image}`} alt={product.name} className="w-16 h-16 object-cover" />
                     <div className="flex-1 p-4 text-right">
                       <h3 className="text-lg font-bold text-gray-800 line-clamp-1">{product.name}</h3>
