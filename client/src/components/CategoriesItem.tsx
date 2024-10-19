@@ -9,7 +9,7 @@ interface CategoriesItemProps {
 function CategoriesItem({id ,  name, img }: CategoriesItemProps) {
   return (
     <Link to={`/products?category=${id}`}>
-      <div className="border bg-[#FDFAFB] shadow-md px-4 py-6 flex flex-col items-center text-center">
+      <div className="border shadow-lg px-4 py-6 flex flex-col items-center text-center">
         <div className="w-auto h-28 mb-2">
           <img src={`/public/category/${img}.png`} alt={name} className="w-full h-full object-contain" />
         </div>
