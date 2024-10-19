@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../components/InputField";
 import toast from "react-hot-toast";
 import { useResetPasswordMutation } from "../services/UsersApi";
+import PasswordResetSuccess from "../components/ResetPasswordSuccsess";
 
 const schema = z
   .object({
@@ -26,6 +27,7 @@ function ResetPasswordPage() {
   const location = useLocation();
   const [resetPassword] = useResetPasswordMutation();
   const [resetToken, setResetToken] = useState<string | null>(null);
+  const [isPasswordReset, setIsPasswordReset] = useState(false); // State to manage password reset success
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -54,10 +56,16 @@ function ResetPasswordPage() {
         passwordConfirmation: data.confirmPassword,
       }).unwrap();
       toast.success("رمز عبور شما با موفقیت تغییر کرد.");
+      setIsPasswordReset(true); // Set success state to true
     } catch (error) {
       toast.error("خطا در تغییر رمز عبور. لطفاً دوباره امتحان کنید.");
     }
   };
+
+  // Conditionally render the success message or the form
+  if (isPasswordReset) {
+    return <PasswordResetSuccess />;
+  }
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
