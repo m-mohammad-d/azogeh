@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../components/InputField";
 import { useForgetPasswordMutation } from "../services/UsersApi";
 import toast from "react-hot-toast";
+import PasswordResetLinkSent from "../components/PasswordResetLinkSent";
 
 const schema = z.object({
   email: z.string().email("ایمیل نامعتبر است.").nonempty("ایمیل نمی‌تواند خالی باشد."),
@@ -13,7 +15,7 @@ type FormData = z.infer<typeof schema>;
 
 const ForgotPasswordPage = () => {
   const [forgetPassword] = useForgetPasswordMutation();
-
+  const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
     handleSubmit,
@@ -26,10 +28,15 @@ const ForgotPasswordPage = () => {
     try {
       await forgetPassword({ email: data.email }).unwrap();
       toast.success("لینک بازنشانی پسورد به ایمیل شما ارسال شد. ایمیل خود را چک کنید.");
+      setIsSuccess(true); 
     } catch (error) {
       toast.error("مشکلی در ارسال لینک بازنشانی وجود دارد.");
     }
   };
+
+  if (isSuccess) {
+    return <PasswordResetLinkSent />; 
+  }
 
   return (
     <div className="flex items-center justify-center my-20 mx-4">
