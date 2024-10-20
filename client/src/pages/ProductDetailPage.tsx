@@ -8,21 +8,20 @@ import { addItem } from "../store/CartSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
-
 function ProductDetailPage() {
   const { id } = useParams();
-  const { data: product, error, isLoading } = useGetProductByIdQuery(id as string);
+  const { data, error, isLoading } = useGetProductByIdQuery(id as string);
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    if (product) {
+    if (data?.data) {
       dispatch(
         addItem({
-          ...product.product,
-        })
+          ...data.data.product,
+        }),
       );
     }
-    toast.success("محصول به سبد خرید اضافه شد")
+    toast.success("محصول به سبد خرید اضافه شد");
   };
 
   if (isLoading) return <Spinner />;
@@ -30,23 +29,23 @@ function ProductDetailPage() {
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
-      {product && (
+      {data?.data && (
         <ProductInfo
-          title={product.product.name}
-          brand={product.product.brand}
-          category={product.product.category}
-          sales={product.product.numReviews}
-          rating={product.product.rating}
-          mainImageUrl={`/public/images/${product.product.image}`}
-          altText={product.product.name}
-          imageCarousel={product.product?.images?.map(img => `/public/images/${img}`)}
-          productId={product.product._id}
+          title={data?.data.product.name}
+          brand={data?.data.product.brand}
+          category={data?.data.product.category}
+          sales={data?.data.product.numReviews}
+          rating={data?.data.product.rating}
+          mainImageUrl={`/public/images/${data?.data.product.image}`}
+          altText={data?.data.product.name}
+          imageCarousel={data?.data.product?.images?.map(img => `/public/images/${img}`)}
+          productId={data?.data.product._id}
           onAddToCart={handleAddToCart}
-          price={product.product.price}
-          discountedPrice={product.product.discountedPrice}
+          price={data?.data.product.price}
+          discountedPrice={data?.data.product.discountedPrice}
         />
       )}
-      <ProductDescription description={product?.product?.description || ""} />
+      <ProductDescription description={data?.data?.product?.description || ""} />
       <ProductComments />
     </div>
   );

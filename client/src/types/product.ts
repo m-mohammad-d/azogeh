@@ -40,5 +40,5 @@ export interface Product {
 
 export interface FetchResponseproduct<T> {
   status: string; // Status of the response (e.g., "success")
-  product: T; // Data containing the products
+  data: { product: T };
 }
