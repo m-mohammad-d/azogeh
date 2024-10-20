@@ -7,43 +7,33 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
 
-type ProductProps = {
-  title: string;
-  brand: string;
-  category: string;
-  sales: number;
-  rating: number;
-  mainImageUrl: string;
-  altText: string;
-  imageCarousel: string[];
-  productId: string;
+type ProductInfoProps = {
+  product: {
+    _id: string;
+    name: string;
+    brand: string;
+    category: string;
+    numReviews: number;
+    rating: number;
+    image: string;
+    images: string[];
+    price: number;
+    discountedPrice: number;
+  };
   onAddToCart: () => void;
-  price: number;
-  discountedPrice: number;
 };
 
-const ProductInfo: React.FC<ProductProps> = ({
-  title,
-  brand,
-  sales,
-  rating,
-  mainImageUrl,
-  altText,
-  imageCarousel,
-  productId,
-  onAddToCart,
-  discountedPrice,
-}) => {
+const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const cartItem = cartItems.find(item => item._id === productId);
+  const cartItem = cartItems.find(item => item._id === product._id);
 
   const handleDecrement = () => {
     if (cartItem) {
       if (cartItem.quantity > 1) {
-        dispatch(decreaseQuantity(productId));
+        dispatch(decreaseQuantity(product._id));
       } else {
-        dispatch(removeItem(productId));
+        dispatch(removeItem(product._id));
         toast.success("محصول با موفقیت از سبد خرید حذف شد");
       }
     }
@@ -52,28 +42,32 @@ const ProductInfo: React.FC<ProductProps> = ({
   return (
     <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between">
       <div className="mb-6 mx-auto">
-        <ProductImage mainImageUrl={mainImageUrl} altText={altText} imageCarousel={imageCarousel} />
+        <ProductImage
+          mainImageUrl={`/public/images/${product.image}`}
+          altText={product.name}
+          imageCarousel={product.images.map(img => `/public/images/${img}`)}
+        />
       </div>
       <div className="space-y-4 mr-0 md:mr-11">
-        <h2 className="text-2xl font-bold mb-2">{title}</h2>
+        <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
         <p className="text-lg mb-1">
-          <span className="font-bold">برند:</span> {brand}
+          <span className="font-bold">برند:</span> {product.brand}
         </p>
         <p className="text-lg mb-1">
-          <span className="font-bold">تعداد فروش:</span> {sales} نفر
+          <span className="font-bold">تعداد فروش:</span> {product.numReviews} نفر
         </p>
         <p className="text-lg mb-1">
-          <span className="font-bold">امتیاز:</span> {rating}
+          <span className="font-bold">امتیاز:</span> {product.rating}
         </p>
         <p className="text-lg mb-1">
-          <span className="font-bold">قیمت:</span> {separateThousands(discountedPrice)} تومن
+          <span className="font-bold">قیمت:</span> {separateThousands(product.discountedPrice)} تومن
         </p>
 
         {cartItem ? (
           <div className="flex items-center">
             <button
               id="increment-btn"
-              onClick={() => dispatch(increaseQuantity(productId))}
+              onClick={() => dispatch(increaseQuantity(product._id))}
               className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600"
               aria-label="Increase quantity"
             >

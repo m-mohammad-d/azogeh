@@ -18,7 +18,7 @@ function ProductDetailPage() {
       dispatch(
         addItem({
           ...data.data.product,
-        }),
+        })
       );
     }
     toast.success("محصول به سبد خرید اضافه شد");
@@ -29,22 +29,7 @@ function ProductDetailPage() {
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
-      {data?.data && (
-        <ProductInfo
-          title={data?.data.product.name}
-          brand={data?.data.product.brand}
-          category={data?.data.product.category}
-          sales={data?.data.product.numReviews}
-          rating={data?.data.product.rating}
-          mainImageUrl={`/public/images/${data?.data.product.image}`}
-          altText={data?.data.product.name}
-          imageCarousel={data?.data.product?.images?.map(img => `/public/images/${img}`)}
-          productId={data?.data.product._id}
-          onAddToCart={handleAddToCart}
-          price={data?.data.product.price}
-          discountedPrice={data?.data.product.discountedPrice}
-        />
-      )}
+      {data?.data && <ProductInfo product={data?.data.product} onAddToCart={handleAddToCart} />}
       <ProductDescription description={data?.data?.product?.description || ""} />
       <ProductComments />
     </div>
