@@ -1,9 +1,10 @@
 import express from "express";
-import * as userController from "../controllers/userController";
+import UserController from "../controllers/userController";
 import * as authController from "../controllers/authController";
 import * as authMiddleware from "../middlewares/authMiddleware";
 
 const router = express.Router();
+const userController = new UserController();
 
 //////////// @access PUBLIC ////////////
 
@@ -29,14 +30,14 @@ router.use(authMiddleware.restrictTo("admin"));
 router
   //
   .route("/")
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+  .get(userController.getAll)
+  .post(userController.createOne);
 
 router
   //
   .route("/:id")
-  .get(userController.getUser)
-  .delete(userController.deleteUser)
-  .patch(userController.updateUser);
+  .get(userController.getOne)
+  .delete(userController.deleteOne)
+  .patch(userController.updateOne);
 
 export default router;

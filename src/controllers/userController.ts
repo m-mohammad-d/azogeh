@@ -1,116 +1,75 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Response } from "express";
 import User from "../models/userModel";
 import { UpdateMePasswordRequestHandler, UpdateMeRequestHandler } from "../dtos";
 import AppError from "../utils/appError";
 import _ from "lodash";
 import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
+import { Populate } from "../types";
+import CrudController from "./crudController";
 
-// @route   GET /api/v1/users/get-me
-// @access  USERS
-export const getMe: RequestHandler = async (req, res, next) => {
-  return res.status(200).json({
-    status: "success",
-    data: { user: _.pick(req.user, ["id", "name", "email", "role"]) },
-  });
-};
+export default class UserController extends CrudController {
+  constructor(populate?: Populate) {
+    super(User, populate);
+  }
 
-// @route   PATCH /api/v1/users/update-me
-// @access  USERS
-export const updateMe: UpdateMeRequestHandler = async (req, res, next) => {
-  const { name, email, password, passwordConfirmation } = req.body;
+  protected override sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any) {
+    res.status(statusCode).json({
+      status: "success",
+      results: Array.isArray(data) ? data.length : undefined,
+      pagination,
+      data: Array.isArray(data) ? { users: data } : { user: data },
+    });
+  }
 
-  if (password || passwordConfirmation)
-    return next(new AppError("با این درخواست نمی توانید رمز عبور را آپدیت کنید", 400));
+  getMe: RequestHandler = async (req, res, next) => {
+    return res.status(200).json({
+      status: "success",
+      data: { user: _.pick(req.user, ["id", "name", "email", "role"]) },
+    });
+  };
 
-  const updatedUser = await User.findByIdAndUpdate(
-    req.user._id,
-    { name, email },
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
+  updateMe: UpdateMeRequestHandler = async (req, res, next) => {
+    const { name, email, password, passwordConfirmation } = req.body;
 
-  return res.status(200).json({
-    status: "success",
-    data: { user: _.pick(updatedUser, ["id", "name", "email", "role"]) },
-  });
-};
+    if (password || passwordConfirmation)
+      return next(new AppError("با این درخواست نمی توانید رمز عبور را آپدیت کنید", 400));
 
-// @route   PATCH /api/v1/users/update-me-password
-// @access  USERS
-export const updateMePassword: UpdateMePasswordRequestHandler = async (req, res, next) => {
-  const { passwordCurrent, password, passwordConfirmation } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { name, email },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
-  const user = await User.findById(req.user._id).select("+password");
+    return res.status(200).json({
+      status: "success",
+      data: { user: _.pick(updatedUser, ["id", "name", "email", "role"]) },
+    });
+  };
 
-  const correct = await user!.correctPassword(passwordCurrent);
-  if (!correct) return next(new AppError("رمز عبور فعلی شما اشتباه است", 401));
+  updateMePassword: UpdateMePasswordRequestHandler = async (req, res, next) => {
+    const { passwordCurrent, password, passwordConfirmation } = req.body;
 
-  user!.password = password;
-  user!.passwordConfirmation = passwordConfirmation;
-  await user!.save();
+    const user = await User.findById(req.user._id).select("+password");
 
-  return createSendTokenAndResponse(user!, 200, res);
-};
+    const correct = await user!.correctPassword(passwordCurrent);
+    if (!correct) return next(new AppError("رمز عبور فعلی شما اشتباه است", 401));
 
-// @route   DELETE /api/v1/users/delete-me
-// @access  USERS
-export const deleteMe: RequestHandler = async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user._id, { active: false });
+    user!.password = password;
+    user!.passwordConfirmation = passwordConfirmation;
+    await user!.save();
 
-  return res.status(204).json({
-    status: "success",
-    data: null,
-  });
-};
+    return createSendTokenAndResponse(user!, 200, res);
+  };
 
-//////////////////////// CRUD ////////////////////////
+  deleteMe: RequestHandler = async (req, res, next) => {
+    await User.findByIdAndUpdate(req.user._id, { active: false });
 
-// @route   GET   /api/v1/users
-// @access  ADMIN
-export const getAllUsers: RequestHandler = async (req, res, next) => {
-  const users = await User.find();
-
-  return res.status(200).json({
-    status: "success",
-    results: users.length,
-    data: { users },
-  });
-};
-
-// @route   GET   /api/v1/users/1
-// @access  ADMIN
-export const getUser: RequestHandler = (req, res, next) => {
-  return res.status(500).json({
-    status: "error",
-    message: "این مسیر هنوز اوکی نشده است!",
-  });
-};
-
-// @route   POST  /api/v1/users
-// @access  ADMIN
-export const createUser: RequestHandler = (req, res, next) => {
-  return res.status(500).json({
-    status: "error",
-    message: "این مسیر هنوز اوکی نشده است!",
-  });
-};
-
-// @route   PATCH   /api/v1/users/1
-// @access  ADMIN
-export const updateUser: RequestHandler = (req, res, next) => {
-  return res.status(500).json({
-    status: "error",
-    message: "این مسیر هنوز اوکی نشده است!",
-  });
-};
-
-// @route   DELETE  /api/v1/users/1
-// @access  ADMIN
-export const deleteUser: RequestHandler = (req, res, next) => {
-  return res.status(500).json({
-    status: "error",
-    message: "این مسیر هنوز اوکی نشده است!",
-  });
-};
+    return res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  };
+}

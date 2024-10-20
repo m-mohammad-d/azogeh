@@ -1,51 +1,19 @@
-import { RequestHandler } from "express";
+import { Response } from "express";
+import CrudController from "./crudController";
+import { Populate } from "../types";
 import Product from "../models/productModel";
-import APIFeatures from "../utils/apiFeatures";
-import AppError from "../utils/appError";
 
-export const getAllProducts: RequestHandler = async (req, res, next) => {
-  const features = new APIFeatures(Product, req.query);
-  const { pagination, total, skip } = await features.filter().search().sort().limitFields().pagination();
-
-  if (req.query.page) {
-    if (skip >= total) return next(new AppError("این صفحه وجود ندارد", 400));
+export default class ProductController extends CrudController {
+  constructor(populate?: Populate) {
+    super(Product, populate);
   }
 
-  const products = await features.query;
-
-  return res.status(200).json({
-    status: "success",
-    results: products.length,
-    pagination,
-    data: { products },
-  });
-};
-
-export const getProduct: RequestHandler = async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
-  if (!product) return next(new AppError("هیچ محصولی با این شناسه یافت نشد.", 404));
-
-  res.status(200).json({
-    status: "success",
-    product,
-  });
-};
-
-export const createProduct: RequestHandler = async (req, res, next) => {
-  const product = await Product.create(req.body);
-
-  res.status(200).json({
-    status: "success",
-    data: product,
-  });
-};
-
-export const deleteProduct: RequestHandler = async (req, res, next) => {
-  const product = await Product.findByIdAndRemove(req.params.id);
-  if (!product) return next(new AppError("هیچ محصولی با این شناسه یافت نشد.", 404));
-
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-};
+  protected override sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any) {
+    res.status(statusCode).json({
+      status: "success",
+      results: Array.isArray(data) ? data.length : undefined,
+      pagination,
+      data: Array.isArray(data) ? { products: data } : { product: data },
+    });
+  }
+}
