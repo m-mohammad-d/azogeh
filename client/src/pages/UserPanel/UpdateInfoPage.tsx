@@ -36,6 +36,7 @@ const UpdateInfoPage: React.FC = () => {
       return;
     }
     updateinfo({ name: userProfile.name }).unwrap();
+    toast.success("مشخصات شما اپدیت شد")
   };
 
   return (
