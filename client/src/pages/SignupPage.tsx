@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "../types/ErrorType";
 import InputField from "../components/InputField";
+import SmallSpinner from "../components/SmallSpinner";
 
 const schema = z
   .object({
@@ -30,7 +31,7 @@ type FormData = z.infer<typeof schema>;
 function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [signup] = useSignUpMutation();
+  const [signup, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
 
   const {
@@ -45,6 +46,7 @@ function SignUpPage() {
     try {
       await signup(data).unwrap();
       navigate("/");
+      location.reload();
     } catch (error: unknown) {
       if ((error as ErrorResponse).data.message) {
         const serverError = error as ErrorResponse;
@@ -124,7 +126,7 @@ function SignUpPage() {
               type="submit"
               className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              ثبت نام
+              {isLoading ? <SmallSpinner /> : "ثبت نام"}
             </button>
           </div>
         </form>

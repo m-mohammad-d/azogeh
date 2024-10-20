@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useUpdatePasswordMutation } from "../../services/UsersApi";
 import toast from "react-hot-toast";
 import { ErrorResponse } from "react-router-dom";
+import SmallSpinner from "../../components/SmallSpinner";
 
 interface UserProfile {
   passwordCurrent: string;
@@ -15,7 +16,7 @@ function ChangePasswordPage() {
     password: "",
     passwordConfirmation: "",
   });
-  const [updatePassword] = useUpdatePasswordMutation();
+  const [updatePassword , {isLoading}] = useUpdatePasswordMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -86,7 +87,7 @@ function ChangePasswordPage() {
           type="submit"
           className="w-full bg-primary-500 text-white py-2 rounded-md hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-300"
         >
-          تغییر رمز عبور
+          {isLoading ? <SmallSpinner/> : "تغییر رمز عبور"}
         </button>
       </form>
     </div>

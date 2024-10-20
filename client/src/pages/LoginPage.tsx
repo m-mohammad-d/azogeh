@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputField from "../components/InputField";
+import SmallSpinner from "../components/SmallSpinner";
 
 const schema = z.object({
   email: z.string().email("ایمیل نامعتبر است.").nonempty("ایمیل نمی‌تواند خالی باشد."),
@@ -18,7 +19,7 @@ type FormData = z.infer<typeof schema>;
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [login] = useLoginMutation();
+  const [login, {isLoading}] = useLoginMutation();
   const navigate = useNavigate();
 
   const {
@@ -33,6 +34,7 @@ function LoginPage() {
     try {
       await login(data).unwrap();
       navigate("/");
+      location.reload()
     } catch (error: unknown) {
       toast.error((error as ErrorResponse).data.message, {
         duration: 6000,
@@ -79,7 +81,7 @@ function LoginPage() {
               type="submit"
               className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              ورود
+              {isLoading ? <SmallSpinner /> : "ورود"}
             </button>
           </div>
 

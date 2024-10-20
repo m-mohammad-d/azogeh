@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetMeQuery, useUpdateInfoMutation } from "../../services/UsersApi";
 import toast from "react-hot-toast";
+import SmallSpinner from "../../components/SmallSpinner";
 
 interface UserProfile {
   name: string;
@@ -8,7 +9,7 @@ interface UserProfile {
 }
 
 const UpdateInfoPage: React.FC = () => {
-  const [updateinfo] = useUpdateInfoMutation();
+  const [updateinfo, { isLoading }] = useUpdateInfoMutation();
   const { data: info } = useGetMeQuery({});
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: "",
@@ -73,7 +74,7 @@ const UpdateInfoPage: React.FC = () => {
           type="submit"
           className="w-full bg-primary-500 text-white py-2 rounded-md hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-300"
         >
-          ذخیره تغییرات
+          {isLoading ? <SmallSpinner /> : "ذخیره تغییرات"}
         </button>
       </form>
     </div>
