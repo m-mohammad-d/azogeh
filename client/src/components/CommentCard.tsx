@@ -4,24 +4,34 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { useUser } from "../Context/UserProvider";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import EditReviewModal from "./EditReviewModal";
 
 interface CommentCardProps {
   review: Review;
   onReviewDelete: (commentId: string) => void;
+  onReviewUpdate: (commentId: string, updatedData: { rating: number; comment: string }) => void;
 }
 
-const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete }) => {
+const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete, onReviewUpdate }) => {
   const defaultProfileImage =
     "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars.png";
   const user = useUser();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+  const openEditModal = () => setEditModalOpen(true);
+  const closeEditModal = () => setEditModalOpen(false);
 
   const handleDelete = () => {
     onReviewDelete(review._id);
     closeModal();
+  };
+
+  const handleUpdate = (updatedData: { rating: number; comment: string }) => {
+    onReviewUpdate(review._id, updatedData);
+    closeEditModal();
   };
 
   return (
@@ -38,7 +48,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete }) => 
           <h3 className="text-xl font-semibold">{review.user.name}</h3>
           {user.data.user.id === review.user._id && (
             <div className="flex gap-2">
-              <FaEdit className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors" />
+              <FaEdit className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors" onClick={openEditModal} />
               <FaTrash
                 className="cursor-pointer text-red-500 hover:text-red-700 transition-colors"
                 onClick={openModal}
@@ -47,7 +57,6 @@ const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete }) => 
           )}
         </div>
 
-        {/* Star Rating Display */}
         <div className="flex items-center mt-1">
           {[1, 2, 3, 4, 5].map(star => (
             <FaStar key={star} className={`text-xl ${review.rating >= star ? "text-yellow-500" : "text-gray-300"}`} />
@@ -57,8 +66,13 @@ const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete }) => 
         <p className="text-gray-700 mt-2">{review.comment}</p>
       </div>
 
-      {/* Confirm Delete Modal */}
       <ConfirmDeleteModal isOpen={isModalOpen} onClose={closeModal} onConfirm={handleDelete} />
+      <EditReviewModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        onConfirm={handleUpdate}
+        currentReview={{ rating: review.rating, comment: review.comment }}
+      />
     </div>
   );
 };

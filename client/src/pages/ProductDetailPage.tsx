@@ -6,6 +6,7 @@ import {
   useGetProductByIdQuery,
   useGetProductReviewsQuery,
   useSubmitReviewMutation,
+  useUpdateReviewMutation,
 } from "../services/ApiProduct";
 import Spinner from "../components/Spinner";
 import ProductDescription from "../components/ProductDescription";
@@ -16,16 +17,23 @@ import toast from "react-hot-toast";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, error: productError, isLoading: isLoadingProduct } = useGetProductByIdQuery(id as string);
-  const { data: reviews, error: reviewsError, isLoading: isLoadingReviews, refetch } = useGetProductReviewsQuery(id);
-  const [submitReview] = useSubmitReviewMutation();
-  const [deleteReview] = useDeleteReviewMutation();
-
   const dispatch = useDispatch();
 
+  const { data: productData, error: productError, isLoading: isLoadingProduct } = useGetProductByIdQuery(id as string);
+  const {
+    data: reviewsData,
+    error: reviewsError,
+    isLoading: isLoadingReviews,
+    refetch,
+  } = useGetProductReviewsQuery(id);
+
+  const [submitReview] = useSubmitReviewMutation();
+  const [deleteReview] = useDeleteReviewMutation();
+  const [updateReview] = useUpdateReviewMutation();
+
   const handleAddToCart = () => {
-    if (data?.data) {
-      dispatch(addItem({ ...data.data.product }));
+    if (productData?.data) {
+      dispatch(addItem({ ...productData.data.product }));
       toast.success("محصول به سبد خرید اضافه شد");
     }
   };
@@ -35,7 +43,7 @@ const ProductDetailPage: React.FC = () => {
       await submitReview({ productId: id, ...reviewData }).unwrap();
       toast.success("دیدگاه شما با موفقیت ثبت شد");
       refetch();
-    } catch (error) {
+    } catch {
       toast.error("خطا در ارسال دیدگاه");
     }
   };
@@ -45,8 +53,18 @@ const ProductDetailPage: React.FC = () => {
       await deleteReview({ productId: id, commentId }).unwrap();
       toast.success("دیدگاه شما با موفقیت حذف شد");
       refetch();
-    } catch (error) {
+    } catch {
       toast.error("خطا در حذف دیدگاه");
+    }
+  };
+
+  const handleReviewUpdate = async (commentId: string, updatedData: { rating: number; comment: string }) => {
+    try {
+      await updateReview({ productId: id, commentId, ...updatedData }).unwrap();
+      toast.success("دیدگاه شما با موفقیت ویرایش شد");
+      refetch();
+    } catch {
+      toast.error("خطا در ویرایش دیدگاه");
     }
   };
 
@@ -55,12 +73,13 @@ const ProductDetailPage: React.FC = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
-      <ProductInfo product={data?.data?.product} onAddToCart={handleAddToCart} />
-      <ProductDescription description={data?.data?.product?.description || ""} />
+      <ProductInfo product={productData?.data?.product} onAddToCart={handleAddToCart} />
+      <ProductDescription description={productData?.data?.product?.description || ""} />
       <ProductComments
-        reviews={reviews?.data.reviews}
+        reviews={reviewsData?.data.reviews}
         onReviewSubmit={handleReviewSubmit}
         onReviewDelete={handleReviewDelete}
+        onReviewUpdate={handleReviewUpdate}
       />
     </div>
   );
