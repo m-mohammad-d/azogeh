@@ -66,14 +66,20 @@ export const productsApi = createApi({
       query: id => `/products/${id}/reviews`,
     }),
     submitReview: builder.mutation({
-      query: ({ productId, rating , comment }) => ({
+      query: ({ productId, rating, comment }) => ({
         url: `/products/${productId}/reviews`,
         method: "POST",
         body: { rating, comment },
       }),
     }),
+    deleteReview: builder.mutation({
+      query: ({ productId , commentId }) => ({
+        url: `/products/${productId}/reviews/${commentId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery, useGetProductReviewsQuery, useSubmitReviewMutation } =
+export const { useGetProductsQuery, useGetProductByIdQuery, useGetProductReviewsQuery, useSubmitReviewMutation  ,useDeleteReviewMutation} =
   productsApi;

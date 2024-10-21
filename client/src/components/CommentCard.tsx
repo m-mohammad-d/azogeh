@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Review } from "../types/reviewsType";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { useUser } from "../Context/UserProvider";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 interface CommentCardProps {
   review: Review;
+  onReviewDelete: (commentId: string) => void;
 }
 
-const CommentCard: React.FC<CommentCardProps> = ({ review }) => {
+const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete }) => {
   const defaultProfileImage =
     "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars.png";
   const user = useUser();
-  
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  const handleDelete = () => {
+    onReviewDelete(review._id);
+    closeModal();
+  };
 
   return (
     <div className="border rounded-lg p-4 shadow-md bg-white flex gap-4 items-start">
@@ -29,7 +39,10 @@ const CommentCard: React.FC<CommentCardProps> = ({ review }) => {
           {user.data.user.id === review.user._id && (
             <div className="flex gap-2">
               <FaEdit className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors" />
-              <FaTrash className="cursor-pointer text-red-500 hover:text-red-700 transition-colors" />
+              <FaTrash
+                className="cursor-pointer text-red-500 hover:text-red-700 transition-colors"
+                onClick={openModal}
+              />
             </div>
           )}
         </div>
@@ -43,6 +56,9 @@ const CommentCard: React.FC<CommentCardProps> = ({ review }) => {
 
         <p className="text-gray-700 mt-2">{review.comment}</p>
       </div>
+
+      {/* Confirm Delete Modal */}
+      <ConfirmDeleteModal isOpen={isModalOpen} onClose={closeModal} onConfirm={handleDelete} />
     </div>
   );
 };

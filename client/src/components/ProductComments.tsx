@@ -8,9 +8,10 @@ import { FaStar } from "react-icons/fa";
 interface ProductCommentsProps {
   reviews: Review[];
   onReviewSubmit: (reviewData: { rating: number; comment: string }) => void;
+  onReviewDelete: (commentId: string) => void;
 }
 
-const ProductComments: React.FC<ProductCommentsProps> = ({ reviews, onReviewSubmit }) => {
+const ProductComments: React.FC<ProductCommentsProps> = ({ reviews, onReviewSubmit, onReviewDelete }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(6);
 
@@ -64,7 +65,7 @@ const ProductComments: React.FC<ProductCommentsProps> = ({ reviews, onReviewSubm
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {reviews.slice(0, visibleReviewsCount).map(review => (
-            <CommentCard key={review._id} review={review} />
+            <CommentCard key={review._id} review={review} onReviewDelete={onReviewDelete} />
           ))}
         </div>
 
