@@ -1,37 +1,47 @@
 import React from "react";
-
-interface Review {
-  name: string;
-  text: string;
-  buyer: boolean;
-  profileImage: string; // Add profileImage property
-}
+import { Review } from "../types/reviewsType";
+import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import { useUser } from "../Context/UserProvider";
 
 interface CommentCardProps {
   review: Review;
 }
 
 const CommentCard: React.FC<CommentCardProps> = ({ review }) => {
+  const defaultProfileImage =
+    "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars.png";
+  const user = useUser();
+  
+
   return (
-    <div className="border rounded-lg p-4 shadow-lg bg-white flex gap-4 items-start">
+    <div className="border rounded-lg p-4 shadow-md bg-white flex gap-4 items-start">
       <div className="flex-shrink-0">
         <img
-          src={review.profileImage}
-          alt={`${review.name}'s profile`}
-          className="w-12 h-12 rounded-full object-cover"
+          src={defaultProfileImage}
+          alt={`${review.user.name}'s profile`}
+          className="w-12 h-12 rounded-full object-cover border border-gray-300"
         />
       </div>
       <div className="flex-grow">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold">{review.name}</h3>
-          {review.buyer && (
-            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">خریدار تایید شده</span>
+          <h3 className="text-xl font-semibold">{review.user.name}</h3>
+          {user.data.user.id === review.user._id && (
+            <div className="flex gap-2">
+              <FaEdit className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors" />
+              <FaTrash className="cursor-pointer text-red-500 hover:text-red-700 transition-colors" />
+            </div>
           )}
         </div>
-        <p className="text-gray-700 mt-2">{review.text}</p>
-        <div className="flex justify-end">
-          <button className="text-blue-500 text-sm">گزارش</button>
+
+        {/* Star Rating Display */}
+        <div className="flex items-center mt-1">
+          {[1, 2, 3, 4, 5].map(star => (
+            <FaStar key={star} className={`text-xl ${review.rating >= star ? "text-yellow-500" : "text-gray-300"}`} />
+          ))}
         </div>
+
+        <p className="text-gray-700 mt-2">{review.comment}</p>
       </div>
     </div>
   );

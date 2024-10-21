@@ -1,9 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchResponse, FetchResponseproduct, Product } from "../types/product";
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: "/api",
+  prepareHeaders: headers => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
 export const productsApi = createApi({
   reducerPath: "productsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  baseQuery,
   endpoints: builder => ({
     getProducts: builder.query<
       FetchResponse<Product>,
@@ -43,16 +54,26 @@ export const productsApi = createApi({
           queryString += `&sort=${params.sort}`;
         }
         if (params?.search) {
-          queryString += `&search=${params.search}`; 
+          queryString += `&search=${params.search}`;
         }
         return queryString;
       },
     }),
-
     getProductById: builder.query<FetchResponseproduct<Product>, string>({
       query: id => `products/${id}`,
+    }),
+    getProductReviews: builder.query({
+      query: id => `/products/${id}/reviews`,
+    }),
+    submitReview: builder.mutation({
+      query: ({ productId, rating , comment }) => ({
+        url: `/products/${productId}/reviews`,
+        method: "POST",
+        body: { rating, comment },
+      }),
     }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = productsApi;
+export const { useGetProductsQuery, useGetProductByIdQuery, useGetProductReviewsQuery, useSubmitReviewMutation } =
+  productsApi;
