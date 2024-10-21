@@ -1,19 +1,25 @@
 import express from "express";
 import ProductController from "../controllers/productController";
+import * as authMiddleware from "../middlewares/authMiddleware";
+import reviewRouter from "./reviewRouter";
 
 const router = express.Router();
 const productController = new ProductController();
 
-router
-  //
-  .route("/")
-  .get(productController.getAll)
-  .post(productController.createOne);
+//////////// @access PUBLIC ////////////
 
-router
-  //
-  .route("/:id")
-  .get(productController.getOne)
-  .delete(productController.deleteOne);
+router.get("/", productController.getAll);
+router.get("/:id", productController.getOne);
+
+//////////// @access USERS ////////////
+
+router.use(authMiddleware.protect);
+router.use("/:productId/reviews", reviewRouter);
+
+//////////// @access ADMIN ////////////
+
+router.use(authMiddleware.restrictTo("admin"));
+router.post("/", productController.createOne);
+router.route("/:id").patch(productController.updateOne).delete(productController.deleteOne);
 
 export default router;

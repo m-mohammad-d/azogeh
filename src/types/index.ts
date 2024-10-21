@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Model } from "mongoose";
 
 export interface Populate {
   path: string;
@@ -47,4 +47,16 @@ export interface IUser extends Document {
   signToken: () => string;
   changePasswordAfter: (jwtTimeStamp: number) => boolean;
   createPasswordResetToken: () => string;
+}
+
+export interface IReview extends Document {
+  _id: string;
+  comment: string;
+  rating: number;
+  user: IUser;
+  product: IProduct;
+}
+
+export interface ReviewModel extends Model<IReview> {
+  calcAverageRatings(productId: string): void;
 }

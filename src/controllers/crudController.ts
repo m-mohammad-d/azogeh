@@ -4,6 +4,8 @@ import AppError from "../utils/appError";
 import APIFeatures from "../utils/apiFeatures";
 import { Populate } from "../types";
 import catchAsync from "../utils/catchAsync";
+import Review from "../models/reviewModel";
+import User from "../models/userModel";
 
 export default abstract class CrudController {
   private readonly Model: Model<any>;
@@ -48,24 +50,40 @@ export default abstract class CrudController {
     let doc: Document | null = await this.Model.findById(req.params.id);
     if (!doc) return next(new AppError("هیچ موردی با این شناسه یافت نشد", 404));
 
-    doc = await this.Model.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    if (doc instanceof Review) {
+      if (!(req.user.role === "admin") && !(doc.user.email === req.user.email))
+        return next(new AppError("شما نمی توانید نظر دیگران را آپدیت کنید", 401));
+    }
+
+    const data = await this.Model.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true,
       runValidators: true,
     });
 
-    return this.sendCrudResponse(res, doc, 200);
+    return this.sendCrudResponse(res, data, 200);
   });
 
   deleteOne: RequestHandler = catchAsync(async (req, res, next) => {
     const doc: Document | null = await this.Model.findById(req.params.id);
-    if (!doc) return next(new AppError("هیچ موردی با این شناسه یافت نشد", 404));
+    if (!doc) {
+      return next(new AppError("هیچ موردی با این شناسه یافت نشد", 404));
+    }
+
+    if (doc instanceof Review) {
+      if (!(req.user.role === "admin") && !(doc.user.email === req.user.email)) {
+        return next(new AppError("شما نمی توانید نظر دیگران را حذف کنید", 401));
+      }
+    }
+
+    if (doc instanceof User) {
+      if (doc.email === req.user.email) {
+        return next(new AppError("شما نمی توانید حساب خود را حذف کنید", 401));
+      }
+    }
 
     await this.Model.findOneAndDelete({ _id: req.params.id });
 
-    return res.status(204).json({
-      status: "success",
-      data: null,
-    });
+    return this.sendCrudResponse(res, null, 204);
   });
 
   protected abstract sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any): void;
