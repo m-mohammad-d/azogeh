@@ -18,11 +18,29 @@ declare global {
 }
 
 module.exports = (app: Express) => {
+  // Template Engine
+  app.set("view engine", "pug");
+  app.set("views", path.join(path.resolve(), "src", "views"));
+
+  // Serving Static Files
+  app.use(express.static(path.join(path.resolve(), "src", "public")));
+
   // Development Logging
   if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
   // Set security HTTP headers
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+          styleSrc: ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+          imgSrc: ["'self'", "data:"],
+        },
+      },
+    }),
+  );
 
   // Limit requests
   const limiter = rateLimit({
@@ -48,11 +66,4 @@ module.exports = (app: Express) => {
       whitelist: ["countInStock", "brand", "category", "rating", "numReviews", "price", "discount", "discountedPrice"],
     }),
   );
-
-  // Template Engine
-  app.set("view engine", "pug");
-  app.set("views", path.join(path.resolve(), "src", "views"));
-
-  // Serving Static Files
-  app.use(express.static(path.join(path.resolve(), "src", "public")));
 };
