@@ -80,7 +80,7 @@ export default abstract class CrudController {
         return next(new AppError("شما نمی توانید حساب خود را حذف کنید", 401));
       }
     }
-
+    
     await this.Model.findOneAndDelete({ _id: req.params.id });
 
     return this.sendCrudResponse(res, null, 204);

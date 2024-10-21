@@ -45,6 +45,7 @@ const productSchema = new Schema<IProduct>(
     rating: {
       type: Number,
       default: 4.5,
+      set: (value: number) => value.toFixed(1),
     },
     numReviews: {
       type: Number,
@@ -74,7 +75,7 @@ productSchema.virtual("discountedPrice").get(function () {
   if (this.discount === defaultValue) return null;
 
   const discountMultiplier = 1 - this.discount / 100;
-  return this.price * discountMultiplier;
+  return Math.round(this.price * discountMultiplier);
 });
 
 //////////// Document Middleware ////////////
