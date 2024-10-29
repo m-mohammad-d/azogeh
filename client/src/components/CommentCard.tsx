@@ -1,21 +1,22 @@
+
 import React, { useState } from "react";
 import { Review } from "../types/reviewsType";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
-import { useUser } from "../Context/UserProvider";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import EditReviewModal from "./EditReviewModal";
+import { GetMeResponse } from "../types/UserType";
 
 interface CommentCardProps {
   review: Review;
   onReviewDelete: (commentId: string) => void;
   onReviewUpdate: (commentId: string, updatedData: { rating: number; comment: string }) => void;
+  userInfo: GetMeResponse;
 }
 
-const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete, onReviewUpdate }) => {
+const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete, onReviewUpdate, userInfo }) => {
   const defaultProfileImage =
     "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars.png";
-  const user = useUser();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
 
@@ -46,9 +47,12 @@ const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete, onRev
       <div className="flex-grow">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold">{review.user.name}</h3>
-          {user.data.user.id === review.user._id && (
+          {userInfo.data.user.id === review.user._id && (
             <div className="flex gap-2">
-              <FaEdit className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors" onClick={openEditModal} />
+              <FaEdit
+                className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors"
+                onClick={openEditModal}
+              />
               <FaTrash
                 className="cursor-pointer text-red-500 hover:text-red-700 transition-colors"
                 onClick={openModal}

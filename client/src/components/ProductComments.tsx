@@ -1,22 +1,25 @@
+
 import React, { useState } from "react";
 import HighlightBar from "./HighlightBar";
 import CommentCard from "./CommentCard";
 import AddReviewsModal from "./AddReviewsModal";
 import { Review } from "../types/reviewsType";
 import { FaStar } from "react-icons/fa";
+import { GetMeResponse } from "../types/UserType";
 
 interface ProductCommentsProps {
   reviews: Review[];
   onReviewSubmit: (reviewData: { rating: number; comment: string }) => void;
   onReviewDelete: (commentId: string) => void;
   onReviewUpdate: (commentId: string, updatedData: { rating: number; comment: string }) => void;
+  userInfo: GetMeResponse;
 }
-
 const ProductComments: React.FC<ProductCommentsProps> = ({
   reviews,
   onReviewSubmit,
   onReviewDelete,
   onReviewUpdate,
+  userInfo,  
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(6);
@@ -36,7 +39,6 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
       <div className="w-full md:w-1/4">
         <div className="border rounded-lg p-4 bg-white shadow-lg relative overflow-hidden space-y-3">
           <h2 className="text-lg font-semibold">امتیاز و دیدگاه کاربران</h2>
-
           <div className="flex items-center gap-2">
             <p className="text-3xl font-bold text-gray-700">{averageRating.toFixed(1)}</p>
             <div className="flex space-x-1">
@@ -48,13 +50,10 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
               ))}
             </div>
           </div>
-
           <p className="text-sm text-gray-500">از 5 امتیاز</p>
-
           <p className={`text-sm ${totalReviews === 0 ? "text-gray-400" : "text-gray-600"}`}>
             بر اساس {totalReviews} امتیاز
           </p>
-
           <button
             className="relative z-10 mt-4 bg-primary-500 text-white px-4 py-2 rounded-full hover:bg-primary-600 transition-transform transform hover:scale-105 shadow-lg hover:shadow-xl focus:ring focus:ring-primary-300"
             onClick={openModal}
@@ -75,7 +74,8 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
               key={review._id}
               review={review}
               onReviewDelete={onReviewDelete}
-              onReviewUpdate={onReviewUpdate} 
+              onReviewUpdate={onReviewUpdate}
+              userInfo={userInfo}
             />
           ))}
         </div>

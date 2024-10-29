@@ -14,6 +14,7 @@ import ProductComments from "../components/ProductComments";
 import { addItem } from "../store/CartSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { useGetMeQuery } from "../services/UsersApi";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +27,7 @@ const ProductDetailPage: React.FC = () => {
     isLoading: isLoadingReviews,
     refetch,
   } = useGetProductReviewsQuery(id);
+  const { data: userInfo } = useGetMeQuery({});
 
   const [submitReview] = useSubmitReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
@@ -80,6 +82,7 @@ const ProductDetailPage: React.FC = () => {
         onReviewSubmit={handleReviewSubmit}
         onReviewDelete={handleReviewDelete}
         onReviewUpdate={handleReviewUpdate}
+        userInfo={userInfo}
       />
     </div>
   );
