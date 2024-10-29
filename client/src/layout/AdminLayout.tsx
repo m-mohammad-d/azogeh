@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiLogOut, FiBarChart } from "react-icons/fi";
 import { FaUsers, FaBox, FaShoppingCart } from "react-icons/fa";
-import { MdOutlineDashboard } from "react-icons/md";
+import { MdClose, MdOutlineDashboard } from "react-icons/md";
 import { useGetMeQuery } from "../services/UsersApi";
 import Spinner from "../components/Spinner";
 
@@ -33,14 +33,14 @@ function AdminLayout() {
   return (
     <div className="flex h-screen bg-gray-100 text-gray-900">
       <aside
-        className={`fixed top-0 right-0 z-20 h-full bg-primary-600 text-white transition-transform duration-300 ${
+        className={`fixed top-0 right-0 z-50 h-full bg-primary-600 text-white transition-transform duration-300 ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         } w-64 lg:translate-x-0 shadow-lg`}
       >
         <div className="p-4 text-center border-b border-primary-500 relative">
           <h1 className="text-2xl font-bold">پنل مدیریت</h1>
           <button className="lg:hidden absolute top-4 left-4" aria-label="Toggle Sidebar" onClick={toggleSidebar}>
-            <FiMenu className="w-6 h-6 text-white" />
+            <MdClose className="w-6 h-6 text-white" />
           </button>
         </div>
         <nav className="mt-4">
@@ -84,7 +84,7 @@ function AdminLayout() {
         </nav>
       </aside>
 
-      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "mr-64" : "lg:mr-64"}`}>
+      <div className={`flex-1 transition-all duration-300 `}>
         <header className="bg-primary-600 p-4 flex items-center justify-between shadow-md text-white">
           <div className="flex items-center space-x-4">
             <button className="lg:hidden block text-white" aria-label="Toggle Sidebar" onClick={toggleSidebar}>
