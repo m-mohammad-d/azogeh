@@ -6,9 +6,8 @@ import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import Search from "./Search";
+import { useGetMeQuery } from "../services/UsersApi";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,7 +15,7 @@ function Header() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
-  const userInfo = useSelector((s: RootState) => s.auth.userInfo);
+  const { data: userInfo } = useGetMeQuery({});
 
   const {
     data: products,
@@ -100,7 +99,7 @@ function Header() {
           </Link>
           {userInfo ? (
             <Link
-              to="/user/edit-profile"
+              to={userInfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
               className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
             >
               <FaUser className="h-6 w-6" />
@@ -188,9 +187,8 @@ function Header() {
           {/* Login Button in Sidebar */}
           {userInfo ? (
             <Link
-              to="/user/edit-profile"
-              onClick={toggleSidebar}
-              className="flex items-center gap-2 bg-primary-500 px-4 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+              to={userInfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
+              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
             >
               <FaUser className="h-6 w-6" />
               <span>داشبورد</span>
@@ -198,8 +196,7 @@ function Header() {
           ) : (
             <Link
               to="/login"
-              onClick={toggleSidebar}
-              className="flex items-center gap-2 bg-primary-500 px-4 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
             >
               <FaUser className="h-6 w-6" />
               <span>ورود / ثبت نام</span>
