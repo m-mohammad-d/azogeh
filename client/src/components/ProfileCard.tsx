@@ -54,7 +54,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   return (
     <div className="bg-white rounded-xl shadow-md max-w-xs mx-auto md:max-w-full">
       <div className="flex flex-col items-center py-8">
-        <img className="w-24 h-24 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Profile" />
+        <img
+          className="w-24 h-24 rounded-full object-cover"
+          src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png"
+          alt="Profile"
+        />
         <h2 className="text-lg font-semibold mt-4">{userInfo?.data?.user?.name}</h2>
         <p className="text-gray-500">{userInfo?.data?.user?.email}</p>
       </div>
