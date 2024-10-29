@@ -97,17 +97,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <PrivateRoute />,
-    children: [
-      {
-        element: <AdminLayout />,
-        children: [],
-      },
-    ],
-  },
-  {
     path: "*",
     element: <PageNotFound />,
+  },
+  {
+    element: <AdminLayout />,
+    children: [],
   },
 ]);
 
