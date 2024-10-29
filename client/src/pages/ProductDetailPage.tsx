@@ -75,15 +75,19 @@ const ProductDetailPage: React.FC = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
-      <ProductInfo product={productData?.data?.product} onAddToCart={handleAddToCart} />
-      <ProductDescription description={productData?.data?.product?.description || ""} />
-      <ProductComments
-        reviews={reviewsData?.data.reviews}
-        onReviewSubmit={handleReviewSubmit}
-        onReviewDelete={handleReviewDelete}
-        onReviewUpdate={handleReviewUpdate}
-        userInfo={userInfo}
-      />
+      {productData && reviewsData && (
+        <>
+          <ProductInfo product={productData.data.product} onAddToCart={handleAddToCart} />
+          <ProductDescription description={productData.data.product.description || ""} />
+          <ProductComments
+            reviews={reviewsData?.data.reviews}
+            onReviewSubmit={handleReviewSubmit}
+            onReviewDelete={handleReviewDelete}
+            onReviewUpdate={handleReviewUpdate}
+            userInfo={userInfo}
+          />
+        </>
+      )}
     </div>
   );
 };
