@@ -1,5 +1,6 @@
 // apiSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { GetAllUsersResponse } from "../types/UserType";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "/api/users",
@@ -70,6 +71,9 @@ const apiSlice = createApi({
     getMe: builder.query({
       query: () => "/get-me",
     }),
+    getAllUser: builder.query<GetAllUsersResponse, void>({
+      query: () => "?role=admin",
+    }),
   }),
 });
 
@@ -81,6 +85,7 @@ export const {
   useUpdatePasswordMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,
+  useGetAllUserQuery,
 } = apiSlice;
 
 export default apiSlice;

@@ -20,6 +20,7 @@ import ForgotPassword from "./pages/ForgetPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ServicesPage from "./pages/ServicesPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import UserListPage from "./pages/Dashboard/UserListPage";
 
 const router = createBrowserRouter([
   {
@@ -103,7 +104,10 @@ const router = createBrowserRouter([
   },
   {
     element: <AdminLayout />,
-    children: [{ path: "/admin/home", element: <Dashboard /> }],
+    children: [
+      { path: "/admin/home", element: <Dashboard /> },
+      { path: "/admin/manage-users", element: <UserListPage /> },
+    ],
   },
 ]);
 
