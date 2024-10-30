@@ -84,7 +84,7 @@ function AdminLayout() {
         </nav>
       </aside>
 
-      <div className={`flex-1 transition-all duration-300 `}>
+      <div className="flex-1 transition-all duration-300 lg:mr-64">
         <header className="bg-primary-600 p-4 flex items-center justify-between shadow-md text-white">
           <div className="flex items-center space-x-4">
             <button className="lg:hidden block text-white" aria-label="Toggle Sidebar" onClick={toggleSidebar}>
