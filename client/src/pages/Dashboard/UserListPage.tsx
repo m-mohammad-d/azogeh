@@ -1,16 +1,24 @@
+import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
 import UserCard from "../../components/UserCard";
-import { useGetAllUserQuery } from "../../services/UsersApi";
+import { useGetAllUserQuery, useDeleteUserMutation } from "../../services/UsersApi"; // اضافه شده
 
 function UserListPage() {
-  const { data, isLoading } = useGetAllUserQuery();
+  const { data, isLoading, refetch } = useGetAllUserQuery();
+  const [deleteUser] = useDeleteUserMutation();
 
   if (isLoading) return <Spinner />;
 
   const users = data?.data.users || [];
 
-  const handleBan = (userId: string) => {
-    console.log(userId);
+  const handleBan = async (userId: string) => {
+    try {
+      await deleteUser(userId).unwrap();
+      toast.success(`کاربر ${userId} با موفقیت بن شد `);
+      refetch();
+    } catch (error) {
+      toast.error("خطا در مسدود کردن کاربر");
+    }
   };
 
   return (

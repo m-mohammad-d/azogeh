@@ -68,11 +68,17 @@ const apiSlice = createApi({
         body: { password, passwordConfirmation },
       }),
     }),
+    deleteUser: builder.mutation({
+      query: userId => ({
+        url: `/${userId}`,
+        method: "DELETE",
+      }),
+    }),
     getMe: builder.query({
       query: () => "/get-me",
     }),
     getAllUser: builder.query<GetAllUsersResponse, void>({
-      query: () => "?role=admin",
+      query: () => "/",
     }),
   }),
 });
@@ -86,6 +92,7 @@ export const {
   useForgetPasswordMutation,
   useResetPasswordMutation,
   useGetAllUserQuery,
+  useDeleteUserMutation,
 } = apiSlice;
 
 export default apiSlice;
