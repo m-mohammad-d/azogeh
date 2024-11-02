@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Cart from "../types/CartType";
+import Cart, { shippingAddress } from "../types/CartType";
 import { Product } from "../types/product";
 import { updateCart } from "../utils/updateCart";
 
@@ -57,9 +57,9 @@ const cartSlice = createSlice({
       const itemIndex = cart.orderItems.findIndex(item => item._id === action.payload);
       if (itemIndex !== -1) {
         if (cart.orderItems[itemIndex].qty > 1) {
-          cart.orderItems[itemIndex].qty -= 1; 
+          cart.orderItems[itemIndex].qty -= 1;
         } else {
-          cart.orderItems = cart.orderItems.filter(item => item._id !== action.payload); 
+          cart.orderItems = cart.orderItems.filter(item => item._id !== action.payload);
         }
       }
 
@@ -76,10 +76,10 @@ const cartSlice = createSlice({
       cart.shippingAddress = undefined;
       cart.paymentMethod = undefined;
 
-      localStorage.removeItem("cart"); 
+      localStorage.removeItem("cart");
     },
 
-    saveShippingAddress: (cart, action: PayloadAction<string>) => {
+    saveShippingAddress: (cart, action: PayloadAction<shippingAddress>) => {
       cart.shippingAddress = action.payload;
 
       cart = updateCart(cart);
