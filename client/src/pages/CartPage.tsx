@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, increaseQuantity, decreaseQuantity, clearCart } from "../store/CartSlice";
+import { removeFromCart, increaseQuantity, decreaseQuantity, resetCart } from "../store/CartSlice";
 import { RootState } from "../store";
 import { useState } from "react";
 import Pagination from "../components/Pagination";
@@ -11,14 +11,14 @@ import { FaCartPlus } from "react-icons/fa";
 
 function CartPage() {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootState) => state.cart.orderItems);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(cartItems.length / itemsPerPage);
 
   const handleRemove = (itemId: string) => {
-    dispatch(removeItem(itemId));
+    dispatch(removeFromCart({ _id: itemId }));
     toast.success("محصول با موفقیت حذف شد");
   };
 
@@ -31,12 +31,12 @@ function CartPage() {
   };
 
   const handleClearCart = () => {
-    dispatch(clearCart());
+    dispatch(resetCart());
     toast.success("سبد خرید شما پاک شد");
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(0);
+    return cartItems.reduce((total, item) => total + item.price * item.qty, 0).toFixed(0);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;

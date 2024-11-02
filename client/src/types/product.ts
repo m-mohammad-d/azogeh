@@ -33,6 +33,7 @@ export interface Product {
   discount: number; // Discount percentage
   createdAt: string; // Creation date of the product
   updatedAt: string; // Last update date of the product
+  qty: number;
   slug: string; // URL-friendly identifier
   discountedPrice: number; // Price after discount
   id: string; // Alternate unique identifier for the product

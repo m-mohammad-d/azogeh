@@ -2,7 +2,7 @@ import React from "react";
 import ProductImage from "./ProductImage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
-import { increaseQuantity, decreaseQuantity, removeItem } from "../store/CartSlice";
+import { increaseQuantity, decreaseQuantity, removeFromCart } from "../store/CartSlice";
 import { FaRegTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
@@ -25,15 +25,15 @@ type ProductInfoProps = {
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootState) => state.cart.orderItems);
   const cartItem = cartItems.find(item => item._id === product._id);
 
   const handleDecrement = () => {
     if (cartItem) {
-      if (cartItem.quantity > 1) {
+      if (cartItem.qty > 1) {
         dispatch(decreaseQuantity(product._id));
       } else {
-        dispatch(removeItem(product._id));
+        dispatch(removeFromCart({ _id: product._id }));
         toast.success("محصول با موفقیت از سبد خرید حذف شد");
       }
     }
@@ -75,14 +75,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12M6 12h12"></path>
               </svg>
             </button>
-            <span className="text-2xl text-gray-400 font-bold mx-2">{cartItem.quantity}</span>
+            <span className="text-2xl text-gray-400 font-bold mx-2">{cartItem.qty}</span>
             <button
               id="decrement-btn"
               onClick={handleDecrement}
               className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600"
               aria-label="Decrease quantity or remove item"
             >
-              {cartItem.quantity > 1 ? (
+              {cartItem.qty > 1 ? (
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path>
                 </svg>

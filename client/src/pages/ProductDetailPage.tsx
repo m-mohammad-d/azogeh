@@ -11,7 +11,7 @@ import {
 import Spinner from "../components/Spinner";
 import ProductDescription from "../components/ProductDescription";
 import ProductComments from "../components/ProductComments";
-import { addItem } from "../store/CartSlice";
+import { addToCart } from "../store/CartSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useGetMeQuery } from "../services/UsersApi";
@@ -35,7 +35,7 @@ const ProductDetailPage: React.FC = () => {
 
   const handleAddToCart = () => {
     if (productData?.data) {
-      dispatch(addItem({ ...productData.data.product }));
+      dispatch(addToCart({ ...productData.data.product }));
       toast.success("محصول به سبد خرید اضافه شد");
     }
   };
