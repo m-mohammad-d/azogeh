@@ -6,12 +6,14 @@ import Pagination from "../components/Pagination";
 import CartItem from "../components/CartItem";
 import { separateThousands } from "../utils/FormatNumber";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaCartPlus } from "react-icons/fa";
 
 function CartPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart.orderItems);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -33,6 +35,19 @@ function CartPage() {
   const handleClearCart = () => {
     dispatch(resetCart());
     toast.success("سبد خرید شما پاک شد");
+  };
+
+  const handleCheckout = () => {
+    if (userInfo) {
+      navigate("/checkout");
+    } else {
+      navigate("/login");
+      toast("برای تکمیل خرید باید ثبت نام کنید", {
+        duration: 4000,
+        position: "top-center",
+        icon: "👏",
+      });
+    }
   };
 
   const calculateTotal = () => {
@@ -81,6 +96,12 @@ function CartPage() {
               className="mt-4 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white px-6 py-3 rounded-lg shadow-md"
             >
               پاک کردن سبد خرید
+            </button>
+            <button
+              onClick={handleCheckout}
+              className="mt-4 bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out text-white px-6 py-3 rounded-lg shadow-md"
+            >
+              تکمیل فرایند خرید
             </button>
           </div>
           <Pagination
