@@ -55,12 +55,24 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
   }, []);
 
   const onSubmit = (data: shippingAddress) => {
-    dispatch(saveShippingAddress(data));
-    onNext();
+    const selectedProvince = provinces.find(prov => prov.id === parseInt(data.province));
+    const selectedCity = cities.find(city => city.id === parseInt(data.city));
+
+    if (selectedProvince && selectedCity) {
+      const shippingData = {
+        ...data,
+        province: selectedProvince.name,
+        city: selectedCity.name,
+      };
+
+      dispatch(saveShippingAddress(shippingData));
+      onNext();
+    }
   };
 
   const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValue("province", e.target.value);
+    const provinceId = e.target.value;
+    setValue("province", provinceId);
     setValue("city", "");
   };
 
@@ -74,7 +86,7 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
       <select
         {...register("province")}
         onChange={handleProvinceChange}
-        className="border border-gray-200 rounded-lg px-4 py-2 w-full  focus:outline-none focus:ring-2 focus:ring-primary-500"
+        className="border border-gray-200 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary-500"
       >
         <option value="">انتخاب استان</option>
         {provinces.map(province => (
@@ -87,7 +99,7 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
 
       <select
         {...register("city")}
-        className="border border-gray-200 rounded-lg px-4 py-2 w-full mt-2  focus:outline-none focus:ring-2 focus:ring-primary-500"
+        className="border border-gray-200 rounded-lg px-4 py-2 w-full mt-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
       >
         <option value="">انتخاب شهر</option>
         {filteredCities.map(city => (
@@ -102,7 +114,7 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
         type="text"
         {...register("street")}
         placeholder="آدرس خیابان"
-        className="border border-gray-200 rounded-lg px-4 py-2 w-full mt-2  focus:outline-none focus:ring-2 focus:ring-primary-500"
+        className="border border-gray-200 rounded-lg px-4 py-2 w-full mt-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
       />
       {errors.street && <p className="text-error-400">{errors.street.message}</p>}
 
