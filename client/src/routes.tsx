@@ -21,6 +21,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ServicesPage from "./pages/ServicesPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import UserListPage from "./pages/Dashboard/UserListPage";
+import CheckOut from "./pages/CheckOut";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "/reset-password",
         element: <ResetPasswordPage />,
+      },
+      {
+        path: "/checkOut",
+        element: <CheckOut />,
       },
       {
         element: <PrivateRoute />,

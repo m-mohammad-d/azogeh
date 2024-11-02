@@ -1,10 +1,10 @@
 import { Product } from "./product";
 export interface shippingAddress {
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
+  province: string;
+  city: string; 
+  street: string; 
 }
+
 interface Cart {
   orderItems: Product[];
   itemsPrice: number;
