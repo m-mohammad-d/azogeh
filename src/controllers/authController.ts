@@ -59,11 +59,11 @@ export const forgotPassword: ForgotPasswordRequestHandler = async (req, res, nex
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  // const resetURL = `${req.protocol}://${req.get("host")}/api/v1/users/reset-password/${resetToken}`;
-  const message = `Reset Token: ${resetToken}`;
+  let url = `${req.protocol}://${req.get("host")}/api/v1/users/reset-password/${resetToken}`;
+  if (process.env.NODE_ENV === "development") url = `${req.protocol}://localhost:5173/reset-password/${resetToken}`;
 
   try {
-    await sendEmail(email, message, "درخواست برای ریست کردن رمز عبور");
+    await sendEmail(email, url, "درخواست برای ریست کردن رمز عبور");
 
     return res.status(200).json({
       status: "success",
