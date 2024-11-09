@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,16 +24,19 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 function ResetPasswordPage() {
-  const location = useLocation();
+  const params = useParams();
+  const resetToken = params.token;
+
+  // const location = useLocation();
   const [resetPassword] = useResetPasswordMutation();
-  const [resetToken, setResetToken] = useState<string | null>(null);
+  // const [resetToken, setResetToken] = useState<string | null>(null);
   const [isPasswordReset, setIsPasswordReset] = useState(false); // State to manage password reset success
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const token = params.get("resetToken");
-    setResetToken(token);
-  }, [location]);
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   const token = params.get("resetToken");
+  //   setResetToken(token);
+  // }, [location]);
 
   const {
     register,
