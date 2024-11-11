@@ -2,6 +2,7 @@ import { ErrorRequestHandler, Response } from "express";
 import { CastError } from "mongoose";
 import AppError from "../utils/appError";
 import { OperationalError } from "../types";
+import { MulterError } from "multer";
 
 const sendErrorDev = (err: OperationalError | any, res: Response) => {
   res.status(err.statusCode).json({
@@ -57,20 +58,27 @@ const handleJWTExpiredError = () => {
   return new AppError(message, 401);
 };
 
+function handleMulterError(err: MulterError) {
+  if (err.code === "LIMIT_UNEXPECTED_FILE") {
+    const message = "لطفا عکس را با فیلد image ارسال کنید";
+    return new AppError(message, 400);
+  }
+
+  return;
+}
+
 ////////////////////////////////
 
 export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
-  // Mongoose Errors
   if (err.name === "CastError") err = handleCastError(err);
   if (err.code === 11000) err = handleDuplicateFields(err);
   if (err.name === "ValidationError") err = handleValidationError(err);
-
-  // JWT Errors
   if (err.name === "JsonWebTokenError") err = handleJWTTokenError();
   if (err.name === "TokenExpiredError") err = handleJWTExpiredError();
+  if (err.name === "MulterError") err = handleMulterError(err);
 
   if (process.env.NODE_ENV === "development") return sendErrorDev(err, res);
   else return sendErrorProd(err, res);
