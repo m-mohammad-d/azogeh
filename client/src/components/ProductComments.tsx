@@ -84,19 +84,26 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
           <HighlightBar />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {reviews.slice(0, visibleReviewsCount).map(review => (
-            <CommentCard
-              key={review._id}
-              review={review}
-              onReviewDelete={onReviewDelete}
-              onReviewUpdate={onReviewUpdate}
-              userInfo={userInfo}
-            />
-          ))}
-        </div>
+        {reviews.length === 0 ? (
+          <div className="text-center text-gray-500 p-6">
+            <p>هیچ نظری برای این محصول ثبت نشده است.</p>
+            <p>اولین نفری باشید که دیدگاه خود را ثبت می‌کنید!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {reviews.slice(0, visibleReviewsCount).map(review => (
+              <CommentCard
+                key={review._id}
+                review={review}
+                onReviewDelete={onReviewDelete}
+                onReviewUpdate={onReviewUpdate}
+                userInfo={userInfo}
+              />
+            ))}
+          </div>
+        )}
 
-        {visibleReviewsCount < totalReviews && (
+        {visibleReviewsCount < totalReviews && reviews.length > 0 && (
           <button
             className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition"
             onClick={loadMoreReviews}
