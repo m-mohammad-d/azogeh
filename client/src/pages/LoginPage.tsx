@@ -24,9 +24,9 @@ function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // دریافت پارامتر backUrl از URL
+
   const queryParams = new URLSearchParams(location.search);
-  const backUrl = queryParams.get("backUrl") || "/"; // در صورت عدم وجود backUrl به صفحه اصلی هدایت می‌شود
+  const backUrl = queryParams.get("backUrl") || "/";
 
   const {
     register,
@@ -39,7 +39,7 @@ function LoginPage() {
   const onSubmit = async (data: FormData) => {
     try {
       await login(data).unwrap();
-      navigate(backUrl); // هدایت به backUrl پس از موفقیت در ورود
+      navigate(backUrl); 
     } catch (error: unknown) {
       toast.error((error as ErrorResponse).data.message, { duration: 6000 });
     }

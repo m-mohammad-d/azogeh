@@ -7,7 +7,7 @@ import CartItem from "../components/CartItem";
 import { separateThousands } from "../utils/FormatNumber";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { FaCartPlus } from "react-icons/fa";
+import { FaCartPlus, FaLock } from "react-icons/fa";
 
 function CartPage() {
   const dispatch = useDispatch();
@@ -41,11 +41,11 @@ function CartPage() {
     if (userInfo) {
       navigate("/checkout");
     } else {
-      navigate("/login");
-      toast("برای تکمیل خرید باید ثبت نام کنید", {
+      navigate(`/login?backUrl=/checkout`);
+      toast("برای تکمیل خرید باید وارد شوید", {
         duration: 4000,
         position: "top-center",
-        icon: "👏",
+        icon: <FaLock />,
       });
     }
   };
