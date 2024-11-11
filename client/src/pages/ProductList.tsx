@@ -60,7 +60,11 @@ function ProductList() {
     }
   }, [searchParams]);
 
-  const { data, error, isLoading } = useGetProductsQuery({
+  const {
+    data,
+    error: Productserror,
+    isLoading,
+  } = useGetProductsQuery({
     availableOnly,
     minPrice: priceRange.min,
     maxPrice: priceRange.max,
@@ -124,7 +128,6 @@ function ProductList() {
   };
 
   if (isLoading) return <Spinner />;
-  if (error) return <div>خطایی رخ داده است. لطفا دوباره تلاش کنید.</div>;
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
@@ -160,7 +163,12 @@ function ProductList() {
               setIsFilterOpen={setIsFilterOpen}
             />
           </div>
-          <ProductGrid products={data?.data.products} />
+
+          {Productserror ? (
+            <div className="text-center text-xl text-gray-600 mt-10">محصولی مطابق با فیلترهای شما یافت نشد.</div>
+          ) : (
+            <ProductGrid products={data?.data.products} />
+          )}
         </div>
       </div>
 
