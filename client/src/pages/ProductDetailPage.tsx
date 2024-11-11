@@ -15,6 +15,7 @@ import { addToCart } from "../store/CartSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useGetMeQuery } from "../services/UsersApi";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -71,7 +72,16 @@ const ProductDetailPage: React.FC = () => {
   };
 
   if (isLoadingProduct || isLoadingReviews) return <Spinner />;
-  if (productError || reviewsError) return <div>Error fetching product or reviews.</div>;
+  if (productError || reviewsError) {
+    return (
+      <div className="text-center text-xl text-gray-600 mt-10 flex flex-col items-center space-y-2">
+        <FaExclamationTriangle className="text-red-500 text-3xl" /> 
+        <p className="text-gray-600">
+          متأسفیم، محصول مورد نظر یافت نشد. لطفاً دوباره تلاش کنید یا به صفحه محصولات برگردید.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
