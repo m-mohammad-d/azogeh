@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
@@ -33,6 +33,10 @@ function SignUpPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signup, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const backUrl = queryParams.get("backUrl") || "/"; 
 
   const {
     register,
@@ -45,8 +49,7 @@ function SignUpPage() {
   const onSubmit = async (data: FormData) => {
     try {
       await signup(data).unwrap();
-      navigate("/");
-      location.reload();
+      navigate(backUrl);
     } catch (error: unknown) {
       if ((error as ErrorResponse).data.message) {
         const serverError = error as ErrorResponse;
@@ -131,9 +134,9 @@ function SignUpPage() {
           </div>
         </form>
 
-        <div className="text-center">
+        <div className="text-center space-x-5">
           <p className="text-sm text-gray-600">
-            حساب کاربری دارید؟
+            قبلاً ثبت‌نام کرده‌اید؟
             <Link to="/login" className="text-primary-400 hover:underline mr-1">
               ورود
             </Link>

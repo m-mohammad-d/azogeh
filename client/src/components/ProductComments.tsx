@@ -1,11 +1,12 @@
-
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HighlightBar from "./HighlightBar";
 import CommentCard from "./CommentCard";
 import AddReviewsModal from "./AddReviewsModal";
 import { Review } from "../types/reviewsType";
-import { FaStar } from "react-icons/fa";
+import { FaLock, FaStar } from "react-icons/fa";
 import { GetMeResponse } from "../types/UserType";
+import toast from "react-hot-toast";
 
 interface ProductCommentsProps {
   reviews: Review[];
@@ -14,15 +15,17 @@ interface ProductCommentsProps {
   onReviewUpdate: (commentId: string, updatedData: { rating: number; comment: string }) => void;
   userInfo: GetMeResponse;
 }
+
 const ProductComments: React.FC<ProductCommentsProps> = ({
   reviews,
   onReviewSubmit,
   onReviewDelete,
   onReviewUpdate,
-  userInfo,  
+  userInfo,
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(6);
+  const navigate = useNavigate();
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -31,6 +34,19 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
 
   const loadMoreReviews = () => {
     setVisibleReviewsCount(prevCount => prevCount + 6);
+  };
+
+  const handleAddReviewClick = () => {
+    if (!userInfo) {
+      const backUrl = window.location.pathname + window.location.search;
+      navigate(`/login?backUrl=${encodeURIComponent(backUrl)}`);
+
+      toast("برای ثبت دیدگاه باید وارد شوید", {
+        icon: <FaLock />,
+      });
+    } else {
+      openModal();
+    }
   };
 
   return (
@@ -56,7 +72,7 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
           </p>
           <button
             className="relative z-10 mt-4 bg-primary-500 text-white px-4 py-2 rounded-full hover:bg-primary-600 transition-transform transform hover:scale-105 shadow-lg hover:shadow-xl focus:ring focus:ring-primary-300"
-            onClick={openModal}
+            onClick={handleAddReviewClick}
           >
             ثبت دیدگاه
           </button>
@@ -90,7 +106,6 @@ const ProductComments: React.FC<ProductCommentsProps> = ({
         )}
       </div>
 
-      {/* Modal */}
       <AddReviewsModal isOpen={isModalOpen} onClose={closeModal} onReviewSubmit={onReviewSubmit} />
     </div>
   );

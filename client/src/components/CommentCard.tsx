@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Review } from "../types/reviewsType";
 import { FaTrash, FaEdit } from "react-icons/fa";
@@ -47,7 +46,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete, onRev
       <div className="flex-grow">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold">{review.user.name}</h3>
-          {userInfo.data.user.id === review.user._id && (
+          {userInfo?.data?.user?.id === review?.user?._id && (
             <div className="flex gap-2">
               <FaEdit
                 className="cursor-pointer text-blue-500 hover:text-blue-700 transition-colors"
