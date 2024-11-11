@@ -29,14 +29,14 @@ export default class UserController extends CrudController {
   };
 
   updateMe: UpdateMeRequestHandler = async (req, res, next) => {
-    const { name, email, password, passwordConfirmation } = req.body;
+    const { name, email, password, passwordConfirmation, photo } = req.body;
 
     if (password || passwordConfirmation)
       return next(new AppError("با این درخواست نمی توانید رمز عبور را آپدیت کنید", 400));
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
-      { name, email },
+      { name, email, photo },
       {
         new: true,
         runValidators: true,
@@ -45,7 +45,7 @@ export default class UserController extends CrudController {
 
     return res.status(200).json({
       status: "success",
-      data: { user: _.pick(updatedUser, ["id", "name", "email", "role"]) },
+      data: { user: _.pick(updatedUser, ["id", "name", "email", "role", "photo"]) },
     });
   };
 

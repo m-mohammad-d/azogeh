@@ -45,8 +45,9 @@ export interface UpdateMeRequestHandler<
   P = any,
   ResBody = any,
   ReqBody = {
-    name: string;
-    email: string;
+    name?: string;
+    email?: string;
+    photo?: string;
     password?: string; // Just only for type checking
     passwordConfirmation?: string; // Just only for type checking
   },
