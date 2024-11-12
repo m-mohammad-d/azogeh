@@ -88,6 +88,13 @@ export const productsApi = createApi({
         },
       }),
     }),
+    CreateProduct: builder.mutation({
+      query: productData => ({
+        url: "/products",
+        method: "POST",
+        body: productData,
+      }),
+    }),
   }),
 });
 
@@ -98,4 +105,5 @@ export const {
   useSubmitReviewMutation,
   useDeleteReviewMutation,
   useUpdateReviewMutation,
+  useCreateProductMutation,
 } = productsApi;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiLogOut, FiBarChart } from "react-icons/fi";
-import { FaUsers, FaBox, FaShoppingCart } from "react-icons/fa";
+import { FaUsers, FaBox, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { MdClose, MdOutlineDashboard } from "react-icons/md";
 import { useGetMeQuery } from "../services/UsersApi";
 import Spinner from "../components/Spinner";
@@ -59,6 +59,11 @@ function AdminLayout() {
               to: "/admin/manage-products",
               icon: <FaBox className="mr-2 text-lg" />,
               label: "مدیریت محصولات",
+            },
+            {
+              to: "/admin/add-product", 
+              icon: <FaBoxOpen className="mr-2 text-lg" />, 
+              label: "اضافه کردن محصول",
             },
             {
               to: "/admin/manage-orders",
