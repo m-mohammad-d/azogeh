@@ -46,7 +46,7 @@ function AdminLayout() {
         <nav className="mt-4">
           {[
             {
-              to: "/admin/dashboard",
+              to: "/admin/home",
               icon: <MdOutlineDashboard className="mr-2 text-lg" />,
               label: "صفحه اصلی داشبورد",
             },
