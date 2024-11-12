@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHistory } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
@@ -7,11 +7,24 @@ import { clearCredentials } from "../store/AuthSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { GetMeResponse } from "../types/UserType";
+import { useUpdateInfoMutation } from "../services/UsersApi";
+import { BsPlus } from "react-icons/bs";
+import { useUploadImageMutation } from "../services/UploadApi";
+
 interface ProfileCardProps {
   userInfo?: GetMeResponse;
 }
+
 const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   const dispatch = useDispatch();
+  const [updateInfo, { isLoading: isUpdating }] = useUpdateInfoMutation();
+  const [uploadImage] = useUploadImageMutation();
+
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
+    userInfo?.data?.user?.photo || null
+  );
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+
   const confirmLogOut = () => {
     dispatch(clearCredentials());
     toast.success("با موفقیت خارج شدید.");
@@ -51,14 +64,79 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
     );
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setProfileImageFile(file);
+      setProfileImagePreview(URL.createObjectURL(file));
+    } else {
+      toast.error("فایل انتخابی باید یک تصویر باشد.");
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    if (!profileImageFile) return;
+
+    let imageUrl = profileImagePreview;
+    if (profileImageFile) {
+      const formData = new FormData();
+      formData.append("image", profileImageFile);
+
+      try {
+        const uploadResponse = await uploadImage(formData).unwrap();
+        imageUrl = uploadResponse.data.image;
+      } catch (error) {
+        toast.error("آپلود عکس ناموفق بود.");
+        return;
+      }
+    }
+
+    try {
+      await updateInfo({
+        name: userInfo?.data?.user?.name,
+        photo: imageUrl,
+      }).unwrap();
+      toast.success("مشخصات شما اپدیت شد");
+      setProfileImageFile(null);
+    } catch (error) {
+      toast.error("مشکلی در بروزرسانی مشخصات پیش آمده است.");
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md max-w-xs mx-auto md:max-w-full">
       <div className="flex flex-col items-center py-8">
-        <img
-          className="w-24 h-24 rounded-full object-cover"
-          src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png"
-          alt="Profile"
-        />
+        <div className="relative">
+          {profileImagePreview ? (
+            <img src={profileImagePreview} alt="Profile Preview" className="w-24 h-24 object-cover rounded-full" />
+          ) : (
+            <img
+              src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png"
+              alt="Profile"
+              className="w-24 h-24 object-cover rounded-full"
+            />
+          )}
+          <button
+            type="button"
+            onClick={() => document.getElementById("profileImage")?.click()}
+            className="absolute bottom-0 right-0 bg-blue-500 text-white w-6 h-6 flex items-center justify-center rounded-full hover:bg-blue-400"
+          >
+            <BsPlus />
+          </button>
+          <input type="file" id="profileImage" accept="image/*" onChange={handleImageChange} className="hidden" />
+        </div>
+
+        {profileImageFile && (
+          <button
+            type="button"
+            onClick={handleSaveChanges}
+            disabled={isUpdating}
+            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-400"
+          >
+            {isUpdating ? "در حال ذخیره..." : "ذخیره عکس"}
+          </button>
+        )}
+
         <h2 className="text-lg font-semibold mt-4">{userInfo?.data?.user?.name}</h2>
         <p className="text-gray-500">{userInfo?.data?.user?.email}</p>
       </div>

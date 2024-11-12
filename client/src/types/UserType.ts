@@ -3,6 +3,7 @@ interface UserProfile {
   name: string;
   email: string;
   role: string;
+  photo: string;
   createdAt?: string;
   updatedAt?: string;
   passwordChangedAt?: string;
