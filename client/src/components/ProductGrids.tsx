@@ -1,15 +1,6 @@
 import React from "react";
 import BestSallersProduct from "./BestSallersProduct";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  slug: string;
-  discount: number | undefined;
-  discountedPrice: number;
-}
+import { Product } from "../types/product";
 
 interface ProductGridProps {
   products: Product[] | undefined;
