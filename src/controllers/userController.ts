@@ -24,7 +24,7 @@ export default class UserController extends CrudController {
   getMe: RequestHandler = async (req, res, next) => {
     return res.status(200).json({
       status: "success",
-      data: { user: _.pick(req.user, ["id", "name", "email", "role"]) },
+      data: { user: _.pick(req.user, ["id", "name", "email", "role", "photo"]) },
     });
   };
 
