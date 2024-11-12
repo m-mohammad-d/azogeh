@@ -23,6 +23,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import UserListPage from "./pages/Dashboard/UserListPage";
 import CheckOut from "./pages/CheckOut";
 import CreateProduct from "./pages/Dashboard/CreateProduct";
+import ManageProducts from "./pages/Dashboard/ManageProducts";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/admin/home", element: <Dashboard /> },
       { path: "admin/add-product", element: <CreateProduct /> },
+      { path: "admin/manage-products", element: <ManageProducts /> },
       { path: "/admin/manage-users", element: <UserListPage /> },
     ],
   },
