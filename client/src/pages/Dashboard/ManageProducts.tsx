@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
-import { useGetProductsQuery } from "../../services/ApiProduct";
+import { useGetProductsQuery, useDeleteProductMutation } from "../../services/ApiProduct";
 import Pagination from "../../components/Pagination";
 import Spinner from "../../components/Spinner";
+import toast from "react-hot-toast";
 
 function ManageProducts() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: products, error, isLoading } = useGetProductsQuery({ page: currentPage });
+  const { data: products, error, isLoading, refetch } = useGetProductsQuery({ page: currentPage });
+  const [deleteProduct] = useDeleteProductMutation();
 
   if (isLoading) return <Spinner />;
   if (error) return <p>خطا در دریافت داده‌ها!</p>;
@@ -15,6 +17,16 @@ function ManageProducts() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteProduct({ productid: productId }).unwrap();
+      toast.success("محصول با موفقیت حذف شد!");
+      refetch();
+    } catch (err) {
+      toast.error("خطا در حذف محصول!");
+    }
   };
 
   return (
@@ -38,7 +50,10 @@ function ManageProducts() {
               <button className="flex items-center bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition-all ease-in-out duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
                 <FaEdit />
               </button>
-              <button className="flex items-center bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition-all ease-in-out duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+              <button
+                className="flex items-center bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition-all ease-in-out duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+                onClick={() => handleDeleteProduct(product.id)}
+              >
                 <FaRegTrashAlt />
               </button>
             </div>
