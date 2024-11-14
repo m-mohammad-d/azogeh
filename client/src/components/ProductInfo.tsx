@@ -43,9 +43,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
     <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between">
       <div className="mb-6 mx-auto">
         <ProductImage
-          mainImageUrl={`/public/images/${product.image}`}
+          mainImageUrl={`${product.image}`}
           altText={product.name}
-          imageCarousel={product.images.map(img => `/public/images/${img}`)}
+          imageCarousel={product.images.map(img => `${img}`)}
         />
       </div>
       <div className="space-y-4 mr-0 md:mr-11">
