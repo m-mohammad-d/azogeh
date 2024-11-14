@@ -5,17 +5,56 @@ import { FaUsers, FaBox, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { MdClose, MdOutlineDashboard } from "react-icons/md";
 import { useGetMeQuery } from "../services/UsersApi";
 import Spinner from "../components/Spinner";
+import { useDispatch } from "react-redux";
+import { clearCredentials } from "../store/AuthSlice";
+import toast from "react-hot-toast";
 
 function AdminLayout() {
   const { data: userInfo, error, isLoading } = useGetMeQuery({});
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
-  const handleLogout = () => {
-    console.log("User logged out");
+  const confirmLogOut = () => {
+    dispatch(clearCredentials());
+    toast.success("با موفقیت خارج شدید.");
     navigate("/login");
+  };
+
+  const handleLogOut = () => {
+    toast.custom(
+      t => (
+        <div
+          className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-auto transform transition-transform duration-300 ${
+            t.visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          }`}
+        >
+          <p className="text-gray-800 text-lg">آیا مطمئن هستید که می‌خواهید خارج شوید؟</p>
+          <div className="flex justify-end mt-6 space-x-4 rtl:space-x-reverse">
+            <button
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md transition-colors duration-200"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              انصراف
+            </button>
+            <button
+              className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md transition-colors duration-200"
+              onClick={() => {
+                confirmLogOut();
+                toast.dismiss(t.id);
+              }}
+            >
+              بله، خارج شو
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: Infinity,
+      }
+    );
   };
 
   useEffect(() => {
@@ -61,8 +100,8 @@ function AdminLayout() {
               label: "مدیریت محصولات",
             },
             {
-              to: "/admin/add-product", 
-              icon: <FaBoxOpen className="mr-2 text-lg" />, 
+              to: "/admin/add-product",
+              icon: <FaBoxOpen className="mr-2 text-lg" />,
               label: "اضافه کردن محصول",
             },
             {
@@ -106,7 +145,7 @@ function AdminLayout() {
               <span className="text-white">{userInfo?.data.user.name || "کاربر ناشناس"}</span>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={handleLogOut}
               className="flex items-center p-2 text-white hover:text-red-500 transition-colors"
               aria-label="Logout"
             >
