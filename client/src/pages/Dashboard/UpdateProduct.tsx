@@ -13,7 +13,8 @@ function UpdateProduct() {
   const [uploadImage] = useUploadImageMutation();
 
   const onSubmit = async (data: ProductFormData, image: File | null) => {
-    let finalImageUrl = "";
+    let finalImageUrl = product?.data.product.image;
+
     if (image) {
       const formData = new FormData();
 
