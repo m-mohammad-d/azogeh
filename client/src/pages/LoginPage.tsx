@@ -1,8 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
-import { useLoginMutation } from "../services/UsersApi";
+import { useGetMeQuery, useLoginMutation } from "../services/UsersApi";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,14 +19,17 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function LoginPage() {
+  const { data: user } = useGetMeQuery({});
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
   const location = useLocation();
-
-
   const queryParams = new URLSearchParams(location.search);
   const backUrl = queryParams.get("backUrl") || "/";
+
+  useEffect(() => {
+    if (user) navigate(backUrl);
+  }, [user]);
 
   const {
     register,
@@ -39,7 +42,7 @@ function LoginPage() {
   const onSubmit = async (data: FormData) => {
     try {
       await login(data).unwrap();
-      navigate(backUrl); 
+      navigate(backUrl);
     } catch (error: unknown) {
       toast.error((error as ErrorResponse).data.message, { duration: 6000 });
     }
