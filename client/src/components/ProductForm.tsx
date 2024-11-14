@@ -40,6 +40,7 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
       setValue("category", initialValues?.category);
       setValue("countInStock", initialValues?.countInStock);
       setValue("description", initialValues?.description);
+      setValue("discount", initialValues?.discount);
       setImageUrl(initialValues.image);
     }
   }, [initialValues]);
