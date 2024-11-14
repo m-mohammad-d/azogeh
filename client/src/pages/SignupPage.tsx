@@ -1,8 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
-import { useSignUpMutation } from "../services/UsersApi";
+import { useGetMeQuery, useSignUpMutation } from "../services/UsersApi";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,14 +29,19 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 function SignUpPage() {
+  const { data: user } = useGetMeQuery({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signup, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
   const location = useLocation();
-
+  
   const queryParams = new URLSearchParams(location.search);
-  const backUrl = queryParams.get("backUrl") || "/"; 
+  const backUrl = queryParams.get("backUrl") || "/";
+
+  useEffect(() => {
+    if (user) navigate(backUrl);
+  }, [user]);
 
   const {
     register,
