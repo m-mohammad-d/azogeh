@@ -23,7 +23,7 @@ function BestSallersProduct({ product }: BestSallersProductProps) {
           </div>
         )}
         <div className="flex justify-center items-center mb-4 h-40 overflow-hidden rounded-lg">
-          <img src={`/public/images/${image}`} alt={name} className="object-contain max-w-full max-h-full" />
+          <img src={`${image}`} alt={name} className="object-contain max-w-full max-h-full" />
         </div>
         <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 text-center">{name}</h3>
 
