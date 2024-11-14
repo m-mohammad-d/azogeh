@@ -24,6 +24,7 @@ import UserListPage from "./pages/Dashboard/UserListPage";
 import CheckOut from "./pages/CheckOut";
 import CreateProduct from "./pages/Dashboard/CreateProduct";
 import ManageProducts from "./pages/Dashboard/ManageProducts";
+import UpdateProduct from "./pages/Dashboard/UpdateProduct";
 
 const router = createBrowserRouter([
   {
@@ -114,6 +115,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/admin/home", element: <Dashboard /> },
       { path: "admin/add-product", element: <CreateProduct /> },
+      { path: "admin/update-product/:id", element: <UpdateProduct /> },
       { path: "admin/manage-products", element: <ManageProducts /> },
       { path: "/admin/manage-users", element: <UserListPage /> },
     ],

@@ -4,6 +4,7 @@ import { useGetProductsQuery, useDeleteProductMutation } from "../../services/Ap
 import Pagination from "../../components/Pagination";
 import Spinner from "../../components/Spinner";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 function ManageProducts() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,9 +48,11 @@ function ManageProducts() {
               </div>
             </div>
             <div className="mt-4 flex gap-4 items-center">
-              <button className="flex items-center bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition-all ease-in-out duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
-                <FaEdit />
-              </button>
+              <Link to={`/admin/update-product/${product.id}`}>
+                <button className="flex items-center bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition-all ease-in-out duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                  <FaEdit />
+                </button>
+              </Link>
               <button
                 className="flex items-center bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition-all ease-in-out duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
                 onClick={() => handleDeleteProduct(product.id)}

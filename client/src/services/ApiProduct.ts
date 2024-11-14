@@ -101,6 +101,13 @@ export const productsApi = createApi({
         method: "DELETE",
       }),
     }),
+    updateProduct: builder.mutation({
+      query: ({ productId, ...updatedData }) => ({
+        url: `/products/${productId}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+    }),
   }),
 });
 
@@ -113,4 +120,5 @@ export const {
   useUpdateReviewMutation,
   useCreateProductMutation,
   useDeleteProductMutation,
+  useUpdateProductMutation,
 } = productsApi;
