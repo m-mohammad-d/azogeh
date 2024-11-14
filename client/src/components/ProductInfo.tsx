@@ -3,7 +3,7 @@ import ProductImage from "./ProductImage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { increaseQuantity, decreaseQuantity, removeFromCart } from "../store/CartSlice";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaTag } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
 
@@ -18,7 +18,7 @@ type ProductInfoProps = {
     image: string;
     images: string[];
     price: number;
-    discountedPrice: number;
+    discountedPrice: number | null;
   };
   onAddToCart: () => void;
 };
@@ -38,6 +38,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
       }
     }
   };
+
+  // محاسبه درصد تخفیف
+  const discountPercentage = product.discountedPrice
+    ? ((product.price - product.discountedPrice) / product.price) * 100
+    : null;
 
   return (
     <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between">
@@ -59,8 +64,26 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
         <p className="text-lg mb-1">
           <span className="font-bold">امتیاز:</span> {product.rating}
         </p>
-        <p className="text-lg mb-1">
-          <span className="font-bold">قیمت:</span> {separateThousands(product.discountedPrice)} تومن
+        <p className="text-lg mb-1 flex items-center">
+          <span className="font-bold">قیمت:</span>
+          {product.discountedPrice ? (
+            <>
+              <span className="line-through text-gray-500 ml-2">
+                {separateThousands(product.price)} تومن
+              </span>
+              <span className="ml-2 text-primary-500 font-bold">
+                {separateThousands(product.discountedPrice)} تومن
+              </span>
+              <span className="ml-2 text-green-500 font-bold flex items-center">
+                <FaTag className="ml-2" />
+                {discountPercentage?.toFixed(0)}% تخفیف
+              </span>
+            </>
+          ) : (
+            <span className="text-primary-500 font-bold ml-2">
+              {separateThousands(product.price)} تومن
+            </span>
+          )}
         </p>
 
         {cartItem ? (
