@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery, useUpdateProductMutation } from "../../services/ApiProduct";
-import { useUploadImageMutation } from "../../services/UploadApi";
+import { useImageUploader } from "../../hooks/useImageUploader";
 import ProductForm from "../../components/ProductForm";
 import toast from "react-hot-toast";
 import { ProductFormData } from "../../schemas/productSchema";
@@ -10,24 +10,16 @@ function UpdateProduct() {
   const { id: productId } = useParams();
   const { data: product, isLoading, error } = useGetProductByIdQuery(productId as string);
   const [updateProduct] = useUpdateProductMutation();
-  const [uploadImage] = useUploadImageMutation();
+  const uploadImageFile = useImageUploader();
 
   const onSubmit = async (data: ProductFormData, image: File | null) => {
     let finalImageUrl = product?.data.product.image;
 
     if (image) {
-      const formData = new FormData();
-
-      formData.append("image", image);
-
-      try {
-        const res = await uploadImage(formData).unwrap();
-        finalImageUrl = res.data.image;
-      } catch (error) {
-        toast.error("آپلود تصویر با خطا مواجه شد");
-        return;
-      }
+      finalImageUrl = (await uploadImageFile(image)) || "";
+      if (!finalImageUrl) return;
     }
+
     const productNewData = {
       ...data,
       image: finalImageUrl,
@@ -37,7 +29,7 @@ function UpdateProduct() {
     };
 
     try {
-      await updateProduct({ productId, ...productNewData });
+      await updateProduct({ productId, ...productNewData }).unwrap();
       toast.success("محصول با موفقیت به‌روز شد!");
     } catch (error) {
       toast.error("خطا در به‌روزرسانی محصول");
