@@ -1,6 +1,6 @@
-// apiSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GetAllUsersResponse } from "../types/UserType";
+import { setCredentials } from "../store/AuthSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "/api/users",
@@ -20,7 +20,7 @@ const apiSlice = createApi({
 
     const token = result?.meta?.response?.headers?.get("x-auth-token");
     if (token) {
-      localStorage.setItem("authToken", token);
+      api.dispatch(setCredentials({ token }));
     }
 
     return result;

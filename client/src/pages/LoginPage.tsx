@@ -42,7 +42,7 @@ function LoginPage() {
   const onSubmit = async (data: FormData) => {
     try {
       await login(data).unwrap();
-      navigate(backUrl);
+      await navigate(backUrl);
     } catch (error: unknown) {
       toast.error((error as ErrorResponse).data.message, { duration: 6000 });
     }
