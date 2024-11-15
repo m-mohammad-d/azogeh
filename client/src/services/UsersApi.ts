@@ -25,6 +25,7 @@ const apiSlice = createApi({
 
     return result;
   },
+  tagTypes: ["userInfo"],
   endpoints: builder => ({
     signUp: builder.mutation({
       query: userData => ({
@@ -32,6 +33,7 @@ const apiSlice = createApi({
         method: "POST",
         body: userData,
       }),
+      invalidatesTags: ["userInfo"],
     }),
     login: builder.mutation({
       query: userData => ({
@@ -39,6 +41,7 @@ const apiSlice = createApi({
         method: "POST",
         body: userData,
       }),
+      invalidatesTags: ["userInfo"],
     }),
     updateInfo: builder.mutation({
       query: userData => ({
@@ -46,6 +49,7 @@ const apiSlice = createApi({
         method: "PATCH",
         body: userData,
       }),
+      invalidatesTags: ["userInfo"],
     }),
     updatePassword: builder.mutation({
       query: userData => ({
@@ -76,6 +80,7 @@ const apiSlice = createApi({
     }),
     getMe: builder.query({
       query: () => "/get-me",
+      providesTags: [{ type: "userInfo" }],
     }),
     getAllUser: builder.query<GetAllUsersResponse, void>({
       query: () => "/",
