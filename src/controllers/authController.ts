@@ -10,6 +10,7 @@ import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
 import AppError from "../utils/appError";
 import sendEmail from "../utils/email";
 import { RequestHandler } from "express";
+import ms from "ms";
 
 // @route   POST /api/v1/users/signup
 // @access  Public
@@ -38,11 +39,11 @@ export const login: LoginRequestHandler = async (req, res, next) => {
 };
 
 export const logout: RequestHandler = (req, res, next) => {
-  // res.cookie("jwt", "loggedout", {
-  //   expires: new Date(Date.now() + ms(process.env.JWT_COOKIE_EXPIRES_IN!)),
-  //   secure: process.env.ENVIRONMENT === "production",
-  //   httpOnly: true,
-  // });
+  res.cookie("jwt", "", {
+    expires: new Date(Date.now() + ms(process.env.JWT_COOKIE_EXPIRES_IN!)),
+    secure: process.env.ENVIRONMENT === "production",
+    httpOnly: true,
+  });
 
   return res.status(204).header("x-auth-token", "").json({});
 };

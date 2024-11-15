@@ -5,20 +5,34 @@ import { RequestHandler } from "express";
 
 export const protect: RequestHandler = async (req, res, next) => {
   const { authorization } = req.headers;
-  let token: string | undefined;
+  let token: string | undefined = undefined;
 
   if (authorization && authorization.startsWith("Bearer")) token = authorization.split(" ")[1];
-  else token = undefined;
-  if (!token) return next(new AppError("شما وارد نشده اید! لطفا برای دسترسی وارد شوید", 401));
+  else if (req.headers.cookie) token = req.headers.cookie;
+
+  if (!token) {
+    const msg = "شما وارد نشده اید! لطفا برای دسترسی وارد شوید";
+    return next(new AppError(msg, 401));
+  }
 
   const decoded = (await verifyToken(token)) as { id: string; iat: number; exp: number };
 
   const user = await User.findOne({ _id: decoded.id }).select("+active");
-  if (!user) return next(new AppError("کاربر متعلق به این توکن دیگر وجود ندارد!", 401));
-  if (!user.active) return next(new AppError("کاربری که به این ایمیل مرتبط است غیرفعال شده!", 404));
 
-  if (user.changePasswordAfter(decoded.iat))
-    return next(new AppError("کاربر اخیرا رمز عبور را تغییر داده است! لطفا دوباره وارد شوید.", 401));
+  if (!user) {
+    const msg = "کاربر متعلق به این توکن دیگر وجود ندارد!";
+    return next(new AppError(msg, 401));
+  }
+
+  if (!user.active) {
+    const msg = "کاربری که به این ایمیل مرتبط است غیرفعال شده!";
+    return next(new AppError(msg, 404));
+  }
+
+  if (user.changePasswordAfter(decoded.iat)) {
+    const msg = "کاربر اخیرا رمز عبور را تغییر داده است! لطفا دوباره وارد شوید.";
+    return next(new AppError(msg, 401));
+  }
 
   req.user = user;
   return next();
