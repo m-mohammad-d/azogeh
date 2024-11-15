@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { GetMeResponse } from "../types/UserType";
 import { useUpdateInfoMutation } from "../services/UsersApi";
 import { BsPlus } from "react-icons/bs";
-import { useUploadImageMutation } from "../services/UploadApi";
+import { useImageUploader } from "../hooks/useImageUploader";
 
 interface ProfileCardProps {
   userInfo?: GetMeResponse;
@@ -18,11 +18,9 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   const dispatch = useDispatch();
   const [updateInfo, { isLoading: isUpdating }] = useUpdateInfoMutation();
-  const [uploadImage] = useUploadImageMutation();
+  const uploadImageFile = useImageUploader();
 
-  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
-    userInfo?.data?.user?.photo || null
-  );
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(userInfo?.data?.user?.photo || null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
   const confirmLogOut = () => {
@@ -79,16 +77,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
 
     let imageUrl = profileImagePreview;
     if (profileImageFile) {
-      const formData = new FormData();
-      formData.append("image", profileImageFile);
-
-      try {
-        const uploadResponse = await uploadImage(formData).unwrap();
-        imageUrl = uploadResponse.data.image;
-      } catch (error) {
-        toast.error("آپلود عکس ناموفق بود.");
-        return;
-      }
+      const uploadResponse = await uploadImageFile(profileImageFile);
+      if (!uploadResponse) return;
+      imageUrl = uploadResponse;
     }
 
     try {
