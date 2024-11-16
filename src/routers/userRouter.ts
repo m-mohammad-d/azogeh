@@ -10,7 +10,7 @@ const userController = new UserController();
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
-router.get("/logout", authController.logout);
+router.post("/logout", authController.logout);
 router.post("/forgot-password", authController.forgotPassword);
 router.patch("/reset-password", authController.resetPassword);
 
