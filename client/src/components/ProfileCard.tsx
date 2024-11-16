@@ -7,7 +7,7 @@ import { clearCredentials } from "../store/AuthSlice";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { GetMeResponse } from "../types/UserType";
-import { useUpdateInfoMutation } from "../services/UsersApi";
+import { useLogoutMutation, useUpdateInfoMutation } from "../services/UsersApi";
 import { BsPlus } from "react-icons/bs";
 import { useImageUploader } from "../hooks/useImageUploader";
 
@@ -18,13 +18,14 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   const dispatch = useDispatch();
   const [updateInfo, { isLoading: isUpdating }] = useUpdateInfoMutation();
+  const [Logout] = useLogoutMutation();
   const uploadImageFile = useImageUploader();
 
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(userInfo?.data?.user?.photo || null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
-  const confirmLogOut = () => {
-    dispatch(clearCredentials());
+  const confirmLogOut = async () => {
+    await Logout().unwrap();
     toast.success("با موفقیت خارج شدید.");
   };
 
