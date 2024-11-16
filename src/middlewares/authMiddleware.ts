@@ -8,9 +8,7 @@ export const protect: RequestHandler = async (req, res, next) => {
   let token: string | undefined = undefined;
 
   if (authorization && authorization.startsWith("Bearer")) token = authorization.split(" ")[1];
-  else if (req.headers.cookie) token = req.headers.cookie?.slice(4);
-
-  console.log(req.headers.cookie?.slice(4));
+  else if (req.cookies.jwt) token = req.cookies.jwt;
 
   if (!token) {
     const msg = "شما وارد نشده اید! لطفا برای دسترسی وارد شوید";

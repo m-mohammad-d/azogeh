@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import hpp from "hpp";
+const cookieParser = require("cookie-parser");
 import * as securityMiddleware from "../middlewares/securityMiddleware";
 import { IUser } from "../types";
 
@@ -53,6 +54,9 @@ module.exports = (app: Express) => {
   // Request's Body parser
   app.use(express.json({ limit: "5mb" }));
   app.use(express.urlencoded({ extended: false }));
+
+  // Request's Cookie parser
+  app.use(cookieParser());
 
   // Data sanitization against NoSQL query injection
   app.use(mongoSanitize());
