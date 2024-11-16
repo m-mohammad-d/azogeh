@@ -3,22 +3,20 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiLogOut, FiBarChart } from "react-icons/fi";
 import { FaUsers, FaBox, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
 import { MdClose, MdOutlineDashboard } from "react-icons/md";
-import { useGetMeQuery } from "../services/UsersApi";
+import { useGetMeQuery, useLogoutMutation } from "../services/UsersApi";
 import Spinner from "../components/Spinner";
-import { useDispatch } from "react-redux";
-import { clearCredentials } from "../store/AuthSlice";
 import toast from "react-hot-toast";
 
 function AdminLayout() {
   const { data: userInfo, error, isLoading } = useGetMeQuery({});
+  const [Logout] = useLogoutMutation();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const dispatch = useDispatch();
 
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
-  const confirmLogOut = () => {
-    dispatch(clearCredentials());
+  const confirmLogOut = async () => {
+    await Logout().unwrap();
     toast.success("با موفقیت خارج شدید.");
     navigate("/login");
   };

@@ -1,30 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GetAllUsersResponse } from "../types/UserType";
-import { setCredentials } from "../store/AuthSlice";
-
-const baseQuery = fetchBaseQuery({
-  baseUrl: "/api/users",
-  prepareHeaders: headers => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      headers.set("authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
-});
 
 const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: async (args, api, extraOptions) => {
-    const result = await baseQuery(args, api, extraOptions);
-
-    const token = result?.meta?.response?.headers?.get("x-auth-token");
-    if (token) {
-      api.dispatch(setCredentials({ token }));
-    }
-
-    return result;
-  },
+  baseQuery: fetchBaseQuery({
+    baseUrl: "/api/users",
+    credentials: "include",
+  }),
   tagTypes: ["userInfo"],
   endpoints: builder => ({
     signUp: builder.mutation({
@@ -61,7 +43,7 @@ const apiSlice = createApi({
     forgetPassword: builder.mutation({
       query: userData => ({
         url: "/forgot-password",
-        method: "post",
+        method: "POST", 
         body: userData,
       }),
     }),
@@ -77,6 +59,13 @@ const apiSlice = createApi({
         url: `/${userId}`,
         method: "DELETE",
       }),
+    }),
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: "/logout",
+        method: "get", 
+      }),
+      invalidatesTags: ["userInfo"],
     }),
     getMe: builder.query({
       query: () => "/get-me",
@@ -98,6 +87,7 @@ export const {
   useResetPasswordMutation,
   useGetAllUserQuery,
   useDeleteUserMutation,
+  useLogoutMutation,
 } = apiSlice;
 
 export default apiSlice;
