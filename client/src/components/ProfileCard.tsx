@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineHistory } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md";
-import { clearCredentials } from "../store/AuthSlice";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import { GetMeResponse } from "../types/UserType";
 import { useLogoutMutation, useUpdateInfoMutation } from "../services/UsersApi";
 import { BsPlus } from "react-icons/bs";
@@ -16,7 +14,6 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
-  const dispatch = useDispatch();
   const [updateInfo, { isLoading: isUpdating }] = useUpdateInfoMutation();
   const [Logout] = useLogoutMutation();
   const uploadImageFile = useImageUploader();
