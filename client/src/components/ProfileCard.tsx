@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineHistory } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md";
@@ -17,6 +17,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   const [updateInfo, { isLoading: isUpdating }] = useUpdateInfoMutation();
   const [Logout] = useLogoutMutation();
   const uploadImageFile = useImageUploader();
+  const navigate = useNavigate();
 
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(userInfo?.data?.user?.photo || null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
@@ -24,6 +25,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   const confirmLogOut = async () => {
     await Logout().unwrap();
     toast.success("با موفقیت خارج شدید.");
+    navigate("/login");
   };
 
   const handleLogOut = () => {
