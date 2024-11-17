@@ -43,7 +43,7 @@ const apiSlice = createApi({
     forgetPassword: builder.mutation({
       query: userData => ({
         url: "/forgot-password",
-        method: "POST", 
+        method: "POST",
         body: userData,
       }),
     }),
@@ -63,7 +63,7 @@ const apiSlice = createApi({
     logout: builder.mutation<void, void>({
       query: () => ({
         url: "/logout",
-        method: "get", 
+        method: "post",
       }),
       invalidatesTags: ["userInfo"],
     }),
