@@ -18,7 +18,8 @@ function AdminLayout() {
   const confirmLogOut = async () => {
     await Logout().unwrap();
     toast.success("با موفقیت خارج شدید.");
-    navigate("/login");
+    navigate("/");
+    location.reload();
   };
 
   const handleLogOut = () => {
