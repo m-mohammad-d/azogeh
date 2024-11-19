@@ -17,7 +17,7 @@ interface CartItemProps {
 const CartItem: React.FC<CartItemProps> = ({ item, onIncrease, onDecrease, onRemove }) => {
   return (
     <div className="border-b py-4 flex items-center justify-between">
-      <img src={`images/${item.image}`} alt={item.name} className="w-20 h-20 object-cover" />
+      <img src={`${item.image}`} alt={item.name} className="w-20 h-20 object-cover" />
       <div className="flex flex-col ml-4 flex-grow">
         <span className="font-semibold text-lg">{item.name}</span>
         <span className="text-gray-600">قیمت: {item.price.toLocaleString()} تومان</span>
