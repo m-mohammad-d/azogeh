@@ -3,9 +3,10 @@ import ProductImage from "./ProductImage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { increaseQuantity, decreaseQuantity, removeFromCart } from "../store/CartSlice";
-import { FaRegTrashAlt, FaTag } from "react-icons/fa";
+import { FaMinus, FaRegTrashAlt, FaTag } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
+import { MdAdd, MdAddShoppingCart } from "react-icons/md";
 
 type ProductInfoProps = {
   product: {
@@ -39,13 +40,12 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
     }
   };
 
-  // محاسبه درصد تخفیف
   const discountPercentage = product.discountedPrice
     ? ((product.price - product.discountedPrice) / product.price) * 100
     : null;
 
   return (
-    <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between">
+    <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between gap-10">
       <div className="mb-6 mx-auto">
         <ProductImage
           mainImageUrl={`${product.image}`}
@@ -59,7 +59,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
           <span className="font-bold">برند:</span> {product.brand}
         </p>
         <p className="text-lg mb-1">
-          <span className="font-bold">تعداد فروش:</span> {product.numReviews} نفر
+          <span className="font-bold">تعداد فروش:</span> {product.numReviews} خریدار
         </p>
         <p className="text-lg mb-1">
           <span className="font-bold">امتیاز:</span> {product.rating}
@@ -68,10 +68,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
           <span className="font-bold">قیمت:</span>
           {product.discountedPrice ? (
             <>
-              <span className="line-through text-gray-500 ml-2">
+              <span className="line-through text-gray-500 ml-2 transition-all duration-300 ease-in-out">
                 {separateThousands(product.price)} تومن
               </span>
-              <span className="ml-2 text-primary-500 font-bold">
+              <span className="ml-2 text-primary-500 font-bold transition-all duration-300 ease-in-out">
                 {separateThousands(product.discountedPrice)} تومن
               </span>
               <span className="ml-2 text-green-500 font-bold flex items-center">
@@ -80,7 +80,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
               </span>
             </>
           ) : (
-            <span className="text-primary-500 font-bold ml-2">
+            <span className="text-primary-500 font-bold ml-2 transition-all duration-300 ease-in-out">
               {separateThousands(product.price)} تومن
             </span>
           )}
@@ -91,31 +91,30 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
             <button
               id="increment-btn"
               onClick={() => dispatch(increaseQuantity(product._id))}
-              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600"
+              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600 transition-all duration-200 ease-in-out transform hover:scale-110"
               aria-label="Increase quantity"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12M6 12h12"></path>
-              </svg>
+              <MdAdd />
             </button>
-            <span className="text-2xl text-gray-400 font-bold mx-2">{cartItem.qty}</span>
+            <span className="text-2xl text-gray-400 font-bold mx-2 transition-all duration-200 ease-in-out">
+              {cartItem.qty}
+            </span>
             <button
               id="decrement-btn"
               onClick={handleDecrement}
-              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600"
+              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600 transition-all duration-200 ease-in-out transform hover:scale-110"
               aria-label="Decrease quantity or remove item"
             >
-              {cartItem.qty > 1 ? (
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path>
-                </svg>
-              ) : (
-                <FaRegTrashAlt />
-              )}
+              {cartItem.qty > 1 ? <FaMinus /> : <FaRegTrashAlt />}
             </button>
           </div>
         ) : (
-          <button className="bg-primary-500 text-white py-2 px-4 rounded-md" onClick={onAddToCart}>
+          <button
+            className="flex items-center gap-2 bg-primary-500 text-white py-2 px-6 rounded-lg transition-all duration-500 hover:bg-primary-600"
+            onClick={onAddToCart}
+            aria-label="اضافه به سبد خرید"
+          >
+            <MdAddShoppingCart />
             اضافه به سبد خرید
           </button>
         )}
