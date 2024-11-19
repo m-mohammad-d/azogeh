@@ -8,12 +8,13 @@ import { separateThousands } from "../utils/FormatNumber";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { FaCartPlus, FaLock } from "react-icons/fa";
+import { useGetMeQuery } from "../services/UsersApi";
 
 function CartPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart.orderItems);
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const { data: userInfo } = useGetMeQuery({});
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
