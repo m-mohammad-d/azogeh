@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { saveShippingAddress } from "../store/CartSlice";
 import { shippingAddress } from "../types/CartType";
+import LocationSelector from "./LocationSelector";
 
 interface Province {
   id: number;
@@ -17,15 +18,15 @@ interface City {
   province_id: number;
 }
 
-interface AddressSelectionProps {
-  onNext: () => void;
-}
-
 const addressSchema = z.object({
   province: z.string().nonempty("لطفاً استان را انتخاب کنید."),
   city: z.string().nonempty("لطفاً شهر را انتخاب کنید."),
   street: z.string().nonempty("لطفاً آدرس خیابان را وارد کنید."),
 });
+
+interface AddressSelectionProps {
+  onNext: () => void;
+}
 
 const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
   const dispatch = useDispatch();
@@ -70,44 +71,29 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
     }
   };
 
-  const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const provinceId = e.target.value;
-    setValue("province", provinceId);
-    setValue("city", "");
-  };
-
   const selectedProvince = watch("province");
-  const filteredCities = cities.filter(city => city.province_id === parseInt(selectedProvince));
+  const filteredCities = selectedProvince ? cities.filter(city => city.province_id === parseInt(selectedProvince)) : [];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <h2 className="text-lg font-bold mb-2">مرحله ۱: انتخاب آدرس</h2>
 
-      <select
-        {...register("province")}
-        onChange={handleProvinceChange}
-        className="border border-gray-200 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary-500"
-      >
-        <option value="">انتخاب استان</option>
-        {provinces.map(province => (
-          <option key={province.id} value={province.id}>
-            {province.name}
-          </option>
-        ))}
-      </select>
+      <LocationSelector
+        options={provinces.map(province => ({ id: province.id, name: province.name }))}
+        value={watch("province")}
+        onChange={selectedValue => setValue("province", selectedValue)}
+        label="استان"
+        placeholder="استان را انتخاب کنید"
+      />
       {errors.province && <p className="text-error-400">{errors.province.message}</p>}
-
-      <select
-        {...register("city")}
-        className="border border-gray-200 rounded-lg px-4 py-2 w-full mt-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
-      >
-        <option value="">انتخاب شهر</option>
-        {filteredCities.map(city => (
-          <option key={city.id} value={city.id}>
-            {city.name}
-          </option>
-        ))}
-      </select>
+      <LocationSelector
+        options={filteredCities.map(city => ({ id: city.id, name: city.name }))}
+        value={watch("city")}
+        onChange={selectedValue => setValue("city", selectedValue)}
+        label=" شهر"
+        placeholder="شهر را انتخاب کنید"
+        disabled={!selectedProvince}
+      />
       {errors.city && <p className="text-error-400">{errors.city.message}</p>}
 
       <input
