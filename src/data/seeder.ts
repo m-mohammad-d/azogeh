@@ -2,7 +2,7 @@ require("dotenv").config();
 require("colors");
 
 // Models
-import Product from "../models/productModel";
+import Product from "../models/product";
 
 // Data
 import products from "./products";

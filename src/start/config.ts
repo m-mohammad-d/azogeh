@@ -7,7 +7,7 @@ import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import hpp from "hpp";
 const cookieParser = require("cookie-parser");
-import * as securityMiddleware from "../middlewares/securityMiddleware";
+import * as securityMiddleware from "../middlewares/security";
 import { IUser } from "../types";
 
 declare global {

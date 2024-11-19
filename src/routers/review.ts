@@ -1,10 +1,10 @@
 import express from "express";
-import ReviewController from "../controllers/reviewController";
-import * as reviewMiddleware from "../middlewares/reviewMiddleware";
-import * as authMiddleware from "../middlewares/authMiddleware";
+import Review from "../controllers/review";
+import * as reviewMiddleware from "../middlewares/review";
+import * as authMiddleware from "../middlewares/auth";
 
 const router = express.Router({ mergeParams: true });
-const reviewController = new ReviewController();
+const reviewController = new Review();
 
 //////////// @access PUBLIC ////////////
 

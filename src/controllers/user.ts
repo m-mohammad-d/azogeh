@@ -1,13 +1,13 @@
 import { RequestHandler, Response } from "express";
-import User from "../models/userModel";
+import User from "../models/user";
 import { UpdateMePasswordRequestHandler, UpdateMeRequestHandler } from "../dtos";
 import AppError from "../utils/appError";
 import _ from "lodash";
 import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
 import { Populate } from "../types";
-import CrudController from "./crudController";
+import Crud from "./crud";
 
-export default class UserController extends CrudController {
+export default class User extends Crud {
   constructor(populate?: Populate) {
     super(User, populate);
   }

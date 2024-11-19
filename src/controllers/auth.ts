@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import User from "../models/userModel";
+import User from "../models/user";
 import {
   ForgotPasswordRequestHandler,
   LoginRequestHandler,

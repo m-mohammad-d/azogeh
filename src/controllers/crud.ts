@@ -4,10 +4,10 @@ import AppError from "../utils/appError";
 import APIFeatures from "../utils/apiFeatures";
 import { Populate } from "../types";
 import catchAsync from "../utils/catchAsync";
-import Review from "../models/reviewModel";
-import User from "../models/userModel";
+import Review from "../models/review";
+import User from "../models/user";
 
-export default abstract class CrudController {
+export default abstract class Crud {
   private readonly Model: Model<any>;
   private readonly populate?: Populate;
 
@@ -80,7 +80,7 @@ export default abstract class CrudController {
         return next(new AppError("شما نمی توانید حساب خود را حذف کنید", 401));
       }
     }
-    
+
     await this.Model.findOneAndDelete({ _id: req.params.id });
 
     return this.sendCrudResponse(res, null, 204);

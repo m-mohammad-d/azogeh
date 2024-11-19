@@ -1,10 +1,10 @@
 import express from "express";
-import ProductController from "../controllers/productController";
-import reviewRouter from "./reviewRouter";
-import * as authMiddleware from "../middlewares/authMiddleware";
+import Product from "../controllers/product";
+import reviewRouter from "./review";
+import * as authMiddleware from "../middlewares/auth";
 
 const router = express.Router();
-const productController = new ProductController();
+const productController = new Product();
 router.use("/:productId/reviews", reviewRouter);
 
 //////////// @access PUBLIC ////////////

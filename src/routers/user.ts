@@ -1,10 +1,10 @@
 import express from "express";
-import UserController from "../controllers/userController";
-import * as authController from "../controllers/authController";
-import * as authMiddleware from "../middlewares/authMiddleware";
+import User from "../controllers/user";
+import * as authController from "../controllers/auth";
+import * as authMiddleware from "../middlewares/auth";
 
 const router = express.Router();
-const userController = new UserController();
+const userController = new User();
 
 //////////// @access PUBLIC ////////////
 

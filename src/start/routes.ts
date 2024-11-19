@@ -1,9 +1,9 @@
 import { Express } from "express";
-import productRouter from "../routers/productRouter";
-import * as errorMiddleware from "../middlewares/errorMiddleware";
-import * as errorController from "../controllers/errorController";
-import viewRouter from "../routers/viewRouter";
-import userRouter from "../routers/userRouter";
+import productRouter from "../routers/product";
+import * as errorMiddleware from "../middlewares/error";
+import * as errorController from "../controllers/error";
+import viewRouter from "../routers/view";
+import userRouter from "../routers/user";
 import uploadRouter from "../routers/upload";
 
 module.exports = (app: Express) => {
