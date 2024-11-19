@@ -17,26 +17,26 @@ function BestSallersProduct({ product }: BestSallersProductProps) {
       target="_blank"
     >
       <article className="p-4 flex flex-col h-full">
-        {discount && (
+        {discount > 0 && (
           <div className="bg-red-500 text-white text-xs font-bold py-1 px-2 rounded-full absolute top-3 left-3 z-10">
             {discount}%
           </div>
         )}
-        <div className="flex justify-center items-center mb-4 h-40 overflow-hidden rounded-lg">
-          <img src={`${image}`} alt={name} className="object-contain max-w-full max-h-full" />
+        <div className="flex justify-center items-center mb-4 h-40 w-40 overflow-hidden rounded-lg">
+          <img src={`${image}`} alt={name} className="object-contain" />
         </div>
         <h3 className="text-sm font-medium text-gray-800 mb-2 line-clamp-2 text-center">{name}</h3>
 
         <div className="flex flex-col mt-auto space-y-1">
           <p
             className={`text-lg font-semibold flex items-center justify-center ${
-              discount ? "line-through text-gray-400" : "text-gray-800"
+              discount > 0 ? "line-through text-gray-400" : "text-gray-800"
             }`}
           >
             <FaTag className="mr-1" />
             {separateThousands(price)} تومان
           </p>
-          {discount && (
+          {discount > 0 && discountedPrice !== null && (
             <p className="text-lg font-bold text-primary-500 flex items-center justify-center">
               <FaTag className="mr-1 text-red-500" />
               {separateThousands(discountedPrice)} تومان
