@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
 import Products from "../models/product";
 
-const router = express.Router();
+const viewRouter = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
+viewRouter.get("/", async (req: Request, res: Response) => {
   const products = await Products.find();
 
   res.status(200).render("layout", {
@@ -12,4 +12,4 @@ router.get("/", async (req: Request, res: Response) => {
   });
 });
 
-export default router;
+export default viewRouter;

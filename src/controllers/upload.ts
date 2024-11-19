@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { v2 as cloudinary } from "cloudinary";
 
-export const upload: RequestHandler = async (req, res, next) => {
+const upload: RequestHandler = async (req, res, next) => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -19,3 +19,6 @@ export const upload: RequestHandler = async (req, res, next) => {
     data: { image: result.secure_url },
   });
 };
+
+const uploadController = { upload };
+export default uploadController;

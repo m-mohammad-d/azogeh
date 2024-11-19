@@ -7,7 +7,7 @@ import catchAsync from "../utils/catchAsync";
 import Review from "../models/review";
 import User from "../models/user";
 
-export default abstract class Crud {
+abstract class CrudController {
   private readonly Model: Model<any>;
   private readonly populate?: Populate;
 
@@ -88,3 +88,5 @@ export default abstract class Crud {
 
   protected abstract sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any): void;
 }
+
+export default CrudController;

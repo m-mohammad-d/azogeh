@@ -1,9 +1,9 @@
-import Crud from "./crud";
 import Review from "../models/review";
 import { Populate } from "../types";
 import { Response } from "express";
+import CrudController from "./crud";
 
-export default class Review extends Crud {
+class ReviewController extends CrudController {
   constructor(populate?: Populate) {
     super(Review as any, populate);
   }
@@ -17,3 +17,6 @@ export default class Review extends Crud {
     });
   }
 }
+
+const reviewController = new ReviewController();
+export default reviewController;

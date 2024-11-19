@@ -1,22 +1,21 @@
 import express from "express";
-import Review from "../controllers/review";
-import * as reviewMiddleware from "../middlewares/review";
-import * as authMiddleware from "../middlewares/auth";
+import reviewController from "../controllers/review";
+import reviewMiddleware from "../middlewares/review";
+import authMiddleware from "../middlewares/auth";
 
-const router = express.Router({ mergeParams: true });
-const reviewController = new Review();
+const reviewRouter = express.Router({ mergeParams: true });
 
 //////////// @access PUBLIC ////////////
 
-router.get("/", reviewController.getAll);
-router.get("/:id", reviewController.getOne);
+reviewRouter.get("/", reviewController.getAll);
+reviewRouter.get("/:id", reviewController.getOne);
 
 //////////// @access USERS ////////////
 
-router.use(authMiddleware.protect);
+reviewRouter.use(authMiddleware.protect);
 
-router.post("/", reviewMiddleware.setIds, reviewController.createOne);
-router.patch("/:id", reviewController.updateOne);
-router.delete("/:id", reviewController.deleteOne);
+reviewRouter.post("/", reviewMiddleware.setIds, reviewController.createOne);
+reviewRouter.patch("/:id", reviewController.updateOne);
+reviewRouter.delete("/:id", reviewController.deleteOne);
 
-export default router;
+export default reviewRouter;

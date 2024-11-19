@@ -69,7 +69,7 @@ function handleMulterError(err: MulterError) {
 
 ////////////////////////////////
 
-export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
@@ -83,3 +83,6 @@ export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => 
   if (process.env.NODE_ENV === "development") return sendErrorDev(err, res);
   else return sendErrorProd(err, res);
 };
+
+const errorController = { globalErrorHandler };
+export default errorController;

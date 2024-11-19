@@ -1,9 +1,9 @@
 import { Response } from "express";
-import Crud from "./crud";
 import { Populate } from "../types";
 import Product from "../models/product";
+import CrudController from "./crud";
 
-export default class Product extends Crud {
+class ProductController extends CrudController {
   constructor(populate?: Populate) {
     super(Product, populate);
   }
@@ -17,3 +17,6 @@ export default class Product extends Crud {
     });
   }
 }
+
+const productController = new ProductController();
+export default productController;

@@ -3,7 +3,7 @@ import verifyToken from "../utils/verifyToken";
 import User from "../models/user";
 import { RequestHandler } from "express";
 
-export const protect: RequestHandler = async (req, res, next) => {
+const protect: RequestHandler = async (req, res, next) => {
   const { authorization } = req.headers;
   let token: string | undefined = undefined;
 
@@ -38,7 +38,7 @@ export const protect: RequestHandler = async (req, res, next) => {
   return next();
 };
 
-export const restrictTo = (...roles: string[]): RequestHandler => {
+const restrictTo = (...roles: string[]): RequestHandler => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(new AppError("شما اجازه انجام این عمل را ندارید!", 403));
@@ -46,3 +46,6 @@ export const restrictTo = (...roles: string[]): RequestHandler => {
     return next();
   };
 };
+
+const authMiddleware = { protect, restrictTo };
+export default authMiddleware;

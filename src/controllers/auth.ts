@@ -12,9 +12,7 @@ import sendEmail from "../utils/email";
 import { RequestHandler } from "express";
 import ms from "ms";
 
-// @route   POST /api/v1/users/signup
-// @access  Public
-export const signup: SignupRequestHandler = async (req, res, next) => {
+const signup: SignupRequestHandler = async (req, res, next) => {
   const { name, email, password, passwordConfirmation } = req.body;
 
   const user = await User.create({ name, email, password, passwordConfirmation });
@@ -22,9 +20,7 @@ export const signup: SignupRequestHandler = async (req, res, next) => {
   return createSendTokenAndResponse(user, 201, res);
 };
 
-// @route   POST /api/v1/users/login
-// @access  Public
-export const login: LoginRequestHandler = async (req, res, next) => {
+const login: LoginRequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email }).select("+password +active");
@@ -38,7 +34,7 @@ export const login: LoginRequestHandler = async (req, res, next) => {
   return createSendTokenAndResponse(user, 200, res);
 };
 
-export const logout: RequestHandler = (req, res, next) => {
+const logout: RequestHandler = (req, res, next) => {
   res.cookie("jwt", "", {
     expires: new Date(Date.now() + ms(process.env.JWT_COOKIE_EXPIRES_IN!)),
     secure: process.env.ENVIRONMENT === "production",
@@ -48,9 +44,7 @@ export const logout: RequestHandler = (req, res, next) => {
   return res.status(204).header("x-auth-token", "").json({});
 };
 
-// @route   POST /api/v1/users/forgot-password
-// @access  Public
-export const forgotPassword: ForgotPasswordRequestHandler = async (req, res, next) => {
+const forgotPassword: ForgotPasswordRequestHandler = async (req, res, next) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email }).select("+active");
@@ -79,9 +73,7 @@ export const forgotPassword: ForgotPasswordRequestHandler = async (req, res, nex
   }
 };
 
-// @route   POST /api/v1/users/reset-password
-// @access  Public
-export const resetPassword: ResetPasswordRequestHandler = async (req, res, next) => {
+const resetPassword: ResetPasswordRequestHandler = async (req, res, next) => {
   const { password, passwordConfirmation } = req.body;
 
   const { resetToken } = req.query;
@@ -99,3 +91,6 @@ export const resetPassword: ResetPasswordRequestHandler = async (req, res, next)
 
   return createSendTokenAndResponse(user, 200, res);
 };
+
+const AuthController = { signup, login, logout, forgotPassword, resetPassword };
+export default AuthController;

@@ -8,8 +8,7 @@ const sanitizeObject = (data: any): any => {
 
   if (typeof data === "object" && data !== null) {
     const sanitizedObj: any = {};
-    for (const key in data)
-      if (data.hasOwnProperty(key)) sanitizedObj[key] = sanitizeObject(data[key]);
+    for (const key in data) if (data.hasOwnProperty(key)) sanitizedObj[key] = sanitizeObject(data[key]);
     return sanitizedObj;
   }
 
@@ -23,3 +22,6 @@ export const sanitizeXSS: RequestHandler = (req, res, next) => {
 
   next();
 };
+
+const securityMiddleware = { sanitizeXSS };
+export default securityMiddleware;

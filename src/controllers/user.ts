@@ -5,9 +5,9 @@ import AppError from "../utils/appError";
 import _ from "lodash";
 import createSendTokenAndResponse from "../utils/createSendTokenAndResponse";
 import { Populate } from "../types";
-import Crud from "./crud";
+import CrudController from "./crud";
 
-export default class User extends Crud {
+class UserController extends CrudController {
   constructor(populate?: Populate) {
     super(User, populate);
   }
@@ -73,3 +73,6 @@ export default class User extends Crud {
     });
   };
 }
+
+const userController = new UserController();
+export default userController;
