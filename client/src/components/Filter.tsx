@@ -63,7 +63,7 @@ const Filter: React.FC<FilterProps> = ({
         <select value={brand} onChange={handleBrandChange} className="w-full border rounded-lg p-2">
           <option value="all">همه</option>
           {brands.map((brand) => (
-            <option value={brand.value}>{brand.name}</option>
+            <option value={brand.name}>{brand.name}</option>
           ))}
         </select>
       </div>
@@ -74,7 +74,7 @@ const Filter: React.FC<FilterProps> = ({
         <select value={category} onChange={handleCategoryChange} className="w-full border rounded-lg p-2">
           <option value="all">همه</option>
           {categories.map((category) => (
-            <option value={category.value}>{category.name}</option>
+            <option value={category.name}>{category.name}</option>
           ))}
         </select>
       </div>
