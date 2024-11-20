@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import { Product } from "../types/product";
 import { Link } from "react-router-dom";
-import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser, FaRegUser } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
@@ -181,11 +181,13 @@ function Header() {
           </Link>
           {/* Login Button in Sidebar */}
           {userInfo ? (
-            <div>
-              <button>
-                <FaRegUser />
-              </button>
-            </div>
+            <Link
+              to={userInfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
+              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+            >
+              <FaUser className="h-6 w-6" />
+              <span>داشبورد</span>
+            </Link>
           ) : (
             <Link
               to="/login"
