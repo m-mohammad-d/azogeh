@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import { Product } from "../types/product";
 import { Link } from "react-router-dom";
-import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser, FaRegUser } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
 import Search from "./Search";
 import { useGetMeQuery } from "../services/UsersApi";
+import ProfileDropdown from "./ProfileDropdown";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -98,13 +99,7 @@ function Header() {
             <LuShoppingCart size={30} className="text-gray-300" />
           </Link>
           {userInfo ? (
-            <Link
-              to={userInfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
-              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
-            >
-              <FaUser className="h-6 w-6" />
-              <span>داشبورد</span>
-            </Link>
+            <ProfileDropdown userinfo={userInfo} />
           ) : (
             <Link
               to="/login"
@@ -186,13 +181,11 @@ function Header() {
           </Link>
           {/* Login Button in Sidebar */}
           {userInfo ? (
-            <Link
-              to={userInfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
-              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
-            >
-              <FaUser className="h-6 w-6" />
-              <span>داشبورد</span>
-            </Link>
+            <div>
+              <button>
+                <FaRegUser />
+              </button>
+            </div>
           ) : (
             <Link
               to="/login"
