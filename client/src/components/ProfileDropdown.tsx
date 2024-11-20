@@ -64,7 +64,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
               </div>
             </div>
             <Link
-              to="/user/edit-profile"
+              to={userinfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
               className="flex items-center justify-between text-gray-400 px-2.5 h-[46px] rounded-xl hover:bg-gray-100 transition-colors"
               onClick={() => setIsOpen(false)}
             >
