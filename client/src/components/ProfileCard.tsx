@@ -103,7 +103,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
             <img src={profileImagePreview} alt="Profile Preview" className="w-24 h-24 object-cover rounded-full" />
           ) : (
             <img
-              src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png"
+              src="/userLogo.jpg"
               alt="Profile"
               className="w-24 h-24 object-cover rounded-full"
             />
