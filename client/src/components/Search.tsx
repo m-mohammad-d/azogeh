@@ -67,7 +67,7 @@ function Search() {
               {products.data.products.map((product: Product) => (
                 <li key={product.id} className="flex items-center border-b m-0 border-gray-200 overflow-hidden mb-4 w-full">
                   <Link to={`/product/${product.id}`} className="flex w-full" onClick={handleProductClick}>
-                    <img src={`images/${product.image}`} alt={product.name} className="w-16 h-16 object-cover" />
+                    <img src={`${product.image}`} alt={product.name} className="w-16 h-16 object-cover" />
                     <div className="flex-1 p-4 text-right">
                       <h3 className="text-lg font-bold text-gray-800 line-clamp-1">{product.name}</h3>
                       <p className="text-gray-600">{product.price} تومان</p>
