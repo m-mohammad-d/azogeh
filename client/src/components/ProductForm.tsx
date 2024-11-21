@@ -52,7 +52,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
   return (
     <div>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* فیلد نام محصول */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             نام محصول
@@ -66,7 +65,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.name && <span className="text-error-400 text-sm">{errors.name.message}</span>}
         </div>
 
-        {/* فیلد توضیحات محصول */}
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">
             توضیحات محصول
@@ -80,7 +78,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.description && <span className="text-error-400 text-sm">{errors.description.message}</span>}
         </div>
 
-        {/* فیلد قیمت محصول */}
         <div>
           <label htmlFor="price" className="block text-sm font-medium text-gray-700">
             قیمت محصول
@@ -94,7 +91,7 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.price && <span className="text-error-400 text-sm">{errors.price.message}</span>}
         </div>
 
-        {/* فیلد تخفیف محصول */}
+
         <div>
           <label htmlFor="discount" className="block text-sm font-medium text-gray-700">
             تخفیف محصول
@@ -107,8 +104,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           />
           {errors.discount && <span className="text-error-400 text-sm">{errors.discount.message}</span>}
         </div>
-
-        {/* فیلد دسته‌بندی محصول */}
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-gray-700">
             دسته‌بندی محصول
@@ -122,7 +117,7 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.category && <span className="text-error-400 text-sm">{errors.category.message}</span>}
         </div>
 
-        {/* فیلد برند محصول */}
+
         <div>
           <label htmlFor="brand" className="block text-sm font-medium text-gray-700">
             برند
@@ -136,7 +131,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.brand && <span className="text-error-400 text-sm">{errors.brand.message}</span>}
         </div>
 
-        {/* فیلد تعداد موجودی */}
         <div>
           <label htmlFor="countInStock" className="block text-sm font-medium text-gray-700">
             تعداد موجودی
@@ -150,7 +144,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.countInStock && <span className="text-error-400 text-sm">{errors.countInStock.message}</span>}
         </div>
 
-        {/* فیلد دسترسی محصول */}
         <div>
           <label htmlFor="isAvailable" className="block text-sm font-medium text-gray-700">
             در دسترس
@@ -166,7 +159,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
           {errors.isAvailable && <span className="text-error-400 text-sm">{errors.isAvailable.message}</span>}
         </div>
 
-        {/* فیلد انتخاب تصویر */}
         <div>
           <label htmlFor="image" className="block text-sm font-medium text-gray-700">
             تصویر محصول
@@ -184,7 +176,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
             </span>
           </div>
 
-          {/* نمایش پیش‌نمایش تصویر */}
           {imageUrl && (
             <div className="mt-3">
               <img src={imageUrl} alt="Product Preview" className="w-32 h-32 object-cover" />
@@ -193,8 +184,6 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
 
           {errors.image && <span className="text-error-400 text-sm">{errors.image.message}</span>}
         </div>
-
-        {/* دکمه ارسال فرم */}
         <div>
           <button type="submit" className="w-full p-2 bg-primary-600 text-white rounded-md">
             اضافه کردن محصول
