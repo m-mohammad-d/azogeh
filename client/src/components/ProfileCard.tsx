@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineHistory } from "react-icons/ai";
-import { FaUserEdit } from "react-icons/fa";
+import { TbUserEdit } from "react-icons/tb";
 import { MdFavoriteBorder, MdOutlineLogout, MdLockOutline } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { GetMeResponse } from "../types/UserType";
 import { useLogoutMutation, useUpdateInfoMutation } from "../services/UsersApi";
 import { BsPlus } from "react-icons/bs";
 import { useImageUploader } from "../hooks/useImageUploader";
+import SmallSpinner from "./SmallSpinner";
 
 interface ProfileCardProps {
   userInfo?: GetMeResponse;
@@ -102,11 +103,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
           {profileImagePreview ? (
             <img src={profileImagePreview} alt="Profile Preview" className="w-24 h-24 object-cover rounded-full" />
           ) : (
-            <img
-              src="/userLogo.jpg"
-              alt="Profile"
-              className="w-24 h-24 object-cover rounded-full"
-            />
+            <img src="/userLogo.jpg" alt="Profile" className="w-24 h-24 object-cover rounded-full" />
           )}
           <button
             type="button"
@@ -125,7 +122,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
             disabled={isUpdating}
             className="mt-2 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-400"
           >
-            {isUpdating ? "در حال ذخیره..." : "ذخیره عکس"}
+            {isUpdating ? <SmallSpinner /> : "ذخیره عکس"}
           </button>
         )}
 
@@ -154,7 +151,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
           </li>
           <li className="flex gap-2 items-center">
             <Link to="/user/edit-profile" className="flex gap-2 items-center">
-              <FaUserEdit size={20} />
+              <TbUserEdit size={20} />
               <span>ویرایش مشخصات</span>
             </Link>
           </li>
