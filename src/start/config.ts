@@ -27,6 +27,7 @@ module.exports = (app: Express) => {
 
   // Serving Static Files
   app.use(express.static(path.join(path.resolve(), "src", "public")));
+  app.use(express.static(path.join(path.resolve(), "client", "dist")))
 
   // Development Logging
   if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
