@@ -7,6 +7,8 @@ import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import hpp from "hpp";
 const cookieParser = require("cookie-parser");
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../swagger/config";
 import securityMiddleware from "../middlewares/security";
 import { IUser } from "../types";
 
@@ -70,4 +72,7 @@ module.exports = (app: Express) => {
       whitelist: ["countInStock", "brand", "category", "rating", "numReviews", "price", "discount", "discountedPrice"],
     }),
   );
+
+  // Swagger UI route
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };

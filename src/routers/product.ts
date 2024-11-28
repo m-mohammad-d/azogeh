@@ -4,7 +4,6 @@ import reviewRouter from "./review";
 import authMiddleware from "../middlewares/auth";
 
 const productRouter = express.Router();
-
 productRouter.use("/:productId/reviews", reviewRouter);
 
 //////////// @access PUBLIC ////////////
