@@ -1,8 +1,8 @@
 {
-  "name": "ecommerce-api",
+  "name": "azooghe",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "src/server.ts",
   "scripts": {
     "data:import": "ts-node src/data/seeder.ts -i",
     "data:destroy": "ts-node src/data/seeder.ts -d",
@@ -30,7 +30,6 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.2.7",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/lodash": "^4.17.10",
     "@types/ms": "^0.7.34",
@@ -54,9 +53,7 @@
     "ms": "^2.1.3",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
-    "nouislider": "^15.8.1",
     "pug": "^3.0.3",
-    "react-redux": "^9.1.2",
     "slugify": "^1.6.6",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",

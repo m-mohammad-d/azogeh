@@ -14,7 +14,6 @@ function BestSallersProduct({ product }: BestSallersProductProps) {
     <Link
       to={`/product/${_id}`}
       className="block cursor-pointer bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 relative"
-      target="_blank"
     >
       <article className="p-4 flex flex-col h-full">
         {discount > 0 && (
