@@ -49,7 +49,7 @@ function Search() {
           className="w-full bg-[#F6F5F5] px-7 py-2 pr-12 text-right border rounded-xl focus:outline-none focus:border-gray-200 focus:ring-gray-300 transition duration-200 ease-in-out"
         />
         <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-          <img src="/icon/search.svg" alt="جستجو" />
+          <img src="/icon/Search.svg" alt="جستجو" />
         </span>
       </div>
 
@@ -65,7 +65,10 @@ function Search() {
           ) : products?.data?.products?.length ? (
             <ul>
               {products.data.products.map((product: Product) => (
-                <li key={product.id} className="flex items-center border-b m-0 border-gray-200 overflow-hidden mb-4 w-full">
+                <li
+                  key={product.id}
+                  className="flex items-center border-b m-0 border-gray-200 overflow-hidden mb-4 w-full"
+                >
                   <Link to={`/product/${product.id}`} className="flex w-full" onClick={handleProductClick}>
                     <img src={`${product.image}`} alt={product.name} className="w-16 h-16 object-cover" />
                     <div className="flex-1 p-4 text-right">
