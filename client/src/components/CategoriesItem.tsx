@@ -11,7 +11,7 @@ function CategoriesItem({id ,  name, img }: CategoriesItemProps) {
     <Link to={`/products?category=${id}`}>
       <div className="border shadow-lg px-4 py-6 flex flex-col items-center text-center">
         <div className="w-auto h-28 mb-2">
-          <img src={`/public/category/${img}.png`} alt={name} className="w-full h-full object-contain" />
+          <img src={`/category/${img}.png`} alt={name} className="w-full h-full object-contain" />
         </div>
         <div>
           <p className="text-base lg:text-xl font-semibold text-gray-700 mt-4">{name}</p>
