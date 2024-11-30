@@ -9,6 +9,8 @@ import { LuShoppingCart } from "react-icons/lu";
 import Search from "./Search";
 import { useGetMeQuery } from "../services/UsersApi";
 import ProfileDropdown from "./ProfileDropdown";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,6 +19,10 @@ function Header() {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
   const { data: userInfo } = useGetMeQuery({});
+  const cartItems = useSelector((state: RootState) => state.cart.orderItems);
+  const cartItemCount = cartItems.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.qty;
+  }, 0);
 
   const {
     data: products,
@@ -95,9 +101,21 @@ function Header() {
 
         {/* Show Login Button only in desktop view */}
         <div className="hidden lg:flex lg:items-center gap-4">
-          <Link to="/cart">
-            <LuShoppingCart size={30} className="text-gray-300" />
+          <Link
+            to="/cart"
+            className="relative flex items-center justify-center w-10 h-10"
+            aria-label="View Cart"
+          >
+            {cartItemCount > 0 && (
+              <span
+                className="absolute -top-1 -right-1 bg-primary-500 w-5 h-5 flex items-center justify-center text-xs text-white font-bold rounded-full shadow-lg"
+              >
+                {cartItemCount}
+              </span>
+            )}
+            <LuShoppingCart size={24} className="text-gray-300" />
           </Link>
+
           {userInfo ? (
             <ProfileDropdown userinfo={userInfo} />
           ) : (
