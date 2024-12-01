@@ -6,7 +6,6 @@ import User from "../models/user";
 import { Populate } from "../types";
 import APIFeatures from "../utils/apiFeatures";
 import AppError from "../utils/appError";
-import catchAsync from "../utils/catchAsync";
 
 abstract class CrudController {
   private readonly Model: Model<any>;
@@ -17,7 +16,7 @@ abstract class CrudController {
     this.populate = populate;
   }
 
-  getAll: RequestHandler = catchAsync(async (req, res, next) => {
+  getAll: RequestHandler = async (req, res, next) => {
     const features = new APIFeatures(this.Model, req.query, req.body.initialFilter);
     const { pagination, skip, total } = await features.filter().search().sort().limitFields().pagination();
 
@@ -28,9 +27,9 @@ abstract class CrudController {
     const docs: Document[] = await features.dbQuery;
 
     return this.sendCrudResponse(res, docs, 200, pagination);
-  });
+  };
 
-  getOne: RequestHandler = catchAsync(async (req, res, next) => {
+  getOne: RequestHandler = async (req, res, next) => {
     const query: Query<any, any> = this.Model.findById(req.params.id);
 
     if (this.populate) query.populate({ ...this.populate });
@@ -39,14 +38,14 @@ abstract class CrudController {
     if (!doc) return next(new AppError("هیچ موردی با این شناسه یافت نشد", 404));
 
     return this.sendCrudResponse(res, doc, 200);
-  });
+  };
 
-  createOne: RequestHandler = catchAsync(async (req, res, next) => {
+  createOne: RequestHandler = async (req, res, next) => {
     const doc: Document = await this.Model.create(req.body);
     return this.sendCrudResponse(res, doc, 201);
-  });
+  };
 
-  updateOne: RequestHandler = catchAsync(async (req, res, next) => {
+  updateOne: RequestHandler = async (req, res, next) => {
     let doc: Document | null = await this.Model.findById(req.params.id);
     if (!doc) return next(new AppError("هیچ موردی با این شناسه یافت نشد", 404));
 
@@ -66,9 +65,9 @@ abstract class CrudController {
     });
 
     return this.sendCrudResponse(res, data, 200);
-  });
+  };
 
-  deleteOne: RequestHandler = catchAsync(async (req, res, next) => {
+  deleteOne: RequestHandler = async (req, res, next) => {
     const doc: Document | null = await this.Model.findById(req.params.id);
     if (!doc) {
       return next(new AppError("هیچ موردی با این شناسه یافت نشد", 404));
@@ -95,7 +94,7 @@ abstract class CrudController {
     await this.Model.findOneAndDelete({ _id: req.params.id });
 
     return this.sendCrudResponse(res, null, 204);
-  });
+  };
 
   protected abstract sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any): void;
 }
