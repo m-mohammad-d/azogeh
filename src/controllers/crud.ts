@@ -26,7 +26,7 @@ abstract class CrudController {
     const { pagination, skip, total } = await features.filter().search().sort().limitFields().pagination();
     if (req.query.page && skip >= total) return next(new AppError("این صفحه وجود ندارد", 404));
 
-    const docs: Document[] = await features.query;
+    const docs: Document[] = await features.dbQuery;
 
     return this.sendCrudResponse(res, docs, 200, pagination);
   });
