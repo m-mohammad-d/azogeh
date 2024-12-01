@@ -1,12 +1,12 @@
 import { RequestHandler, Response } from "express";
-import { Document, FilterQuery, Model, Query } from "mongoose";
-import AppError from "../utils/appError";
-import APIFeatures from "../utils/apiFeatures";
-import { Populate } from "../types";
-import catchAsync from "../utils/catchAsync";
+import { Document, Model, Query } from "mongoose";
+import Order from "../models/order";
 import Review from "../models/review";
 import User from "../models/user";
-import Order from "../models/order";
+import { Populate } from "../types";
+import APIFeatures from "../utils/apiFeatures";
+import AppError from "../utils/appError";
+import catchAsync from "../utils/catchAsync";
 
 abstract class CrudController {
   private readonly Model: Model<any>;
@@ -18,13 +18,12 @@ abstract class CrudController {
   }
 
   getAll: RequestHandler = catchAsync(async (req, res, next) => {
-    const filter: FilterQuery<any> = {};
-    if (req.params.productId) filter.product = req.params.productId;
-    if (req.params.userId) filter.user = req.params.userId;
-
-    const features = new APIFeatures(this.Model, req.query, filter);
+    const features = new APIFeatures(this.Model, req.query, req.body.initialFilter);
     const { pagination, skip, total } = await features.filter().search().sort().limitFields().pagination();
-    if (req.query.page && skip >= total) return next(new AppError("این صفحه وجود ندارد", 404));
+
+    if (req.query.page && skip >= total) {
+      return next(new AppError("این صفحه وجود ندارد", 404));
+    }
 
     const docs: Document[] = await features.dbQuery;
 
