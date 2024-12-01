@@ -18,5 +18,5 @@ class OrderController extends CrudController {
   }
 }
 
-const orderController = new OrderController({ path: "user orderItems.product", });
+const orderController = new OrderController({ path: "user orderItems.product" });
 export default orderController;
