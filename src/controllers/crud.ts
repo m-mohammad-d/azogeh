@@ -6,6 +6,7 @@ import { Populate } from "../types";
 import catchAsync from "../utils/catchAsync";
 import Review from "../models/review";
 import User from "../models/user";
+import Order from "../models/order";
 
 abstract class CrudController {
   private readonly Model: Model<any>;
@@ -55,6 +56,11 @@ abstract class CrudController {
         return next(new AppError("شما نمی توانید نظر دیگران را آپدیت کنید", 401));
     }
 
+    if (doc instanceof Order) {
+      if (!(req.user.role === "admin") && !(doc.user.email === req.user.email))
+        return next(new AppError("شما نمی توانید سفارش دیگران را آپدیت کنید", 401));
+    }
+
     const data = await this.Model.findOneAndUpdate({ _id: req.params.id }, req.body, {
       new: true,
       runValidators: true,
@@ -72,6 +78,12 @@ abstract class CrudController {
     if (doc instanceof Review) {
       if (!(req.user.role === "admin") && !(doc.user.email === req.user.email)) {
         return next(new AppError("شما نمی توانید نظر دیگران را حذف کنید", 401));
+      }
+    }
+
+    if (doc instanceof Order) {
+      if (!(req.user.role === "admin") && !(doc.user.email === req.user.email)) {
+        return next(new AppError("شما نمی توانید سفارش دیگران را حذف کنید", 401));
       }
     }
 
