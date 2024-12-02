@@ -11,7 +11,7 @@ interface OrderItem {
   _id: string;
 }
 
-interface Order {
+export interface Order {
   _id: string;
   user: string;
   orderItems: OrderItem[];
@@ -33,7 +33,7 @@ interface Data {
   orders: Order[];
 }
 
-export interface Response {
+export interface OrderResponse {
   status: string;
   results: number;
   pagination: null;

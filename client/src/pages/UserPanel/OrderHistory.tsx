@@ -1,56 +1,21 @@
 import { useState } from "react";
 import OrderCartItem from "../../components/OrderCartItem";
 import Pagination from "../../components/Pagination";
+import Spinner from "../../components/Spinner";
+import { useGetMyOrdersQuery } from "../../services/OrderApi";
+import { useGetProductsQuery } from "../../services/ApiProduct";
 
 function OrderHistory() {
-  // fake order
-  const orders = [
-    {
-      _id: "66d822f3148374a54c6a7913",
-      name: "پودر دسر اکلیلی فرمند با طعم انار - 100 گرم",
-      image: "deser-falvor-farmand.webp",
-      quantity: 1,
-      price: 45000,
-    },
-    {
-      _id: "66d822f3148374a54c6a7913",
-      name: "پودر دسر اکلیلی فرمند با طعم انار - 100 گرم",
-      image: "deser-falvor-farmand.webp",
-      quantity: 1,
-      price: 45000,
-    },
-    {
-      _id: "66d822f3148374a54c6a7913",
-      name: "پودر دسر اکلیلی فرمند با طعم انار - 100 گرم",
-      image: "deser-falvor-farmand.webp",
-      quantity: 1,
-      price: 45000,
-    },
-    {
-      _id: "66d822f3148374a54c6a7913",
-      name: "پودر دسر اکلیلی فرمند با طعم انار - 100 گرم",
-      image: "deser-falvor-farmand.webp",
-      quantity: 1,
-      price: 45000,
-    },
-    {
-      _id: "66d822f3148374a54c6a7913",
-      name: "پودر دسر اکلیلی فرمند با طعم انار - 100 گرم",
-      image: "deser-falvor-farmand.webp",
-      quantity: 1,
-      price: 45000,
-    },
-    {
-      _id: "66d822f3148374a54c6a7913",
-      name: "پودر دسر اکلیلی فرمند با طعم انار - 100 گرم",
-      image: "deser-falvor-farmand.webp",
-      quantity: 1,
-      price: 45000,
-    },
-  ];
+  const { data: orderData, isLoading: isLoadingOrders } = useGetMyOrdersQuery();
+  const { data: productData, isLoading: isLoadingProducts } = useGetProductsQuery();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  if (isLoadingOrders || isLoadingProducts) return <Spinner />;
+
+  const orders = orderData?.data?.orders || [];
+  const products = productData?.data?.products || [];
 
   const itemsPerPage = 5;
-  const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(orders.length / itemsPerPage);
   const indexOfLastOrder = currentPage * itemsPerPage;
@@ -67,8 +32,8 @@ function OrderHistory() {
 
       <h3 className="text-lg sm:text-xl font-bold mt-4">محصولات خریداری شده:</h3>
       <div className="mt-2 flex flex-col space-y-4">
-        {currentOrders.map(product => (
-          <OrderCartItem key={product._id} product={product} />
+        {currentOrders.map(order => (
+          <OrderCartItem key={order._id} order={order} products={products} />
         ))}
       </div>
 
