@@ -5,22 +5,53 @@ import ConfirmationStep from "../components/ConfirmationStep";
 import PaymentConfirmation from "../components/PaymentConfirmation";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetCart } from "../store/CartSlice";
+import { useCreateOrderMutation } from "../services/OrderApi";
+import { RootState } from "../store";
+import { Product } from "../types/product";
 
 const CheckOut: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cartItems = useSelector((state: RootState) => state.cart);
+
+  const [createOrder] = useCreateOrderMutation();
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   const handleNextStep = () => {
     setCurrentStep(prevStep => prevStep + 1);
   };
 
-  const handleCompleteOrder = () => {
-    toast.success("سفارش شما با موفقیت ثبت شد!");
-    setCurrentStep(4);
-    dispatch(resetCart());
+  const handleCompleteOrder = async () => {
+    const transformedData = {
+      orderItems: cartItems.orderItems.map((item: Product) => ({
+        product: item._id,
+        qty: item.qty,
+      })),
+      itemsPrice: cartItems.itemsPrice,
+      shippingPrice: cartItems.shippingPrice,
+      taxPrice: cartItems.taxPrice,
+      totalPrice: cartItems.totalPrice,
+      shippingAddress: {
+        province: cartItems.shippingAddress?.province,
+        city: cartItems.shippingAddress?.city,
+        street: cartItems.shippingAddress?.street,
+      },
+      paymentMethod: cartItems.paymentMethod,
+    };
+    try {
+      const res = await createOrder(transformedData).unwrap();
+      console.log(res);
+
+      toast.success("سفارش شما با موفقیت ثبت شد!");
+      setCurrentStep(4);
+      dispatch(resetCart());
+      resetCart();
+    } catch (error) {
+      console.log(error);
+      toast.error("مشکلی در ثبت سفارش به وجود آمد. لطفاً دوباره تلاش کنید.");
+    }
   };
 
   const handleFinish = () => {
