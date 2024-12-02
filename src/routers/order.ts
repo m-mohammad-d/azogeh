@@ -8,13 +8,29 @@ const orderRouter = express.Router();
 
 //////////// @access USERS ////////////
 orderRouter.use(authMiddleware.protect);
-orderRouter.post("/", orderMiddleware.beforeCreate, orderController.createOne);
-orderRouter.get("/:id", orderController.getOne);
-orderRouter.patch("/:id", orderMiddleware.beforeUpdate, orderController.updateOne);
-orderRouter.delete("/:id", orderController.deleteOne);
+
+orderRouter
+  //
+  .route("/")
+  .post(orderMiddleware.beforeCreate, orderController.createOne);
+
+orderRouter
+  //
+  .route("/:id/pay")
+  .patch(orderController.updateOrderToPaid);
+
+orderRouter
+  .route("/:id")
+  .get(orderController.getOne)
+  .patch(orderMiddleware.beforeUpdate, orderController.updateOne)
+  .delete(orderController.deleteOne);
 
 //////////// @access ADMIN ////////////
 orderRouter.use(authMiddleware.restrictTo("admin"));
-orderRouter.get("/", orderController.getAll);
+
+orderRouter
+  //
+  .route("/")
+  .get(orderController.getAll);
 
 export default orderRouter;
