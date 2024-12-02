@@ -1,5 +1,10 @@
 import { RequestHandler } from "express";
 
+const getMyOrders: RequestHandler = (req, res, next) => {
+  req.body.initialFilter = { user: req.user._id };
+  next();
+};
+
 const beforeCreate: RequestHandler = (req, res, next) => {
   req.body = {
     user: req.user._id,
@@ -27,5 +32,5 @@ const beforeUpdate: RequestHandler = (req, res, next) => {
   next();
 };
 
-const orderMiddleware = { beforeCreate, beforeUpdate };
+const orderMiddleware = { beforeCreate, beforeUpdate, getMyOrders };
 export default orderMiddleware;

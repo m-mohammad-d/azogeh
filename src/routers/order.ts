@@ -16,6 +16,11 @@ orderRouter
 
 orderRouter
   //
+  .route("/get-myorders")
+  .get(orderMiddleware.getMyOrders, orderController.getAll);
+
+orderRouter
+  //
   .route("/:id/pay")
   .patch(orderController.updateOrderToPaid);
 
