@@ -14,7 +14,7 @@ function HomePage() {
 
   return (
     <div className="max-w-screen-xl mx-auto mt-16">
-      <Banner img="banner" />
+      <Banner img="Banner" />
       <CategoriesMenu />
       <SpecialOffers />
       <BestSellers products={data?.data.products} />
