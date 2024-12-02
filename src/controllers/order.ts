@@ -19,9 +19,24 @@ class OrderController extends CrudController {
 
     order.isPaid = true;
     order.paidAt = new Date(Date.now());
-    await order.save();
+    const updatedOrder = await order.save();
 
-    return this.sendCrudResponse(res, order, 200);
+    return this.sendCrudResponse(res, updatedOrder, 200);
+  };
+
+  updateOrderToDeliver: RequestHandler = async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      const msg = "هیچ موردی با این شناسه یافت  نشد";
+      return next(new AppError(msg, 404));
+    }
+
+    order.isDelivered = true;
+    order.deliveredAt = new Date(Date.now());
+    const updatedOrder = await order.save();
+
+    return this.sendCrudResponse(res, updatedOrder, 200);
   };
 
   protected override sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any) {
