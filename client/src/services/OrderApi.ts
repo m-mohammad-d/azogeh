@@ -15,8 +15,8 @@ export const OrderApi = createApi({
     getAllOrder: builder.query<OrderResponse, void>({
       query: () => `orders`,
     }),
-    getMyOrders: builder.query<OrderResponse, void>({
-      query: () => "orders/get-myorders",
+    getMyOrders: builder.query<OrderResponse, { sort: string }>({
+      query: ({ sort }) => `orders/get-myorders?sort=${sort}`,
     }),
   }),
 });

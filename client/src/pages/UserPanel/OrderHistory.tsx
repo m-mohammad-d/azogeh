@@ -2,10 +2,19 @@ import { useState } from "react";
 import Pagination from "../../components/Pagination";
 import Spinner from "../../components/Spinner";
 import { useGetMyOrdersQuery } from "../../services/OrderApi";
+import { Order } from "../../types/OrderType";
 
 function OrderHistory() {
-  const { data: orderData, isLoading: isLoadingOrders } = useGetMyOrdersQuery();
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState<{ key: keyof Order | ""; direction: "asc" | "desc" | null }>({
+    key: "",
+    direction: null,
+  });
+
+  const sortParam =
+    sortConfig.key && sortConfig.direction ? `${sortConfig.direction === "asc" ? "" : "-"}${sortConfig.key}` : "";
+
+  const { data: orderData, isLoading: isLoadingOrders } = useGetMyOrdersQuery({ sort: sortParam });
 
   if (isLoadingOrders) return <Spinner />;
 
@@ -21,20 +30,45 @@ function OrderHistory() {
     setCurrentPage(page);
   };
 
+  const handleSort = (key: keyof Order) => {
+    if (key === "isPaid" || key === "isDelivered") return; 
+
+    let direction: "asc" | "desc" = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto p-6">
       <h1 className="text-3xl font-extrabold mb-6 text-gray-900">تاریخچه سفارشات</h1>
-
       <div className="overflow-x-auto bg-white rounded-lg shadow-lg border-t-4 border-indigo-500">
         <table className="min-w-full table-auto text-sm text-gray-700">
-          <thead className="bg-gradient-to-r text-gray-500">
+          <thead className="bg-gradient-to-r from-indigo-500 to-indigo-400 text-white">
             <tr>
-              <th className="py-4 px-6 text-left">شناسه سفارش</th>
-              <th className="py-4 px-6 text-left">کاربر</th>
-              <th className="py-4 px-6 text-left">تاریخ ایجاد</th>
+              <th className="py-4 px-6 text-left cursor-pointer" onClick={() => handleSort("_id")}>
+                شناسه سفارش
+                {sortConfig.key === "_id" && sortConfig.direction === "asc" ? " ↑" : ""}
+                {sortConfig.key === "_id" && sortConfig.direction === "desc" ? " ↓" : ""}
+              </th>
+              <th className="py-4 px-6 text-left cursor-pointer" onClick={() => handleSort("user")}>
+                کاربر
+                {sortConfig.key === "user" && sortConfig.direction === "asc" ? " ↑" : ""}
+                {sortConfig.key === "user" && sortConfig.direction === "desc" ? " ↓" : ""}
+              </th>
+              <th className="py-4 px-6 text-left cursor-pointer" onClick={() => handleSort("createdAt")}>
+                تاریخ ایجاد
+                {sortConfig.key === "createdAt" && sortConfig.direction === "asc" ? " ↑" : ""}
+                {sortConfig.key === "createdAt" && sortConfig.direction === "desc" ? " ↓" : ""}
+              </th>
               <th className="py-4 px-6 text-left">وضعیت پرداخت</th>
               <th className="py-4 px-6 text-left">وضعیت تحویل</th>
-              <th className="py-4 px-6 text-right">مجموع قیمت</th>
+              <th className="py-4 px-6 text-right cursor-pointer" onClick={() => handleSort("totalPrice")}>
+                مجموع قیمت
+                {sortConfig.key === "totalPrice" && sortConfig.direction === "asc" ? " ↑" : ""}
+                {sortConfig.key === "totalPrice" && sortConfig.direction === "desc" ? " ↓" : ""}
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
