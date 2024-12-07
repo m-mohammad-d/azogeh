@@ -71,8 +71,8 @@ const apiSlice = createApi({
       query: () => "/get-me",
       providesTags: [{ type: "userInfo" }],
     }),
-    getAllUser: builder.query<GetAllUsersResponse, void>({
-      query: () => "/",
+    getAllUser: builder.query<GetAllUsersResponse, { sort?: string }>({
+      query: ({ sort }) => `/?${sort ? `sort=${sort}` : ""}`,
     }),
   }),
 });
