@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { OrderResponse } from "../types/OrderType";
+import { OrderListResponse, OrderRequest } from "../types/OrderType";
 
 export const OrderApi = createApi({
   reducerPath: "OrderApi",
@@ -12,13 +12,16 @@ export const OrderApi = createApi({
         body: formData,
       }),
     }),
-    getAllOrder: builder.query<OrderResponse, { sort: string }>({
+    getAllOrder: builder.query<OrderListResponse, { sort: string }>({
       query: ({ sort }) => `orders?sort=${sort}`,
     }),
-    getMyOrders: builder.query<OrderResponse, { sort: string }>({
+    getMyOrders: builder.query<OrderListResponse, { sort: string }>({
       query: ({ sort }) => `orders/get-myorders?sort=${sort}`,
+    }),
+    getOneOrder: builder.query<OrderRequest, { id: string | undefined }>({
+      query: ({ id }) => `/orders/${id}`,
     }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetAllOrderQuery, useGetMyOrdersQuery } = OrderApi;
+export const { useCreateOrderMutation, useGetOneOrderQuery, useGetAllOrderQuery, useGetMyOrdersQuery } = OrderApi;

@@ -4,6 +4,7 @@ import Spinner from "../../components/Spinner";
 import DataTable from "../../components/DataTable";
 import { useGetMyOrdersQuery } from "../../services/OrderApi";
 import { Order } from "../../types/OrderType";
+import { Link } from "react-router-dom";
 export type Column<T> = {
   key: keyof T;
   label: string;
@@ -75,6 +76,18 @@ function OrderHistory() {
       ),
     },
     { key: "totalPrice", label: "مجموع قیمت", sortable: true },
+    {
+      key: "_id",
+      label: "جزئیات",
+      render: (order: Order) => (
+        <Link
+          to={`/user/manage-order/${order._id}`}
+          className="bg-indigo-500 text-white px-6 py-2 rounded-md hover:bg-indigo-600 transition"
+        >
+          نمایش
+        </Link>
+      ),
+    },
   ];
   return (
     <div className="max-w-screen-xl mx-auto p-6">

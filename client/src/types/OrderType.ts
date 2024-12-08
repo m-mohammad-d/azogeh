@@ -1,3 +1,6 @@
+import { Product } from "./product";
+import { User } from "./reviewsType";
+
 interface ShippingAddress {
   province: string;
   city: string;
@@ -5,7 +8,35 @@ interface ShippingAddress {
   _id: string;
 }
 
-interface OrderItem {
+export interface OrderItemRequest {
+  product: Product;
+  qty: number;
+  _id: string;
+}
+
+export interface OrderRequest {
+  status: string;
+  data: {
+    order: {
+      _id: string;
+      user: User;
+      orderItems: OrderItemRequest[];
+      shippingAddress: ShippingAddress;
+      paymentMethod: string;
+      itemsPrice: number;
+      shippingPrice: number;
+      taxPrice: number;
+      totalPrice: number;
+      isPaid: boolean;
+      isDelivered: boolean;
+      createdAt: string;
+      updatedAt: string;
+      __v: number;
+    };
+  };
+}
+
+export interface OrderItemListResponse {
   product: string;
   qty: number;
   _id: string;
@@ -13,8 +44,8 @@ interface OrderItem {
 
 export interface Order {
   _id: string;
-  user: string;
-  orderItems: OrderItem[];
+  user: User;
+  orderItems: OrderItemRequest[];
   shippingAddress: ShippingAddress;
   paymentMethod: string;
   itemsPrice: number;
@@ -25,17 +56,13 @@ export interface Order {
   isDelivered: boolean;
   createdAt: string;
   updatedAt: string;
-  paidAt?: string;
-  deliveredAt?: string;
+  __v: number;
 }
-
-interface Data {
-  orders: Order[];
-}
-
-export interface OrderResponse {
+export interface OrderListResponse {
   status: string;
   results: number;
   pagination: null;
-  data: Data;
+  data: {
+    orders: Order[];
+  };
 }

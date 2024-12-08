@@ -4,6 +4,7 @@ import Pagination from "../../components/Pagination";
 import DataTable from "../../components/DataTable";
 import { useGetAllOrderQuery } from "../../services/OrderApi";
 import { Order } from "../../types/OrderType";
+import { Link } from "react-router-dom";
 export type Column<T> = {
   key: keyof T;
   label: string;
@@ -66,6 +67,18 @@ function ManageOrder() {
       ),
     },
     { key: "totalPrice", label: "مجموع قیمت", sortable: true },
+    {
+      key: "_id",
+      label: "جزئیات",
+      render: (order: Order) => (
+        <Link
+          to={`/manageorder/${order._id}`}
+          className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition"
+        >
+          نمایش
+        </Link>
+      ),
+    },
   ];
 
   return (

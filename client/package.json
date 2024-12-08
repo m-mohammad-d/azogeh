@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "azooghe": "file:..",
     "framer-motion": "^11.11.17",
+    "moment-jalaali": "^0.10.4",
     "nouislider": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -26,6 +27,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/moment-jalaali": "^0.7.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
