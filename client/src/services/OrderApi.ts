@@ -12,8 +12,8 @@ export const OrderApi = createApi({
         body: formData,
       }),
     }),
-    getAllOrder: builder.query<OrderResponse, void>({
-      query: () => `orders`,
+    getAllOrder: builder.query<OrderResponse, { sort: string }>({
+      query: ({ sort }) => `orders?sort=${sort}`,
     }),
     getMyOrders: builder.query<OrderResponse, { sort: string }>({
       query: ({ sort }) => `orders/get-myorders?sort=${sort}`,
