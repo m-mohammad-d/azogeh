@@ -21,7 +21,13 @@ export const OrderApi = createApi({
     getOneOrder: builder.query<OrderRequest, { id: string | undefined }>({
       query: ({ id }) => `/orders/${id}`,
     }),
+    payOrder: builder.mutation({
+      query: ({orderId}) => ({
+        url: `/orders/${orderId}/pay`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOneOrderQuery, useGetAllOrderQuery, useGetMyOrdersQuery } = OrderApi;
+export const { useCreateOrderMutation, useGetOneOrderQuery, useGetAllOrderQuery, useGetMyOrdersQuery , usePayOrderMutation } = OrderApi;

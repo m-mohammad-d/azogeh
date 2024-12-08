@@ -88,13 +88,13 @@ function OrderPage() {
       </div>
 
       <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
-        {userInfo.data.user.role === "user" && order.isPaid && (
-          <Link to={`payment/${order._id}`} className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md">
+        {userInfo.data.user.role === "user" && !order.isPaid && (
+          <Link to={`/payment/${order._id}`} className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md">
             پرداخت
           </Link>
         )}
 
-        {userInfo.data.user.role == "admin" && order.isDelivered && (
+        {userInfo.data.user.role == "admin" && !order.isDelivered && (
           <button
             onClick={() => handleDeliver(order?._id)}
             className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md"

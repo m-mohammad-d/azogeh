@@ -27,6 +27,7 @@ import ManageProducts from "./pages/Dashboard/ManageProducts";
 import UpdateProduct from "./pages/Dashboard/UpdateProduct";
 import ManageOrder from "./pages/Dashboard/ManageOrder";
 import OrderPage from "./pages/OrderPage";
+import PaymentPage from "./pages/UserPanel/PaymentPage";
 
 const router = createBrowserRouter([
   {
@@ -105,6 +106,10 @@ const router = createBrowserRouter([
               {
                 path: "user/manage-order/:id",
                 element: <OrderPage />,
+              },
+              {
+                path: "/payment/:id",
+                element: <PaymentPage />,
               },
             ],
           },
