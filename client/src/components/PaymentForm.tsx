@@ -42,7 +42,7 @@ const PaymentForm = () => {
   const { id } = useParams();
   const [captchaCode, setCaptchaCode] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [payOrder, { isLoading }] = usePayOrderMutation(); // استفاده از isLoading برای نشان دادن وضعیت در حال پردازش
+  const [payOrder, { isLoading }] = usePayOrderMutation(); 
 
   const generateCaptcha = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -81,7 +81,6 @@ const PaymentForm = () => {
     }
 
     try {
-      // ارسال درخواست پرداخت به API
       await payOrder({ orderId: id }).unwrap();
       toast.success("پرداخت با موفقیت انجام شد.");
     } catch (error) {
