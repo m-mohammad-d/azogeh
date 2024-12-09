@@ -38,7 +38,7 @@ const CommentCard: React.FC<CommentCardProps> = ({ review, onReviewDelete, onRev
     <div className="border rounded-lg p-4 shadow-md bg-white flex gap-4 items-start">
       <div className="flex-shrink-0">
         <img
-          src={defaultProfileImage}
+          src={review.user.photo || defaultProfileImage}
           alt={`${review.user.name}'s profile`}
           className="w-12 h-12 rounded-full object-cover border border-gray-300"
         />

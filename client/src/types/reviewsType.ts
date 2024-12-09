@@ -6,13 +6,13 @@ export interface User {
   role: string;
   createdAt: string;
   updatedAt: string;
+  photo: string;
   __v: number;
   passwordChangedAt?: string;
   passwordResetExpires?: string;
   passwordResetToken?: string;
   id: string;
 }
-
 
 // Define type for Review
 export interface Review {
