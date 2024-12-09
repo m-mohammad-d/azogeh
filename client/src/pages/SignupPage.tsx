@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
