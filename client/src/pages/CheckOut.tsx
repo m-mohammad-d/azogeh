@@ -2,7 +2,6 @@ import { useState } from "react";
 import AddressSelection from "../components/AddressSelection";
 import PaymentMethodStep from "../components/PaymentMethodStep";
 import ConfirmationStep from "../components/ConfirmationStep";
-import PaymentConfirmation from "../components/PaymentConfirmation";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +44,7 @@ const CheckOut: React.FC = () => {
       console.log(res);
 
       toast.success("سفارش شما با موفقیت ثبت شد!");
-      setCurrentStep(4);
+      navigate(`/user/manage-order/${res.data.order._id}`);
       dispatch(resetCart());
       resetCart();
     } catch (error) {
@@ -54,18 +53,12 @@ const CheckOut: React.FC = () => {
     }
   };
 
-  const handleFinish = () => {
-    navigate("/");
-  };
-
   return (
     <div className="flex items-center justify-center my-20 mx-4">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl border-gray-200 border">
         {currentStep === 1 && <AddressSelection onNext={handleNextStep} />}
         {currentStep === 2 && <PaymentMethodStep onNext={handleNextStep} />}
         {currentStep === 3 && <ConfirmationStep onConfirm={handleCompleteOrder} />}
-        {currentStep === 4 && <PaymentConfirmation onFinish={handleFinish} />}
-
         <div className="mt-4">
           <p>مرحله {currentStep} از 4</p>
         </div>
