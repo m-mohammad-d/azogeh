@@ -48,10 +48,14 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
     <div className="relative">
       <button
         ref={buttonRef}
-        className="bg-gray-100 rounded-full p-4 transition-all duration-300 hover:bg-gray-200 focus:outline-none"
+        className="bg-gray-100 rounded-full p-0 w-[52px] h-[52px] transition-all duration-300 hover:bg-gray-200 focus:outline-none"
         onClick={toggleDropdown}
       >
-        <FaRegUser className="text-gray-300" size={20} />
+        {userinfo.data.user.photo ? (
+          <img src={userinfo.data.user.photo} alt="user profile" className="rounded-full w-full h-full object-cover" />
+        ) : (
+          <FaRegUser className="text-gray-300 w-full h-full p-2" />
+        )}
       </button>
       <AnimatePresence>
         {isOpen && (
