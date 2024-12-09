@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import { Product } from "../types/product";
 import { Link } from "react-router-dom";
-import { FaHome, FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
+import { FaInfoCircle, FaServicestack, FaPhoneAlt, FaUser } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
@@ -80,9 +80,6 @@ function Header() {
 
         {/* Full-size navigation */}
         <nav className="hidden lg:flex items-center gap-8">
-          <Link to="/" className="text-gray-700 hover:text-primary-500 transition duration-200">
-            خونه
-          </Link>
           <Link to="/about" className="text-gray-700 hover:text-primary-500 transition duration-200">
             درباره ما
           </Link>
@@ -101,15 +98,9 @@ function Header() {
 
         {/* Show Login Button only in desktop view */}
         <div className="hidden lg:flex lg:items-center gap-4">
-          <Link
-            to="/cart"
-            className="relative flex items-center justify-center w-10 h-10"
-            aria-label="View Cart"
-          >
+          <Link to="/cart" className="relative flex items-center justify-center w-10 h-10" aria-label="View Cart">
             {cartItemCount > 0 && (
-              <span
-                className="absolute -top-1 -right-1 bg-primary-500 w-5 h-5 flex items-center justify-center text-xs text-white font-bold rounded-full shadow-lg"
-              >
+              <span className="absolute -top-1 -right-1 bg-primary-500 w-5 h-5 flex items-center justify-center text-xs text-white font-bold rounded-full shadow-lg">
                 {cartItemCount}
               </span>
             )}
@@ -157,14 +148,6 @@ function Header() {
         </div>
 
         <nav className="flex flex-col p-4">
-          <Link
-            to="/"
-            onClick={toggleSidebar}
-            className="mb-4 flex items-center gap-2 text-gray-700 hover:text-primary-500 transition duration-200"
-          >
-            <FaHome className="h-5 w-5" />
-            <span>خونه</span>
-          </Link>
           <Link
             to="/about"
             onClick={toggleSidebar}
