@@ -3,14 +3,17 @@ import React from "react";
 interface UserCardProps {
   name: string;
   email: string;
+  photo: string;
   onBan: () => void;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ name, email, onBan }) => {
+const UserCard: React.FC<UserCardProps> = ({ name, email, photo, onBan }) => {
+  const defaultProfileImage =
+    "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars.png";
   return (
     <div className="flex items-center p-4 bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-shadow">
       <img
-        src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon.png"
+        src={photo || defaultProfileImage}
         alt={`${name}'s profile`}
         className="w-16 h-16 rounded-full object-cover mr-4"
         onError={e => (e.currentTarget.src = "path/to/default-image.jpg")}

@@ -83,7 +83,7 @@ function UserListPage() {
 
       <div className="grid grid-cols-1 gap-4">
         {users.map(user => (
-          <UserCard key={user.id} name={user.name} email={user.email} onBan={() => handleBan(user.id)} />
+          <UserCard key={user.id} name={user.name} email={user.email} photo={user.photo} onBan={() => handleBan(user.id)} />
         ))}
       </div>
     </div>
