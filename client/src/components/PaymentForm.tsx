@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { usePayOrderMutation } from "../services/OrderApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const paymentSchema = z.object({
   cardNumber: z
@@ -38,11 +38,12 @@ const PaymentForm = () => {
   } = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
   });
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const [captchaCode, setCaptchaCode] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [payOrder, { isLoading }] = usePayOrderMutation(); 
+  const [payOrder, { isLoading }] = usePayOrderMutation();
 
   const generateCaptcha = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -83,6 +84,7 @@ const PaymentForm = () => {
     try {
       await payOrder({ orderId: id }).unwrap();
       toast.success("پرداخت با موفقیت انجام شد.");
+      navigate(-1);
     } catch (error) {
       toast.error("مشکلی در پرداخت محصول به وجود آمد.");
     }
