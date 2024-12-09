@@ -10,7 +10,7 @@ const categories = [
   { id: "Hot-beverage", name: "نوشیدنی گرم", img: "hot-beverage" },
   { id: "Bakery", name: "نان و بیکری", img: "bread" },
   { id: "Spices", name: "ادویه جات", img: "spice" },
-  { id: "protein", name: "مواد پروتئینی", img: "protein" },
+  { id: "protein", name: "مواد پروتئینی", img: "Protein" },
   { id: "Legumes", name: "حبوبات", img: "Legumes" },
   { id: "Pickles", name: "ترشیجات", img: "pickles" },
   { id: "Sweets", name: "شیرینی جات", img: "sweets" },
