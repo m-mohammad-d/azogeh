@@ -93,7 +93,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
               </Link>
               <Link
                 to="/user/change-password"
-                className="flex items-center justify-between text-zinc-700 dark:text-white px-2.5 h-[46px] rounded-xl hover:bg-gray-100 dark:hover:bg-slate transition-colors"
+                className="flex items-center justify-between text-zinc-700  px-2.5 h-[46px] rounded-xl hover:bg-gray-100  transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
