@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 import { useGetMeQuery, useLoginMutation } from "../services/UsersApi";
@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { ErrorResponse } from "../types/ErrorType";
 import InputField from "../components/InputField";
 import SmallSpinner from "../components/SmallSpinner";
-
+import ReCAPTCHA from "react-google-recaptcha";
 const schema = z.object({
   email: z.string().email("ایمیل نامعتبر است.").nonempty("ایمیل نمی‌تواند خالی باشد."),
   password: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
@@ -22,6 +22,7 @@ function LoginPage() {
   const { data: user } = useGetMeQuery({});
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
+  const recaptchaRef = useRef<ReCAPTCHA | null>();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -40,6 +41,10 @@ function LoginPage() {
   });
 
   const onSubmit = async (data: FormData) => {
+    if (!recaptchaRef.current?.getValue()) {
+      toast.error("تایید کنید که ربات نیستید");
+      return;
+    }
     try {
       await login(data).unwrap();
       await navigate(backUrl);
@@ -80,6 +85,12 @@ function LoginPage() {
                 <RiEyeCloseLine onClick={() => setShowPassword(true)} />
               )}
             </div>
+          </div>
+          <div className="mb-6 flex justify-center">
+            <ReCAPTCHA
+              sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR"
+              ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>}
+            />
           </div>
 
           <div className="flex items-center justify-between mb-4">
