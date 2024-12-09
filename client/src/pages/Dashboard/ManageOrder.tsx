@@ -72,7 +72,7 @@ function ManageOrder() {
       label: "جزئیات",
       render: (order: Order) => (
         <Link
-          to={`/manageorder/${order._id}`}
+          to={`/admin/manage-order/${order._id}`}
           className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition"
         >
           نمایش

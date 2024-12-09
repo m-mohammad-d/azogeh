@@ -1,23 +1,30 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetOneOrderQuery } from "../services/OrderApi";
+import { useDeliverOrderMutation, useGetOneOrderQuery } from "../services/OrderApi";
 import Spinner from "../components/Spinner";
 import { FaArrowLeft } from "react-icons/fa";
 import moment from "moment-jalaali";
 import { separateThousands } from "../utils/FormatNumber";
 import { useGetMeQuery } from "../services/UsersApi";
+import toast from "react-hot-toast";
 
 function OrderPage() {
   const { id } = useParams();
   const { data: orderData, isLoading: isLoadingOrders } = useGetOneOrderQuery({ id });
   const { data: userInfo } = useGetMeQuery({});
+  const [deliverOrder] = useDeliverOrderMutation();
   if (isLoadingOrders) return <Spinner />;
 
   const order = orderData?.data.order;
   const persianDate = moment(order?.createdAt).format("jYYYY/jMM/jDD");
   if (!id || !order) return <p>همچین سفارشی وجود ندارد</p>;
 
-  function handleDeliver(_id: string): void {
-    throw new Error("Function not implemented.");
+  async function handleDeliver(_id: string) {
+    try {
+      await deliverOrder({ orderId: _id }).unwrap();
+      toast.success("پرداخت با موفقیت انجام شد.");
+    } catch (error) {
+      toast.error("مشکلی در پرداخت محصول به وجود آمد.");
+    }
   }
 
   return (
@@ -88,21 +95,35 @@ function OrderPage() {
       </div>
 
       <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
-        {userInfo.data.user.role === "user" && !order.isPaid && (
-          <Link to={`/payment/${order._id}`} className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md">
-            پرداخت
-          </Link>
+        {userInfo.data.user.role === "user" && (
+          <>
+            {!order.isPaid ? (
+              <Link
+                to={`/payment/${order._id}`}
+                className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md"
+              >
+                پرداخت
+              </Link>
+            ) : (
+              <span className="text-green-600 font-medium">این محصول پرداخت شده است</span>
+            )}
+          </>
         )}
 
-        {userInfo.data.user.role == "admin" && !order.isDelivered && (
-          <button
-            onClick={() => handleDeliver(order?._id)}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md"
-          >
-            تحویل سفارش
-          </button>
+        {!order.isDelivered ? (
+          userInfo.data.user.role === "admin" && (
+            <button
+              onClick={() => handleDeliver(order?._id)}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md"
+            >
+              تحویل سفارش
+            </button>
+          )
+        ) : (
+          <span className="text-blue-600 font-medium">این محصول تحویل داده شده است</span>
         )}
       </div>
+
       {/* Order Items */}
       <div className="p-4">
         <div className="space-y-4 border border-gray-100 mt-4 p-4">
