@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 import { useGetMeQuery, useSignUpMutation } from "../services/UsersApi";
@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { ErrorResponse } from "../types/ErrorType";
 import InputField from "../components/InputField";
 import SmallSpinner from "../components/SmallSpinner";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const schema = z
   .object({
@@ -32,10 +33,12 @@ function SignUpPage() {
   const { data: user } = useGetMeQuery({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA | null>();
+
   const [signup, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const queryParams = new URLSearchParams(location.search);
   const backUrl = queryParams.get("backUrl") || "/";
 
@@ -52,6 +55,10 @@ function SignUpPage() {
   });
 
   const onSubmit = async (data: FormData) => {
+    if (!recaptchaRef.current?.getValue()) {
+      toast.error("تایید کنید که ربات نیستید");
+      return;
+    }
     try {
       await signup(data).unwrap();
       navigate(backUrl);
@@ -110,7 +117,6 @@ function SignUpPage() {
               )}
             </div>
           </div>
-
           <div className="relative mb-6">
             <InputField
               id="passwordConfirmation"
@@ -129,6 +135,12 @@ function SignUpPage() {
             </div>
           </div>
 
+            <div className="mb-6 flex justify-center">
+              <ReCAPTCHA
+                sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR"
+                ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>}
+              />
+            </div>
           <div className="flex items-center justify-between mb-4">
             <button
               type="submit"
