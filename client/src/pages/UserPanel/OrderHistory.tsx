@@ -5,6 +5,7 @@ import DataTable from "../../components/DataTable";
 import { useGetMyOrdersQuery } from "../../services/OrderApi";
 import { Order } from "../../types/OrderType";
 import { Link } from "react-router-dom";
+
 export type Column<T> = {
   key: keyof T;
   label: string;
@@ -18,16 +19,20 @@ function OrderHistory() {
     key: "",
     direction: null,
   });
+  const [filter, setFilter] = useState<"all" | "paid" | "unpaid" | "delivered" | "undelivered">("all");
 
   const sortParam =
     sortConfig.key && sortConfig.direction ? `${sortConfig.direction === "asc" ? "" : "-"}${sortConfig.key}` : "";
 
-  const { data: orderData, isLoading: isLoadingOrders } = useGetMyOrdersQuery({ sort: sortParam });
+  const { data: orderData, isLoading: isLoadingOrders } = useGetMyOrdersQuery({
+    sort: sortParam,
+    isPaid: filter === "paid" ? true : filter === "unpaid" ? false : undefined,
+    isDelivered: filter === "delivered" ? true : filter === "undelivered" ? false : undefined,
+  });
 
   if (isLoadingOrders) return <Spinner />;
 
   const orders = orderData?.data?.orders || [];
-
   const itemsPerPage = 5;
   const totalPages = Math.ceil(orders.length / itemsPerPage);
   const indexOfLastOrder = currentPage * itemsPerPage;
@@ -89,9 +94,33 @@ function OrderHistory() {
       ),
     },
   ];
+
   return (
     <div className="max-w-screen-xl mx-auto p-6">
       <h1 className="text-3xl font-extrabold mb-6 text-gray-900">تاریخچه سفارشات</h1>
+      <div className="border-b border-gray-200 mb-4">
+        <ul className="flex overflow-auto">
+          {[
+            { key: "all", label: "همه" },
+            { key: "delivered", label: "تحویل شده" },
+            { key: "undelivered", label: "تحویل نشده" },
+            { key: "paid", label: "پرداخت شده" },
+            { key: "unpaid", label: "پرداخت نشده" },
+          ].map(({ key, label }) => (
+            <li
+              key={key}
+              className={`relative px-4 py-2 flex-grow text-center cursor-pointer ${
+                filter === key ? "text-primary-500" : "text-gray-500"
+              }`}
+              onClick={() => setFilter(key as typeof filter)}
+            >
+              {label}
+              {filter === key && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-500"></div>}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <DataTable data={currentOrders} columns={columns} onSort={handleSort} sortConfig={sortConfig} />
       <div className="mt-6">
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />

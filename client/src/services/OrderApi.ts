@@ -18,8 +18,15 @@ export const OrderApi = createApi({
       providesTags: [{ type: "order" }],
     }),
 
-    getMyOrders: builder.query<OrderListResponse, { sort: string }>({
-      query: ({ sort }) => `orders/get-myorders?sort=${sort}`,
+    getMyOrders: builder.query<OrderListResponse, { sort: string; isPaid?: boolean; isDelivered?: boolean }>({
+      query: ({ sort, isPaid, isDelivered }) => {
+        let query = `orders/get-myorders?sort=${sort}`;
+
+        if (isPaid !== undefined) query += `&isPaid=${isPaid}`;
+        if (isDelivered !== undefined) query += `&isDelivered=${isDelivered}`;
+
+        return query;
+      },
       providesTags: [{ type: "order" }],
     }),
     getOneOrder: builder.query<OrderRequest, { id: string | undefined }>({
