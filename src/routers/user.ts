@@ -26,6 +26,8 @@ userRouter.delete("/delete-me", userController.deleteMe);
 
 userRouter.use(authMiddleware.restrictTo("admin"));
 
+userRouter.get("/get-users-count", userController.getUsersCountByDay);
+
 userRouter
   //
   .route("/")
