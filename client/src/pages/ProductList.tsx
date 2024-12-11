@@ -20,7 +20,7 @@ function ProductList() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedSort, setSelectedSort] = useState("");
-  const [isFilterOpen, setIsFilterOpen] = useState(false); // اضافه شدن حالت فیلتر
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
     const isAvailableParam = searchParams.get("isAvailable");
