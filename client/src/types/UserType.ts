@@ -26,3 +26,12 @@ export interface GetMeResponse {
     user: UserProfile;
   };
 }
+
+export interface GetUsersCount {
+  date: string;
+  count: string;
+}
+
+export interface GetUsersCountResponse {
+  data: GetUsersCount[];
+}

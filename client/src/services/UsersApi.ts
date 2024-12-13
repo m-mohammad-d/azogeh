@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetAllUsersResponse } from "../types/UserType";
+import { GetAllUsersResponse, GetUsersCountResponse } from "../types/UserType";
 
 const apiSlice = createApi({
   reducerPath: "api",
@@ -74,11 +74,15 @@ const apiSlice = createApi({
     getAllUser: builder.query<GetAllUsersResponse, { sort?: string }>({
       query: ({ sort }) => `/?${sort ? `sort=${sort}` : ""}`,
     }),
+    getUsersCount: builder.query<GetUsersCountResponse, { period: string }>({
+      query: ({ period }) => `/get-users-count?period=${period}`,
+    }),
   }),
 });
 
 export const {
   useSignUpMutation,
+  useGetUsersCountQuery,
   useLoginMutation,
   useUpdateInfoMutation,
   useGetMeQuery,

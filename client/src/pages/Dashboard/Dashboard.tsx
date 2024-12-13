@@ -1,6 +1,9 @@
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import Spinner from "../../components/Spinner";
 import { useGetProductsQuery } from "../../services/ApiProduct";
+import { useGetUsersCountQuery } from "../../services/UsersApi";
+import moment from "moment-jalaali";
+import { useState } from "react";
 
 // Data for product sales
 const productSalesData = [
@@ -22,28 +25,23 @@ const dailyProductSales = [
   { date: "1402/07/07", sales: 160 },
 ];
 
-// Data for daily user registrations
-const dailyUserRegistrations = [
-  { date: "1402/07/01", registrations: 30 },
-  { date: "1402/07/02", registrations: 45 },
-  { date: "1402/07/03", registrations: 20 },
-  { date: "1402/07/04", registrations: 50 },
-  { date: "1402/07/05", registrations: 35 },
-  { date: "1402/07/06", registrations: 60 },
-  { date: "1402/07/07", registrations: 40 },
-];
-
 // Chart colors
 const chartColors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EEB", "#FF5678", "#FF5678"];
 
 function Dashboard() {
   const { data: products, isLoading } = useGetProductsQuery({});
+  const [period, setPeriod] = useState<"week" | "month" | "year">("week");
+  const { data: usersCount, isLoading: isLoadingUser } = useGetUsersCountQuery({ period });
   const productsList = products?.data?.products.slice(0);
+  const userCountList = usersCount?.data;
+  const userCountListWithJalaliDates = userCountList?.map(item => ({
+    ...item,
+    date: moment(item.date).format("jYYYY/jMM/jDD"),
+  }));
 
   const sortedProductsByRating = productsList?.sort((a, b) => b.rating - a.rating);
-  console.log(sortedProductsByRating);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isLoadingUser) return <Spinner />;
 
   return (
     <div className="p-4">
@@ -75,7 +73,6 @@ function Dashboard() {
                   fontSize: "16px",
                 }}
               />
-              <Legend />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -121,6 +118,8 @@ function Dashboard() {
                 align="center"
                 wrapperStyle={{
                   marginTop: "10px",
+                  textWrap: "wrap",
+                  overflow: "hidden",
                 }}
               />
             </PieChart>
@@ -128,6 +127,45 @@ function Dashboard() {
         </div>
 
         {/* Daily product sales line chart */}
+        <div className="hidden lg:flex lg:gap-4 mb-6">
+          <button
+            className={`text-gray-300 hover:text-primary-400 ${
+              period === "week" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+            }`}
+            onClick={() => setPeriod("week")}
+          >
+            هفته
+          </button>
+          <button
+            className={`text-gray-300 hover:text-primary-400 ${
+              period === "month" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+            }`}
+            onClick={() => setPeriod("month")}
+          >
+            ماه
+          </button>
+          <button
+            className={`text-gray-300 hover:text-primary-400 ${
+              period === "year" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+            }`}
+            onClick={() => setPeriod("year")}
+          >
+            سال
+          </button>
+        </div>
+
+        <div className="lg:hidden flex items-center gap-4 mb-6">
+          <select
+            value={period}
+            onChange={e => setPeriod(e.target.value as "week" | "month" | "year")}
+            className="w-full rounded-lg p-3 text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-500 transition duration-200"
+          >
+            <option value="week">هفته</option>
+            <option value="month">ماه</option>
+            <option value="year">سال</option>
+          </select>
+        </div>
+
         <div className="col-span-1 md:col-span-2">
           <h2 className="text-lg md:text-xl font-semibold my-8">تعداد محصولات فروخته شده در هر روز</h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -144,11 +182,11 @@ function Dashboard() {
         <div className="col-span-1 md:col-span-2">
           <h2 className="text-lg md:text-xl font-semibold my-8">تعداد کاربران ثبت نام کرده در هر روز</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dailyUserRegistrations}>
+            <LineChart data={userCountListWithJalaliDates}>
               <XAxis dataKey="date" tick={{ dx: 20, dy: 10 }} />
               <YAxis tick={{ dx: -20, dy: -20 }} />
               <Tooltip />
-              <Line type="monotone" dataKey="registrations" stroke="#8884d8" />
+              <Line type="monotone" dataKey="count" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
         </div>
