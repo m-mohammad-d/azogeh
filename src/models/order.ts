@@ -32,7 +32,7 @@ const orderSchema = new Schema<IOrder>(
     paidAt: { type: Date },
     deliveredAt: { type: Date },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const Order = model<IOrder>("Order", orderSchema);

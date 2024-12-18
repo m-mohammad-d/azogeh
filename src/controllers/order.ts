@@ -39,6 +39,41 @@ class OrderController extends CrudController {
     return this.sendCrudResponse(res, updatedOrder, 200);
   };
 
+  getAllTops: RequestHandler = async (req, res, next) => {
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const TopSellingProducts = await Order.aggregate([
+      { $unwind: "$orderItems" },
+      {
+        $group: {
+          _id: "$orderItems.product",
+          totalSold: { $sum: "$orderItems.qty" },
+        },
+      },
+      { $sort: { totalSold: -1 } },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "_id",
+          as: "product",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      result: TopSellingProducts.length,
+      data: TopSellingProducts,
+    });
+  };
+
   protected override sendCrudResponse(res: Response, data: any, statusCode: number, pagination?: any) {
     res.status(statusCode).json({
       status: "success",
