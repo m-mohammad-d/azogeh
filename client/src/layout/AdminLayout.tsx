@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { FiMenu, FiLogOut, FiBarChart } from "react-icons/fi";
+import { FiMenu, FiLogOut } from "react-icons/fi";
 import { FaUsers, FaBox, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
-import { MdClose, MdOutlineDashboard } from "react-icons/md";
+import { MdClose, MdNotifications, MdOutlineDashboard } from "react-icons/md";
 import { useGetMeQuery, useLogoutMutation } from "../services/UsersApi";
 import Spinner from "../components/Spinner";
 import toast from "react-hot-toast";
@@ -109,9 +109,9 @@ function AdminLayout() {
               label: "مدیریت سفارشات",
             },
             {
-              to: "/admin/manage-orders",
-              icon: <FiBarChart className="mr-2 text-lg" />,
-              label: "گزارش محصولات ",
+              to: "/admin/notification",
+              icon: <MdNotifications className="mr-2 text-lg" />,
+              label: "اعلانات موجودی",
             },
           ].map(({ to, icon, label }) => (
             <Link
