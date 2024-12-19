@@ -7,20 +7,10 @@ import { FaMinus, FaRegTrashAlt, FaTag } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
 import { MdAdd, MdAddShoppingCart } from "react-icons/md";
+import { Product } from "../types/product";
 
 type ProductInfoProps = {
-  product: {
-    _id: string;
-    name: string;
-    brand: string;
-    category: string;
-    numReviews: number;
-    rating: number;
-    image: string;
-    images: string[];
-    price: number;
-    discountedPrice: number | null;
-  };
+  product: Product;
   onAddToCart: () => void;
 };
 
@@ -43,6 +33,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
   const discountPercentage = product.discountedPrice
     ? ((product.price - product.discountedPrice) / product.price) * 100
     : null;
+
+  const isInStock = product.countInStock > 0;
+  const isLowStock = product.countInStock >= 1 && product.countInStock <= 30;
 
   return (
     <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between gap-10">
@@ -86,38 +79,46 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
           )}
         </p>
 
-        {cartItem ? (
-          <div className="flex items-center">
+        {isInStock ? (
+          cartItem ? (
+            <div className="flex items-center">
+              <button
+                id="increment-btn"
+                onClick={() => dispatch(increaseQuantity(product._id))}
+                className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600 transition-all duration-200 ease-in-out transform hover:scale-110"
+                aria-label="Increase quantity"
+              >
+                <MdAdd />
+              </button>
+              <span className="text-2xl text-gray-400 font-bold mx-2 transition-all duration-200 ease-in-out">
+                {cartItem.qty}
+              </span>
+              <button
+                id="decrement-btn"
+                onClick={handleDecrement}
+                className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600 transition-all duration-200 ease-in-out transform hover:scale-110"
+                aria-label="Decrease quantity or remove item"
+              >
+                {cartItem.qty > 1 ? <FaMinus /> : <FaRegTrashAlt />}
+              </button>
+            </div>
+          ) : (
             <button
-              id="increment-btn"
-              onClick={() => dispatch(increaseQuantity(product._id))}
-              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600 transition-all duration-200 ease-in-out transform hover:scale-110"
-              aria-label="Increase quantity"
+              className="flex items-center gap-2 bg-primary-500 text-white py-2 px-6 rounded-lg transition-all duration-500 hover:bg-primary-600"
+              onClick={onAddToCart}
+              aria-label="اضافه به سبد خرید"
             >
-              <MdAdd />
+              <MdAddShoppingCart />
+              اضافه به سبد خرید
             </button>
-            <span className="text-2xl text-gray-400 font-bold mx-2 transition-all duration-200 ease-in-out">
-              {cartItem.qty}
-            </span>
-            <button
-              id="decrement-btn"
-              onClick={handleDecrement}
-              className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600 transition-all duration-200 ease-in-out transform hover:scale-110"
-              aria-label="Decrease quantity or remove item"
-            >
-              {cartItem.qty > 1 ? <FaMinus /> : <FaRegTrashAlt />}
-            </button>
-          </div>
+          )
         ) : (
-          <button
-            className="flex items-center gap-2 bg-primary-500 text-white py-2 px-6 rounded-lg transition-all duration-500 hover:bg-primary-600"
-            onClick={onAddToCart}
-            aria-label="اضافه به سبد خرید"
-          >
-            <MdAddShoppingCart />
-            اضافه به سبد خرید
-          </button>
+          <p className="text-center text-red-600 font-bold p-4 rounded-lg shadow-md">
+            متأسفیم، این محصول تمام شده! برای خرید زودتر اقدام کنید تا از دستش ندید. 🙁
+          </p>
         )}
+
+        {isLowStock && <p className="text-red-500 font-bold">فقط {product.countInStock} عدد باقی مانده!</p>}
       </div>
     </div>
   );
