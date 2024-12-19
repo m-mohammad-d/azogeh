@@ -4,36 +4,36 @@ import { useGetProductsQuery } from "../../services/ApiProduct";
 import { useGetUsersCountQuery } from "../../services/UsersApi";
 import moment from "moment-jalaali";
 import { useState } from "react";
+import { useTopSellingProductsQuery } from "../../services/OrderApi";
 
-// Data for product sales
-const productSalesData = [
-  { name: "محصول 1", sales: 400 },
-  { name: "محصول 2", sales: 300 },
-  { name: "محصول 3", sales: 300 },
-  { name: "محصول 4", sales: 200 },
-  { name: "محصول 5", sales: 100 },
-];
-
-// Data for daily product sales
-const dailyProductSales = [
-  { date: "1402/07/01", sales: 120 },
-  { date: "1402/07/02", sales: 150 },
-  { date: "1402/07/03", sales: 100 },
-  { date: "1402/07/04", sales: 200 },
-  { date: "1402/07/05", sales: 180 },
-  { date: "1402/07/06", sales: 220 },
-  { date: "1402/07/07", sales: 160 },
-];
+// // Data for daily product sales
+// const dailyProductSales = [
+//   { date: "1402/07/01", sales: 120 },
+//   { date: "1402/07/02", sales: 150 },
+//   { date: "1402/07/03", sales: 100 },
+//   { date: "1402/07/04", sales: 200 },
+//   { date: "1402/07/05", sales: 180 },
+//   { date: "1402/07/06", sales: 220 },
+//   { date: "1402/07/07", sales: 160 },
+// ];
 
 // Chart colors
-const chartColors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EEB", "#FF5678", "#FF5678"];
+const salesChartColors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#E7E9ED"];
+const ratingChartColors = ["#8E44AD", "#3498DB", "#E74C3C", "#1ABC9C", "#F1C40F", "#2ECC71", "#E67E22"];
 
 function Dashboard() {
   const { data: products, isLoading } = useGetProductsQuery({});
+  const limitTopProduct = 5;
+  const { data: topSellingProduct, isLoading: isLoadingTopSellingProduct } = useTopSellingProductsQuery({
+    limit: limitTopProduct,
+  });
   const [period, setPeriod] = useState<"week" | "month" | "year">("week");
   const { data: usersCount, isLoading: isLoadingUser } = useGetUsersCountQuery({ period });
+
   const productsList = products?.data?.products.slice(0);
   const userCountList = usersCount?.data;
+  const topSellingProductList = topSellingProduct?.data;
+
   const userCountListWithJalaliDates = userCountList?.map(item => ({
     ...item,
     date: moment(item.date).format("jYYYY/jMM/jDD"),
@@ -41,7 +41,7 @@ function Dashboard() {
 
   const sortedProductsByRating = productsList?.sort((a, b) => b.rating - a.rating);
 
-  if (isLoading || isLoadingUser) return <Spinner />;
+  if (isLoading || isLoadingUser || isLoadingTopSellingProduct) return <Spinner />;
 
   return (
     <div className="p-4">
@@ -49,11 +49,18 @@ function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="col-span-1">
           <h2 className="text-lg md:text-xl font-semibold mt-6 text-center">محصولات با بیشترین فروش</h2>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={400}>
             <PieChart>
-              <Pie data={productSalesData} dataKey="sales" nameKey="name" cx="50%" cy="50%" outerRadius="80%">
-                {productSalesData.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+              <Pie
+                data={topSellingProductList}
+                dataKey="totalSold"
+                nameKey="product[0].name"
+                cx="50%"
+                cy="50%"
+                outerRadius="80%"
+              >
+                {topSellingProductList?.map((_, index) => (
+                  <Cell key={`cell-${index}`} fill={salesChartColors[index % salesChartColors.length]} />
                 ))}
               </Pie>
               <Tooltip
@@ -71,6 +78,16 @@ function Dashboard() {
                 labelStyle={{
                   fontWeight: "bold",
                   fontSize: "16px",
+                }}
+              />
+              <Legend
+                layout="horizontal"
+                verticalAlign="bottom"
+                align="center"
+                wrapperStyle={{
+                  marginTop: "10px",
+                  textWrap: "wrap",
+                  overflow: "hidden",
                 }}
               />
             </PieChart>
@@ -92,7 +109,7 @@ function Dashboard() {
                 outerRadius="80%"
               >
                 {sortedProductsByRating?.slice(0, 5).map((_, index) => {
-                  return <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />;
+                  return <Cell key={`cell-${index}`} fill={ratingChartColors[index % ratingChartColors.length]} />;
                 })}
               </Pie>
               <Tooltip
@@ -166,7 +183,7 @@ function Dashboard() {
           </select>
         </div>
 
-        <div className="col-span-1 md:col-span-2">
+        {/* <div className="col-span-1 md:col-span-2">
           <h2 className="text-lg md:text-xl font-semibold my-8">تعداد محصولات فروخته شده در هر روز</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dailyProductSales}>
@@ -176,7 +193,7 @@ function Dashboard() {
               <Line type="monotone" dataKey="sales" stroke="#FF7300" />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </div> */}
 
         {/* Daily user registrations line chart */}
         <div className="col-span-1 md:col-span-2">

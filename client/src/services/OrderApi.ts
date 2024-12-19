@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { OrderListResponse, OrderRequest } from "../types/OrderType";
+import { OrderListResponse, OrderRequest, TopSellingProductResponse } from "../types/OrderType";
 
 export const OrderApi = createApi({
   reducerPath: "OrderApi",
@@ -47,6 +47,10 @@ export const OrderApi = createApi({
       }),
       invalidatesTags: ["order"],
     }),
+    topSellingProducts: builder.query<TopSellingProductResponse, { limit: number | undefined }>({
+      query: ({ limit }) => `/orders/top-selling-products?limit=${limit}`,
+      providesTags: [{ type: "order" }],
+    }),
   }),
 });
 
@@ -57,4 +61,5 @@ export const {
   useGetMyOrdersQuery,
   usePayOrderMutation,
   useDeliverOrderMutation,
+  useTopSellingProductsQuery,
 } = OrderApi;
