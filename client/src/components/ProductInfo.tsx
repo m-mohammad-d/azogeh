@@ -6,9 +6,8 @@ import { increaseQuantity, decreaseQuantity, removeFromCart } from "../store/Car
 import { FaMinus, FaRegTrashAlt, FaTag } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
-import { MdAdd, MdAddShoppingCart } from "react-icons/md";
+import { MdAdd, MdAddShoppingCart, MdOutlineVerifiedUser } from "react-icons/md";
 import { Product } from "../types/product";
-
 type ProductInfoProps = {
   product: Product;
   onAddToCart: () => void;
@@ -51,11 +50,13 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
         <p className="text-lg mb-1">
           <span className="font-bold">برند:</span> {product.brand}
         </p>
-        <p className="text-lg mb-1">
-          <span className="font-bold">تعداد فروش:</span> {product.numReviews} خریدار
-        </p>
+
         <p className="text-lg mb-1">
           <span className="font-bold">امتیاز:</span> {product.rating}
+        </p>
+        <p className="text-lg mb-1 flex items-center gap-2">
+          <MdOutlineVerifiedUser size={20} />
+          <span className="font-bold">گارانتی اصالت و سلامت فیزیکی کالا</span>
         </p>
         <p className="text-lg mb-1 flex items-center">
           <span className="font-bold">قیمت:</span>
