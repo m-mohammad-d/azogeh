@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { usePayOrderMutation } from "../services/OrderApi";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { productsApi } from "../services/ApiProduct";
 
 const paymentSchema = z.object({
   cardNumber: z
@@ -39,6 +41,7 @@ const PaymentForm = () => {
     resolver: zodResolver(paymentSchema),
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { id } = useParams();
   const [captchaCode, setCaptchaCode] = useState<string>("");
@@ -83,6 +86,7 @@ const PaymentForm = () => {
 
     try {
       await payOrder({ orderId: id }).unwrap();
+      dispatch(productsApi.util.invalidateTags(["product"]))
       toast.success("پرداخت با موفقیت انجام شد.");
       navigate(-1);
     } catch (error) {

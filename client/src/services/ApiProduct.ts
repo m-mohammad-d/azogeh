@@ -4,6 +4,7 @@ import { FetchResponse, FetchResponseproduct, Product } from "../types/product";
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  tagTypes: ["product"],
   endpoints: builder => ({
     getProducts: builder.query<
       FetchResponse<Product>,
@@ -47,9 +48,11 @@ export const productsApi = createApi({
         }
         return queryString;
       },
+      providesTags: ["product"],
     }),
     getProductById: builder.query<FetchResponseproduct<Product>, string>({
       query: id => `products/${id}`,
+      providesTags: ["product"],
     }),
     getProductReviews: builder.query({
       query: id => `/products/${id}/reviews`,
