@@ -66,9 +66,9 @@ function Header() {
       <div className="bg-primary-500 w-full h-12"></div>
       <div className="max-w-screen-xl flex justify-between items-center p-4 mx-auto mt-10">
         <div className="flex items-center gap-8">
-          <div>
+          <Link to="/">
             <img src="/LOGO.png" alt="Logo" className="h-10" />
-          </div>
+          </Link>
         </div>
 
         {/* Burger Menu Icon */}

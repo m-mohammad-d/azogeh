@@ -3,6 +3,7 @@ import { Populate } from "../types";
 import Order from "../models/order";
 import { RequestHandler, Response } from "express";
 import AppError from "../utils/appError";
+import Product from "../models/product";
 
 class OrderController extends CrudController {
   constructor(populate?: Populate) {
@@ -13,12 +14,31 @@ class OrderController extends CrudController {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      const msg = "هیچ موردی با این شناسه یافت  نشد";
+      const msg = "هیچ موردی با این شناسه یافت نشد";
       return next(new AppError(msg, 404));
     }
 
     order.isPaid = true;
-    order.paidAt = new Date(Date.now());
+    order.paidAt = new Date();
+
+    const updateStockPromises = order.orderItems.map(async item => {
+      const product = await Product.findById(item.product);
+
+      if (!product) {
+        const msg = `محصولی با شناسه ${item.product} یافت نشد`;
+        throw new AppError(msg, 404);
+      }
+
+      if (product.countInStock <= 0 && product.countInStock < item.qty) {
+        const msg = `موجودی محصول ${product.name} کافی نیست`;
+        throw new AppError(msg, 400);
+      }
+
+      product.countInStock -= item.qty;
+      await product.save();
+    });
+
+    await Promise.all(updateStockPromises);
     const updatedOrder = await order.save();
 
     return this.sendCrudResponse(res, updatedOrder, 200);
