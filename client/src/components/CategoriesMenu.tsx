@@ -18,7 +18,7 @@ const categories = [
 
 function CategoriesMenu() {
   return (
-    <div className="mt-28 mb-6 px-4">
+    <div className="mt-6 md:mt-20 mb-6 px-4">
       <h2 className="text-lg md:text-3xl font-semibold mb-4">دسته بندی ها</h2>
       <HighlightBar />
       <div className="grid grid-cols-2  md:grid-cols-4 lg:grid-cols-6 gap-4 gap-y-6 mt-10">
