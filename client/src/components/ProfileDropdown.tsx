@@ -14,7 +14,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const toggleDropdown = () => {
-    setIsOpen(prevState => !prevState);
+    setIsOpen((prevState) => !prevState);
   };
 
   const handleLogout = async () => {
@@ -26,12 +26,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -48,20 +43,20 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
     <div className="relative">
       <button
         ref={buttonRef}
-        className="bg-gray-100 rounded-full flex justify-center items-center p-0 w-[52px] h-[52px] transition-all duration-300 hover:bg-gray-200 focus:outline-none"
+        className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-gray-100 p-0 transition-all duration-300 hover:bg-gray-200 focus:outline-none"
         onClick={toggleDropdown}
       >
         {userinfo.data.user.photo ? (
-          <img src={userinfo.data.user.photo} alt="user profile" className="rounded-full w-full h-full object-cover" />
+          <img src={userinfo.data.user.photo} alt="user profile" className="h-full w-full rounded-full object-cover" />
         ) : (
-          <FaRegUser className="text-gray-300 p-4 w-16 h-16" />
+          <FaRegUser className="h-16 w-16 p-4 text-gray-300" />
         )}
       </button>
       <AnimatePresence>
         {isOpen && (
           <motion.div
             ref={dropdownRef}
-            className="absolute left-0 top-full pt-4 z-10 transition-all drop-shadow-xl"
+            className="absolute left-0 top-full z-10 pt-4 drop-shadow-xl transition-all"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -72,67 +67,56 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
               }
             }}
           >
-            <div className="w-[278px] bg-white py-5 px-6 rounded-2xl">
-              <div className="flex items-center border-b border-b-gray-200 pb-5 mb-2">
+            <div className="w-[278px] rounded-2xl bg-white px-6 py-5">
+              <div className="mb-2 flex items-center border-b border-b-gray-200 pb-5">
                 <div className="shrink-0">
-                  <img
-                    src={userinfo.data.user.photo || `/userLogo.jpg`}
-                    alt={userinfo.data.user.name}
-                    className="object-cover w-14 h-14 rounded-full inline-block"
-                  />
+                  <img src={userinfo.data.user.photo || `/userLogo.jpg`} alt={userinfo.data.user.name} className="inline-block h-14 w-14 rounded-full object-cover" />
                 </div>
                 <div className="mr-2.5 flex flex-col gap-y-1 overflow-hidden">
-                  <span className="text-lg text-gray-400 inline-block truncate">{userinfo.data.user.name}</span>
+                  <span className="inline-block truncate text-lg text-gray-700">{userinfo.data.user.name}</span>
                 </div>
               </div>
               <Link
                 to={userinfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
-                className="flex items-center justify-between text-gray-400 px-2.5 h-[46px] rounded-xl hover:bg-gray-100 transition-colors"
+                className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiGrid className="w-5 h-5" />
+                  <FiGrid className="h-5 w-5" />
                   پنل کاربری
                 </span>
               </Link>
               <Link
                 to="/user/change-password"
-                className="flex items-center justify-between text-zinc-700  px-2.5 h-[46px] rounded-xl hover:bg-gray-100  transition-colors"
+                className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FaLock className="w-5 h-5" />
+                  <FaLock className="h-5 w-5" />
                   تغییر رمز عبور
                 </span>
               </Link>
-              <Link
-                to="/user/favorites"
-                className="flex items-center justify-between text-gray-400 px-2.5 h-[46px] rounded-xl hover:bg-gray-100 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
+              <Link to="/user/favorites" className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40" onClick={() => setIsOpen(false)}>
                 <span className="flex items-center gap-x-3">
-                  <FiHeart className="w-5 h-5" />
+                  <FiHeart className="h-5 w-5" />
                   محصولات مورد علاقه
                 </span>
               </Link>
 
               <Link
                 to="/user/order-history"
-                className="flex items-center justify-between text-gray-400 px-2.5 h-[46px] rounded-xl hover:bg-gray-100 transition-colors"
+                className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiClock className="w-5 h-5" />
+                  <FiClock className="h-5 w-5" />
                   تاریخچه سفارشات
                 </span>
               </Link>
-              <div className="mt-2 pt-2 border-t border-t-gray-200">
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center justify-between w-full text-gray-400 px-2.5 py-2.5 rounded-xl hover:bg-gray-100 transition-colors"
-                >
+              <div className="mt-2 border-t border-t-gray-200 pt-2">
+                <button onClick={handleLogout} className="flex w-full items-center justify-between rounded-xl px-2.5 py-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40">
                   <span className="flex items-center gap-x-3">
-                    <FiLogOut className="w-5 h-5" />
+                    <FiLogOut className="h-5 w-5" />
                     خروج
                   </span>
                 </button>
