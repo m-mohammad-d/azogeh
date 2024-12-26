@@ -1,20 +1,22 @@
 import { Link } from "react-router-dom";
+import { cn } from "../utils/util";
 
 interface CategoriesItemProps {
-  id: string
+  id: string;
   name: string;
   img: string;
+  className?: string;
 }
 
-function CategoriesItem({id ,  name, img }: CategoriesItemProps) {
+function CategoriesItem({ id, name, img, className }: CategoriesItemProps) {
   return (
     <Link to={`/products?category=${id}`}>
-      <div className="border shadow-lg px-4 py-6 flex flex-col items-center text-center">
-        <div className="w-auto h-28 mb-2">
-          <img src={`/category/${img}.png`} alt={name} className="w-full h-full object-contain" />
+      <div className={cn("flex flex-col items-center border px-4 py-6 text-center border-neutral-100 rounded-2xl shadow-xl" , className)}>
+        <div className="mb-2 h-28 w-auto">
+          <img src={`/category/${img}.webp`} alt={name} className="h-full w-full object-contain" />
         </div>
         <div>
-          <p className="text-base lg:text-xl font-semibold text-gray-700 mt-4">{name}</p>
+          <p className="mt-4 text-base font-semibold text-secondary-100 lg:text-xl">{name}</p>
         </div>
       </div>
     </Link>

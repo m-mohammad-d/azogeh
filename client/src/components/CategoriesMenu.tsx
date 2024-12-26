@@ -1,5 +1,9 @@
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+import { Navigation } from "swiper/modules";
 import CategoriesItem from "./CategoriesItem";
 import HighlightBar from "./HighlightBar";
+import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 const categories = [
   { id: "Snacks", name: "تنقلات و خوراکی", img: "snacks" },
@@ -10,7 +14,7 @@ const categories = [
   { id: "Hot-beverage", name: "نوشیدنی گرم", img: "hot-beverage" },
   { id: "Bakery", name: "نان و بیکری", img: "bread" },
   { id: "Spices", name: "ادویه جات", img: "spice" },
-  { id: "protein", name: "مواد پروتئینی", img: "Protein" },
+  { id: "Protein", name: "مواد پروتئینی", img: "Protein" },
   { id: "Legumes", name: "حبوبات", img: "Legumes" },
   { id: "Pickles", name: "ترشیجات", img: "pickles" },
   { id: "Sweets", name: "شیرینی جات", img: "sweets" },
@@ -18,14 +22,39 @@ const categories = [
 
 function CategoriesMenu() {
   return (
-    <div className="mt-6 md:mt-20 mb-6 px-4">
-      <h2 className="text-lg md:text-3xl font-semibold mb-4">دسته بندی ها</h2>
+    <div className="mb-6 mt-6 px-4 md:mt-20">
+      <h2 className="mb-4 text-lg font-semibold md:text-3xl">دسته بندی ها</h2>
       <HighlightBar />
-      <div className="grid grid-cols-2  md:grid-cols-4 lg:grid-cols-6 gap-4 gap-y-6 mt-10">
-        {categories.map(categorie => (
-          <CategoriesItem id={categorie.id} key={categorie.name} name={categorie.name} img={categorie.img} />
-        ))}
+
+      <div className="mt-4 flex items-center justify-between">
+        <button id="prevBtn" className="rounded-full border-2 bg-white p-4 text-neutral-300 shadow-md hover:text-neutral-500">
+          <FaLongArrowAltRight size={20} />
+        </button>
+        <button id="nextBtn" className="rounded-full border-2 bg-white p-4 text-neutral-300 shadow-md hover:text-neutral-500">
+          <FaLongArrowAltLeft size={20} />
+        </button>
       </div>
+
+      <Swiper
+        modules={[Navigation]}
+        spaceBetween={10}
+        slidesPerView={2}
+        breakpoints={{
+          640: { slidesPerView: 3, spaceBetween: 15 },
+          1024: { slidesPerView: 6, spaceBetween: 20 },
+        }}
+        navigation={{
+          prevEl: `#prevBtn`,
+          nextEl: `#nextBtn`,
+        }}
+        className="mt-10"
+      >
+        {categories.map((categorie) => (
+          <SwiperSlide key={categorie.id}>
+            <CategoriesItem id={categorie.id} name={categorie.name} img={categorie.img} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }
