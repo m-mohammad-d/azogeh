@@ -49,11 +49,11 @@ const DiscountTimer = () => {
 
   return (
     <div className="flex items-center justify-start space-x-2">
-      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base">
+      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base ml-2">
         <span>{formatTime(timeLeft.seconds)}</span>
       </div>
       <div className="font-bold text-secondary-200">:</div>
-      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base">
+      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base ml-2">
         <span>{formatTime(timeLeft.minutes)}</span>
       </div>
       <div className="font-bold text-secondary-200">:</div>

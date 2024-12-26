@@ -10,8 +10,8 @@ function SpecialOfferProductItem({ product }: SpecialOfferProductItemProps) {
     <div className="relative my-5 overflow-hidden rounded-xl bg-white shadow-lg">
       <div className="absolute left-2 top-2 flex h-8 w-8 items-center justify-center rounded-2xl bg-secondary-500 text-xs font-semibold text-white">{product.discount}%</div>
 
-      <div className="p-6">
-        <img src={product?.image} alt={product.name} className="mx-auto rounded-lg object-cover" />
+      <div className="p-4">
+        <img src={product?.image} alt={product.name} className="mx-auto h-40 w-40 rounded-lg object-cover" />
       </div>
 
       <div className="mx-auto h-px w-3/4 bg-black/10"></div>

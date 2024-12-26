@@ -19,7 +19,7 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
       <h2 className="mb-6 text-lg font-semibold md:mb-8 md:text-2xl lg:text-3xl">تخفیف‌های مارکتی</h2>
       <HighlightBar />
 
-      <div className="relative mt-10 h-full rounded-xl bg-primary-500 p-4 shadow-lg md:p-6 lg:rounded-2xl lg:p-8">
+      <div className="relative mt-10 h-full rounded-xl bg-primary-500 px-4 py-2 shadow-lg lg:rounded-2xl">
         <div className="flex w-full items-center justify-between rounded-lg md:hidden">
           <div className="flex items-center gap-1">
             <h2 className="text-sm font-semibold text-white md:text-lg">تخفیف ویژه %</h2>
@@ -53,8 +53,8 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
           }}
           className="h-full"
         >
-          <SwiperSlide className="hidden h-[400px] flex-col items-center justify-center space-y-4 rounded-lg p-4 md:flex">
-            <h2 className="text-lg font-semibold text-white">تخفیف ویژه %</h2>
+          <SwiperSlide className="hidden h-[400px] flex-col items-center justify-center space-y-6 rounded-lg p-4 md:flex">
+            <h2 className="text-2xl font-semibold text-white">تخفیف ویژه %</h2>
             <DiscountTimer />
             <p className="flex items-center gap-2 text-sm font-medium text-white">
               مشاهده محصولات
