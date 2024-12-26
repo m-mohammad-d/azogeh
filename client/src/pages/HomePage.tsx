@@ -1,10 +1,11 @@
 import Banner from "../components/Banner";
 import CategoriesMenu from "../components/CategoriesMenu";
-import SpecialOffers from "../components/SpecialOffers";
+
 import BestSellers from "../components/BestSellers";
 import BenefitsCard from "../components/BenefitsCard";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import Spinner from "../components/Spinner";
+import SpecialOfferProducts from "../components/SpecialOfferProducts";
 
 function HomePage() {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -13,10 +14,10 @@ function HomePage() {
   if (error) return <div>خطایی رخ داده است.</div>;
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-8  md:mt-16 ">
+    <div className="mx-auto mt-8 max-w-screen-xl md:mt-16">
       <Banner img="Banner" />
       <CategoriesMenu />
-      <SpecialOffers />
+      <SpecialOfferProducts products={data?.data.products} />
       <BestSellers products={data?.data.products} />
       <BenefitsCard />
     </div>
