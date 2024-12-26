@@ -49,9 +49,9 @@ function CategoriesMenu() {
         }}
         className="mt-10"
       >
-        {categories.map((categorie) => (
-          <SwiperSlide key={categorie.id}>
-            <CategoriesItem id={categorie.id} name={categorie.name} img={categorie.img} />
+        {categories.map((categorie, index) => (
+          <SwiperSlide key={categorie.id} className="h-56">
+            <CategoriesItem id={categorie.id} name={categorie.name} img={categorie.img} className={index % 2 === 0 ? "bg-primary-1000" : "bg-secondary-1000"} />
           </SwiperSlide>
         ))}
       </Swiper>
