@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import { Navigation } from "swiper/modules";
@@ -6,13 +7,16 @@ import HighlightBar from "./HighlightBar";
 import DiscountTimer from "./DiscountTimer";
 import SpecialOfferProductItem from "./SpecialOfferProductItem";
 import { FaArrowLeft, FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-
+import { cn } from "../utils/util";
 interface SpecialOfferProductsProps {
   products: Product[] | undefined;
 }
 
 function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
   const discountedProducts = products?.filter((product) => product.discount > 0);
+
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   return (
     <div className="mt-16 px-4 md:px-8">
@@ -31,10 +35,22 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
           </div>
         </div>
 
-        <button id="ProductPrevBtn" className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border-2 bg-white p-2 text-neutral-300 shadow-md hover:text-neutral-500 md:right-4 md:p-4">
+        <button
+          id="ProductPrevBtn"
+          className={cn(
+            "absolute right-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border-2 bg-white p-2 text-neutral-300 shadow-md hover:text-neutral-500 md:right-4 md:p-4",
+            isBeginning ? "hidden" : "md:block",
+          )}
+        >
           <FaLongArrowAltRight size={20} />
         </button>
-        <button id="ProductNextBtn" className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border-2 bg-white p-2 text-neutral-300 shadow-md hover:text-neutral-500 md:left-4 md:p-4">
+        <button
+          id="ProductNextBtn"
+          className={cn(
+            "absolute left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border-2 bg-white p-2 text-neutral-300 shadow-md hover:text-neutral-500 md:left-4 md:p-4",
+            isEnd ? "hidden" : "md:block",
+          )}
+        >
           <FaLongArrowAltLeft size={20} />
         </button>
 
@@ -50,6 +66,10 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
           navigation={{
             prevEl: `#ProductPrevBtn`,
             nextEl: `#ProductNextBtn`,
+          }}
+          onSlideChange={(swiper) => {
+            setIsBeginning(swiper.isBeginning);
+            setIsEnd(swiper.isEnd);
           }}
           className="h-full"
         >
