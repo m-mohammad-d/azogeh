@@ -8,11 +8,13 @@ const items = [
 ];
 function BenefitsCard() {
   return (
-    <div className="w-2/3 mx-auto mt-16">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5  items-center">
-        {items.map(item => (
-          <BenefitsCardItem name={item.name} img={item.img} />
-        ))}
+    <div className="w-full bg-neutral-200 mt-16 py-10 rounded-lg">
+      <div className="mx-auto w-1/2" >
+        <div className="grid grid-cols-2 items-center gap-5 lg:grid-cols-4">
+          {items.map((item) => (
+            <BenefitsCardItem name={item.name} img={item.img} />
+          ))}
+        </div>
       </div>
     </div>
   );

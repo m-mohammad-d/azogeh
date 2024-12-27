@@ -14,11 +14,13 @@ function HomePage() {
   if (error) return <div>خطایی رخ داده است.</div>;
 
   return (
-    <div className="mx-auto mt-8 max-w-screen-xl md:mt-16">
-      <Banner img="Banner" />
-      <CategoriesMenu />
-      <SpecialOfferProducts products={data?.data.products} />
-      <BestSellers products={data?.data.products} />
+    <div>
+      <div className="mx-auto mt-8 max-w-screen-xl md:mt-16">
+        <Banner img="Banner" />
+        <CategoriesMenu />
+        <SpecialOfferProducts products={data?.data.products} />
+        <BestSellers products={data?.data.products} />
+      </div>
       <BenefitsCard />
     </div>
   );
