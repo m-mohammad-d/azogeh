@@ -3,11 +3,13 @@ import ProductImage from "./ProductImage";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { increaseQuantity, decreaseQuantity, removeFromCart } from "../store/CartSlice";
-import { FaMinus, FaRegTrashAlt, FaTag } from "react-icons/fa";
+import { FaMinus, FaRegHeart, FaRegTrashAlt, FaTag } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { separateThousands } from "../utils/FormatNumber";
 import { MdAdd, MdAddShoppingCart, MdOutlineVerifiedUser } from "react-icons/md";
 import { Product } from "../types/product";
+import { GoShareAndroid } from "react-icons/go";
+
 type ProductInfoProps = {
   product: Product;
   onAddToCart: () => void;
@@ -16,7 +18,7 @@ type ProductInfoProps = {
 const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.orderItems);
-  const cartItem = cartItems.find(item => item._id === product._id);
+  const cartItem = cartItems.find((item) => item._id === product._id);
 
   const handleDecrement = () => {
     if (cartItem) {
@@ -29,54 +31,63 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
     }
   };
 
-  const discountPercentage = product.discountedPrice
-    ? ((product.price - product.discountedPrice) / product.price) * 100
-    : null;
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: `محصول: ${product.name}`,
+          text: `برند: ${product.brand}\nامتیاز: ${product.rating}\nقیمت: ${product.discountedPrice || product.price} تومان`,
+          url: window.location.href,
+        })
+        .then(() => toast.success("محصول با موفقیت به اشتراک گذاشته شد!"))
+        .catch((error) => toast.error("خطا در اشتراک‌گذاری: " + error));
+    } else {
+      toast.error("مرورگر شما از اشتراک‌گذاری پشتیبانی نمی‌کند.");
+    }
+  };
+
+  const discountPercentage = product.discountedPrice ? ((product.price - product.discountedPrice) / product.price) * 100 : null;
 
   const isInStock = product.countInStock > 0;
   const isLowStock = product.countInStock >= 1 && product.countInStock <= 30;
 
   return (
-    <div className="flex flex-col md:flex-row px-8 w-full md:w-2/3 justify-between gap-10">
-      <div className="mb-6 mx-auto">
-        <ProductImage
-          mainImageUrl={`${product.image}`}
-          altText={product.name}
-          imageCarousel={product.images.map(img => `${img}`)}
-        />
+    <div className="flex w-full flex-col justify-between gap-10 px-8 md:flex-row">
+      <div className="mx-auto mb-6">
+        <ProductImage mainImageUrl={`${product.image}`} altText={product.name} imageCarousel={product.images.map((img) => `${img}`)} />
       </div>
-      <div className="space-y-4 mr-0 md:mr-11">
-        <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
-        <p className="text-lg mb-1">
+      <div className="mr-0 w-full space-y-4 md:mr-11">
+        <div className="flex items-center justify-between">
+          <h2 className="mb-2 text-2xl font-bold">{product.name}</h2>
+          <div className="flex items-center gap-2">
+            <FaRegHeart className="text-neutral-100" size={25} />
+            <GoShareAndroid className="cursor-pointer text-neutral-100" size={25} onClick={handleShare} />
+          </div>
+        </div>
+        <div className="h-px w-full bg-neutral-100"></div>
+        <p className="mb-1 text-lg">
           <span className="font-bold">برند:</span> {product.brand}
         </p>
-
-        <p className="text-lg mb-1">
+        <p className="mb-1 text-lg">
           <span className="font-bold">امتیاز:</span> {product.rating}
         </p>
-        <p className="text-lg mb-1 flex items-center gap-2">
+        <p className="mb-1 flex items-center gap-2 text-lg">
           <MdOutlineVerifiedUser size={20} />
           <span className="font-bold">گارانتی اصالت و سلامت فیزیکی کالا</span>
         </p>
-        <p className="text-lg mb-1 flex items-center">
+        <p className="mb-1 flex items-center text-lg">
           <span className="font-bold">قیمت:</span>
           {product.discountedPrice ? (
             <>
-              <span className="line-through text-gray-500 ml-2 transition-all duration-300 ease-in-out">
-                {separateThousands(product.price)} تومن
-              </span>
-              <span className="ml-2 text-primary-500 font-bold transition-all duration-300 ease-in-out">
-                {separateThousands(product.discountedPrice)} تومن
-              </span>
-              <span className="ml-2 text-green-500 font-bold flex items-center">
+              <span className="ml-2 text-gray-500 line-through transition-all duration-300 ease-in-out">{separateThousands(product.price)} تومن</span>
+              <span className="ml-2 font-bold text-primary-500 transition-all duration-300 ease-in-out">{separateThousands(product.discountedPrice)} تومن</span>
+              <span className="ml-2 flex items-center font-bold text-green-500">
                 <FaTag className="ml-2" />
                 {discountPercentage?.toFixed(0)}% تخفیف
               </span>
             </>
           ) : (
-            <span className="text-primary-500 font-bold ml-2 transition-all duration-300 ease-in-out">
-              {separateThousands(product.price)} تومن
-            </span>
+            <span className="ml-2 font-bold text-primary-500 transition-all duration-300 ease-in-out">{separateThousands(product.price)} تومن</span>
           )}
         </p>
 
@@ -86,18 +97,16 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
               <button
                 id="increment-btn"
                 onClick={() => dispatch(increaseQuantity(product._id))}
-                className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-green-500 hover:bg-green-600 transition-all duration-200 ease-in-out transform hover:scale-110"
+                className="flex h-8 w-8 transform items-center justify-center rounded-full bg-green-500 text-white transition-all duration-200 ease-in-out hover:scale-110 hover:bg-green-600"
                 aria-label="Increase quantity"
               >
                 <MdAdd />
               </button>
-              <span className="text-2xl text-gray-400 font-bold mx-2 transition-all duration-200 ease-in-out">
-                {cartItem.qty}
-              </span>
+              <span className="mx-2 text-2xl font-bold text-gray-400 transition-all duration-200 ease-in-out">{cartItem.qty}</span>
               <button
                 id="decrement-btn"
                 onClick={handleDecrement}
-                className="flex justify-center items-center w-8 h-8 rounded-full text-white bg-red-500 hover:bg-red-600 transition-all duration-200 ease-in-out transform hover:scale-110"
+                className="flex h-8 w-8 transform items-center justify-center rounded-full bg-red-500 text-white transition-all duration-200 ease-in-out hover:scale-110 hover:bg-red-600"
                 aria-label="Decrease quantity or remove item"
               >
                 {cartItem.qty > 1 ? <FaMinus /> : <FaRegTrashAlt />}
@@ -105,7 +114,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
             </div>
           ) : (
             <button
-              className="flex items-center gap-2 bg-primary-500 text-white py-2 px-6 rounded-lg transition-all duration-500 hover:bg-primary-600"
+              className="flex items-center gap-2 rounded-lg bg-primary-500 px-6 py-2 text-white transition-all duration-500 hover:bg-primary-600"
               onClick={onAddToCart}
               aria-label="اضافه به سبد خرید"
             >
@@ -114,12 +123,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product, onAddToCart }) => {
             </button>
           )
         ) : (
-          <p className="text-center text-red-600 font-bold p-4 rounded-lg shadow-md">
-            متأسفیم، این محصول تمام شده! برای خرید زودتر اقدام کنید تا از دستش ندید. 🙁
-          </p>
+          <p className="rounded-lg p-4 text-center font-bold text-red-600 shadow-md">متأسفیم، این محصول تمام شده! برای خرید زودتر اقدام کنید تا از دستش ندید. 🙁</p>
         )}
 
-        {isLowStock && <p className="text-red-500 font-bold">فقط {product.countInStock} عدد باقی مانده!</p>}
+        {isLowStock && <p className="font-bold text-red-500">فقط {product.countInStock} عدد باقی مانده!</p>}
       </div>
     </div>
   );

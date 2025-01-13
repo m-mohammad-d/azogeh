@@ -84,7 +84,7 @@ const ProductDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-16">
+    <div className="max-w-screen-xl w-full mx-auto mt-16">
       {productData && reviewsData && (
         <>
           <ProductInfo product={productData.data.product} onAddToCart={handleAddToCart} />
