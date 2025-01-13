@@ -35,7 +35,7 @@ const UpdateInfoPage: React.FC = () => {
       toast.error("نام باید بین 3 تا 15 کاراکتر باشد.");
       return;
     }
-    updateinfo({ name: userProfile.name }).unwrap();
+    updateinfo({ name: userProfile.name , email : userProfile.email }).unwrap();
     toast.success("مشخصات شما اپدیت شد");
   };
 
@@ -53,7 +53,6 @@ const UpdateInfoPage: React.FC = () => {
             id="email"
             value={userProfile.email}
             onChange={handleChange}
-            disabled
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300"
           />
         </div>
