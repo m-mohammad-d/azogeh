@@ -55,64 +55,40 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center my-20 mx-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border-gray-100 border">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+    <div className="mx-4 my-20 flex items-center justify-center">
+      <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
+        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">
           به <span className="text-primary-500">اذوقه</span> خوش آمدید
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InputField
-            id="email"
-            type="email"
-            label="ایمیل"
-            placeholder="ایمیل"
-            register={register}
-            error={errors.email}
-          />
+          <InputField id="email" type="email" label="ایمیل" placeholder="ایمیل" register={register} error={errors.email} />
           <div className="relative mb-6">
-            <InputField
-              id="password"
-              type={showPassword ? "text" : "password"}
-              label="پسورد"
-              placeholder="پسورد"
-              register={register}
-              error={errors.password}
-            />
-            <div className="absolute top-7 left-6 cursor-pointer text-gray-500">
-              {showPassword ? (
-                <FaEye onClick={() => setShowPassword(false)} />
-              ) : (
-                <RiEyeCloseLine onClick={() => setShowPassword(true)} />
-              )}
+            <InputField id="password" type={showPassword ? "text" : "password"} label="پسورد" placeholder="پسورد" register={register} error={errors.password} />
+            <div className="absolute left-6 top-7 cursor-pointer text-gray-500">
+              {showPassword ? <FaEye onClick={() => setShowPassword(false)} /> : <RiEyeCloseLine onClick={() => setShowPassword(true)} />}
             </div>
           </div>
           <div className="mb-6 flex justify-center">
-            <ReCAPTCHA
-              sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR"
-              ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>}
-            />
+            <ReCAPTCHA sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR" ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>} />
           </div>
 
-          <div className="flex items-center justify-between mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-            >
+          <div className="mb-4 flex items-center justify-between">
+            <button type="submit" className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 w-full rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2">
               {isLoading ? <SmallSpinner /> : "ورود"}
             </button>
           </div>
 
-          <div className="flex justify-between items-center text-sm mb-4">
+          <div className="mb-4 flex items-center justify-between text-sm">
             <Link to="/forget-password" className="text-primary-600 hover:underline">
               فراموشی رمز عبور
             </Link>
           </div>
 
-          <div className="text-center space-x-5">
+          <div className="space-x-5 text-center">
             <p className="text-sm text-gray-600">
               حساب کاربری ندارید؟
-              <Link to="/signup" className="text-primary-400 hover:underline mr-1">
+              <Link to="/signup" className="text-primary-400 mr-1 hover:underline">
                 ثبت نام
               </Link>
             </p>
