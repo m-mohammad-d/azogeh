@@ -7,11 +7,7 @@ function Search() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const searchResultsRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useGetProductsQuery(searchTerm.length > 3 ? { search: searchTerm, sort: "default" } : undefined);
+  const { data: products, isLoading, error } = useGetProductsQuery(searchTerm.length > 3 ? { search: searchTerm, sort: "default" } : undefined);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -40,39 +36,33 @@ function Search() {
 
   return (
     <div className="relative w-full max-w-4xl">
-      <div className="relative w-full max-w-4xl mx-auto">
+      <div className="relative mx-auto w-full max-w-4xl">
         <input
           type="text"
-          placeholder="جستجو"
+          placeholder="جستجو کنید ..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="w-full bg-[#F6F5F5] px-7 py-2 pr-12 text-right border rounded-xl focus:outline-none focus:border-gray-200 focus:ring-gray-300 transition duration-200 ease-in-out"
+          className="w-full rounded-lg bg-neutral-gray-1 px-7 py-2 pr-14 text-right text-neutral-gray-6 transition duration-200 ease-in-out focus:border focus:border-neutral-gray-3 focus:outline-none"
         />
-        <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-          <img src="/icon/Search.svg" alt="جستجو" />
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400">
+          <img src="/icon/Search.svg" alt="جستجو" className="size-7" />
         </span>
       </div>
 
       {searchTerm.length > 3 && (
-        <div
-          ref={searchResultsRef}
-          className="absolute w-full max-w-4xl mx-auto mt-4 p-2 z-10 bg-white rounded-lg shadow-lg"
-        >
+        <div ref={searchResultsRef} className="absolute z-10 mx-auto mt-4 w-full max-w-4xl rounded-lg bg-white p-2 shadow-lg">
           {isLoading ? (
             <p className="text-center">در حال بارگذاری...</p>
           ) : error ? (
-            <p className="text-center text-error-400">خطا در دریافت محصولات</p>
+            <p className="text-status-error text-center">خطا در دریافت محصولات</p>
           ) : products?.data?.products?.length ? (
             <ul>
               {products.data.products.map((product: Product) => (
-                <li
-                  key={product.id}
-                  className="flex items-center border-b m-0 border-gray-200 overflow-hidden mb-4 w-full"
-                >
+                <li key={product.id} className="m-0 mb-4 flex w-full items-center overflow-hidden border-b border-gray-200 hover:border-primary">
                   <Link to={`/product/${product.id}`} className="flex w-full" onClick={handleProductClick}>
-                    <img src={`${product.image}`} alt={product.name} className="w-16 h-16 object-cover" />
+                    <img src={`${product.image}`} alt={product.name} className="h-16 w-16 object-cover" />
                     <div className="flex-1 p-4 text-right">
-                      <h3 className="text-lg font-bold text-gray-800 line-clamp-1">{product.name}</h3>
+                      <h3 className="line-clamp-1 text-lg font-bold text-gray-800">{product.name}</h3>
                       <p className="text-gray-600">{product.price} تومان</p>
                     </div>
                   </Link>
@@ -80,7 +70,7 @@ function Search() {
               ))}
             </ul>
           ) : (
-            <p className="text-center text-error-400">محصولی یافت نشد.</p>
+            <p className="text-status-error text-center">محصولی یافت نشد.</p>
           )}
         </div>
       )}
