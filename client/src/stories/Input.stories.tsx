@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Input from "../components/ui/Input";
+import Input from "../components/Input";
 
 const meta: Meta<typeof Input> = {
   title: "UI/Input",
@@ -63,7 +63,7 @@ export const SmallInput: Story = {
 export const LargeInput: Story = {
   args: {
     placeholder: "Enter text",
-    size: 56,
+    size: 48,
     disabled: false,
     errorMessage: "",
   },

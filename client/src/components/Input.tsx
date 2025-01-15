@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { cn } from "../../utils/util";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { cn } from "../utils/util";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../../utils/util";
+import { cn } from "../utils/util";
 
 type ButtonVariant = "primary" | "secondary" | "tertiary";
 type ButtonSize = "x-small" | "small" | "medium" | "large";
