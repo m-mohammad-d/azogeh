@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+import { cn } from "../utils/util";
 
-const DiscountTimer = () => {
-  const initialEndDate = new Date().getTime() + 10 * 60 * 60 * 1000;
+interface DiscountTimerProps {
+  initialendDate: number;
+  state?: "active" | "disable";
+}
 
+const DiscountTimer = ({ initialendDate, state = "active" }: DiscountTimerProps) => {
   const [timeLeft, setTimeLeft] = useState({
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
 
-  const [endDate, setEndDate] = useState(initialEndDate);
+  const [endDate, setEndDate] = useState(Number(initialendDate));
 
   const getTimeLeft = (endDate: number) => {
     const now = new Date().getTime();
@@ -33,6 +37,10 @@ const DiscountTimer = () => {
   const formatTime = (time: number) => (time < 10 ? `0${time}` : time.toString());
 
   useEffect(() => {
+    if (state === "disable") {
+      return;
+    }
+
     const updateTimer = () => {
       const updatedTimeLeft = getTimeLeft(endDate);
       setTimeLeft(updatedTimeLeft);
@@ -45,19 +53,19 @@ const DiscountTimer = () => {
     const interval = setInterval(updateTimer, 1000);
 
     return () => clearInterval(interval);
-  }, [endDate]);
+  }, [endDate, state]);
 
   return (
     <div className="flex items-center justify-start space-x-2">
-      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base ml-2">
+      <div className={cn("ml-2 rounded-md bg-primary-tint5 p-1 text-xs text-white md:p-3 md:text-base", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
         <span>{formatTime(timeLeft.seconds)}</span>
       </div>
-      <div className="font-bold text-secondary-200">:</div>
-      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base ml-2">
+      <div className={cn("font-bold", state === "disable" ? "text-neutral-gray-3" : "text-primary-tint5")}>:</div>
+      <div className={cn("ml-2 rounded-md bg-primary-tint5 p-1 text-xs text-white md:p-3 md:text-base", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
         <span>{formatTime(timeLeft.minutes)}</span>
       </div>
-      <div className="font-bold text-secondary-200">:</div>
-      <div className="rounded-lg bg-secondary-400 p-1 text-xs text-white md:p-3 md:text-base">
+      <div className={cn("font-bold", state === "disable" ? "text-neutral-gray-3" : "text-primary-tint5")}>:</div>
+      <div className={cn("rounded-md bg-primary-tint5 p-1 text-xs text-white md:p-3 md:text-base", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
         <span>{formatTime(timeLeft.hours)}</span>
       </div>
     </div>

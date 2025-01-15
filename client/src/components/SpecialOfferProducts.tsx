@@ -13,6 +13,7 @@ interface SpecialOfferProductsProps {
 }
 
 function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
+  const initialEndDate = new Date().getTime() + 10 * 60 * 60 * 1000;
   const discountedProducts = products?.filter((product) => product.discount > 0);
 
   const [isBeginning, setIsBeginning] = useState(true);
@@ -23,11 +24,11 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
       <h2 className="mb-6 text-lg font-semibold md:mb-8 md:text-2xl lg:text-3xl">تخفیف‌های مارکتی</h2>
       <HighlightBar />
 
-      <div className="relative mt-10 h-full rounded-xl bg-primary-500 px-4 py-2 shadow-lg lg:rounded-2xl">
+      <div className="bg-primary-500 relative mt-10 h-full rounded-xl px-4 py-2 shadow-lg lg:rounded-2xl">
         <div className="flex w-full items-center justify-between rounded-lg md:hidden">
           <div className="flex items-center gap-1">
             <h2 className="text-sm font-semibold text-white md:text-lg">تخفیف ویژه %</h2>
-            <DiscountTimer />
+            <DiscountTimer initialendDate={initialEndDate} />
           </div>
           <div className="flex items-center gap-1">
             <p className="text-sm font-medium text-white">مشاهده</p>
@@ -75,7 +76,7 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
         >
           <SwiperSlide className="hidden h-[400px] flex-col items-center justify-center space-y-6 rounded-lg p-4 md:flex">
             <h2 className="text-2xl font-semibold text-white">تخفیف ویژه %</h2>
-            <DiscountTimer />
+            <DiscountTimer initialendDate={initialEndDate} />
             <p className="flex items-center gap-2 text-sm font-medium text-white">
               مشاهده محصولات
               <FaArrowLeft />
