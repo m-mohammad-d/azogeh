@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ variant = "primary", size = "medium", s
 
   const variantStyles = {
     primary: "bg-primary text-white hover:bg-primary-shade1 active:bg-primary-shade2 disabled:bg-neutral-gray-2 disabled:text-neutral-gray-7",
-    secondary: "border-2 border-primary hover:border-primary-shade1 active:border-primary-shade2 disabled:border-neutral-gray-4 disabled:text-neutral-gray-7",
+    secondary: "border-2 border-primary text-primary hover:border-primary-shade1 active:border-primary-shade2 hover:text-primary-shade1 active:text-primary-shade2 disabled:border-neutral-gray-4 disabled:text-neutral-gray-7",
     tertiary: "bg-transparent text-primary hover:text-primary-shade1 active:text-primary-shade2 disabled:text-neutral-gray-7",
   };
 
