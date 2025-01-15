@@ -26,41 +26,31 @@ const categories = [
   { value: "Sweets", name: "شیرینی جات" },
 ];
 const brands = [
-  {value : "golestan" ,name : "گلستان"},
-  {value : "cheetoz" ,name : "چی توز"},
-  {value : "Lina" ,name : "لینا"},
-  {value : "seven" ,name : "سون"},
-  {value : "Damdaran" ,name : "دامداران"},
-  {value : "Domino" ,name : "دومینو"},
-  {value : "Tabiat" ,name : "طبیعت"},
-  {value : "Sanich" ,name : "سن ایچ"},
-  {value : "Mahya" ,name : "مهیا"},
-  {value : "Pemina" ,name : "پمینا"},
-  {value : "farmand" ,name : "فرمند"},
-  {value : "Sahar" ,name : "سحر"},
-]
-const Filter: React.FC<FilterProps> = ({
-  availableOnly,
-  priceRange,
-  brand,
-  category,
-  handleSetAvailableOnly,
-  handlePriceChange,
-  handleBrandChange,
-  handleCategoryChange,
-  resetFilters,
-}) => {
+  { value: "golestan", name: "گلستان" },
+  { value: "cheetoz", name: "چی توز" },
+  { value: "Lina", name: "لینا" },
+  { value: "seven", name: "سون" },
+  { value: "Damdaran", name: "دامداران" },
+  { value: "Domino", name: "دومینو" },
+  { value: "Tabiat", name: "طبیعت" },
+  { value: "Sanich", name: "سن ایچ" },
+  { value: "Mahya", name: "مهیا" },
+  { value: "Pemina", name: "پمینا" },
+  { value: "farmand", name: "فرمند" },
+  { value: "Sahar", name: "سحر" },
+];
+const Filter: React.FC<FilterProps> = ({ availableOnly, priceRange, brand, category, handleSetAvailableOnly, handlePriceChange, handleBrandChange, handleCategoryChange, resetFilters }) => {
   return (
-    <div className="p-4 mb-4 mx-4 rounded-lg border border-gray-100 shadow-md">
+    <div className="mx-4 mb-4 rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-semibold mb-4">فیلتر ها</h3>
+        <h3 className="mb-4 text-xl font-semibold text-neutral-gray-8">فیلتر ها</h3>
         <button onClick={resetFilters}>حذف فیلتر</button>
       </div>
 
       {/* Brand Filter */}
       <div className="mb-4">
-        <label className="block mb-2">برند</label>
-        <select value={brand} onChange={handleBrandChange} className="w-full border rounded-lg p-2">
+        <label className="mb-2 block">برند</label>
+        <select value={brand} onChange={handleBrandChange} className="w-full border-neutral-gray-3 rounded-md border p-2">
           <option value="all">همه</option>
           {brands.map((brand) => (
             <option value={brand.name}>{brand.name}</option>
@@ -70,8 +60,8 @@ const Filter: React.FC<FilterProps> = ({
 
       {/* Category Filter */}
       <div className="mb-4">
-        <label className="block mb-2">نوع</label>
-        <select value={category} onChange={handleCategoryChange} className="w-full border rounded-lg p-2">
+        <label className="mb-2 block">نوع</label>
+        <select value={category} onChange={handleCategoryChange} className="w-full border-neutral-gray-3 rounded-md border p-2">
           <option value="all">همه</option>
           {categories.map((category) => (
             <option value={category.name}>{category.name}</option>
@@ -83,35 +73,21 @@ const Filter: React.FC<FilterProps> = ({
       <div className="mb-4 flex justify-between">
         <label className="mb-2">فقط محصولات موجود</label>
         <div className="flex items-center">
-          <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" checked={availableOnly} onChange={handleSetAvailableOnly} className="sr-only peer" />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+          <label className="relative inline-flex cursor-pointer items-center">
+            <input type="checkbox" checked={availableOnly} onChange={handleSetAvailableOnly} className="peer sr-only" />
+            <div className="peer-focus:ring-primary-300 peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 dark:border-gray-600 dark:bg-gray-700"></div>
           </label>
         </div>
       </div>
       {/* Price Filter */}
       <div className="mb-4">
-        <label className="block mb-2">رنج قیمت</label>
-        <div className="flex items-center mb-2">
-          <input
-            type="number"
-            value={priceRange.min}
-            min="0"
-            max="500000"
-            onChange={e => handlePriceChange(e, "min")}
-            className="border rounded-lg p-2 w-1/2 mr-2"
-          />
+        <label className="mb-2 block">رنج قیمت</label>
+        <div className="mb-2 flex items-center">
+          <input type="number" value={priceRange.min} min="0" max="500000" onChange={(e) => handlePriceChange(e, "min")} className="mr-2 w-1/2 rounded-md border-neutral-gray-3 border p-2" />
           <span className="mx-2">تا</span>
-          <input
-            type="number"
-            value={priceRange.max}
-            min="0"
-            max="500000"
-            onChange={e => handlePriceChange(e, "max")}
-            className="border rounded-lg p-2 w-1/2"
-          />
+          <input type="number" value={priceRange.max} min="0" max="500000" onChange={(e) => handlePriceChange(e, "max")} className="w-1/2 rounded-md border-neutral-gray-3 border p-2" />
         </div>
-        <div className="text-sm mt-2">حداکثر قیمت: {priceRange.max.toLocaleString()} تومان</div>
+        <div className="mt-2 text-sm">حداکثر قیمت: {priceRange.max.toLocaleString()} تومان</div>
       </div>
     </div>
   );
