@@ -4,7 +4,7 @@ function Footer() {
       <div className="w-full min-h-[0.5px] mt-5 bg-gray-100"></div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 w-full mt-8">
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold mb-4">راهنما و خدمات مشتریان</h2>
+          <h2 className="text-xl md:text-2xl font-semibold mb-4 text-primary">راهنما و خدمات مشتریان</h2>
           <div className="w-full min-h-[0.5px] mb-4 bg-gray-100"></div>
           <ul className="space-y-4 text-sm sm:text-base">
             <li>نحوه ثبت سفارش</li>
@@ -15,7 +15,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold mb-4">ارتباط با آذوقه</h2>
+          <h2 className="text-xl md:text-2xl font-semibold mb-4 text-primary">ارتباط با آذوقه</h2>
           <div className="w-full min-h-[0.5px] mb-4 bg-gray-100"></div>
           <ul className="space-y-4 text-sm sm:text-base">
             <li>استخدام</li>
@@ -26,7 +26,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold mb-4">درباره آذوقه</h2>
+          <h2 className="text-xl md:text-2xl font-semibold mb-4 text-primary">درباره آذوقه</h2>
           <div className="w-full min-h-[0.5px] mb-4 bg-gray-100"></div>
           <ul className="space-y-4 text-sm sm:text-base">
             <li>آدرس دفتر فروش</li>
