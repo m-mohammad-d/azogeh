@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
 import Search from "./Search";
@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import MobileSidebar from "./MobileSidebar";
 import { FaUser } from "react-icons/fa";
+import { cn } from "../utils/util";
+import Button from "./Button";
 
 const navigationLinks = [
   { path: "/about", label: "درباره ما" },
@@ -17,6 +19,7 @@ const navigationLinks = [
 ];
 
 function Header() {
+  const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -50,8 +53,8 @@ function Header() {
 
   return (
     <header>
-      <div className="bg-primary-500 w-full h-12"></div>
-      <div className="max-w-screen-xl flex justify-between items-center p-4 mx-auto mt-10">
+      <div className="h-12 w-full bg-primary"></div>
+      <div className="mx-auto mt-10 flex max-w-screen-xl items-center justify-between p-4">
         <div className="flex items-center gap-8">
           <Link to="/">
             <img src="/LOGO.webp" alt="Logo" className="h-10" />
@@ -60,47 +63,38 @@ function Header() {
 
         {/* Burger Menu Icon */}
         <div className="lg:hidden">
-          <button onClick={toggleSidebar} className="focus:outline-none">
+          <Button onClick={toggleSidebar} className="text-neutral-gray-7 focus:outline-none" size="x-small" variant="tertiary">
             <CiMenuBurger className="text-2xl" />
-          </button>
+          </Button>
         </div>
 
         {/* Full-size navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navigationLinks.map(link => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className="text-gray-700 hover:text-primary-500 transition duration-200"
-            >
+        <nav className="hidden items-center gap-8 lg:flex">
+          {navigationLinks.map((link) => (
+            <Link key={link.path} to={link.path} className={cn("text-neutral-gray-8 transition duration-200 hover:text-primary", location.pathname === link.path && "border-b-2 border-primary")}>
               {link.label}
             </Link>
           ))}
         </nav>
 
         {/* Show Search bar only in desktop view */}
-        <div className="max-w-lg w-full mx-4 hidden lg:block">
+        <div className="mx-4 hidden w-full max-w-lg lg:block">
           <Search />
         </div>
 
         {/* Show Login Button only in desktop view */}
-        <div className="hidden lg:flex lg:items-center gap-4">
-          <Link to="/cart" className="relative flex items-center justify-center w-10 h-10" aria-label="View Cart">
+        <div className="hidden gap-4 lg:flex lg:items-center">
+          <Link to="/cart" className="relative flex h-10 w-10 items-center justify-center" aria-label="View Cart">
             {cartItemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-primary-500 w-5 h-5 flex items-center justify-center text-xs text-white font-bold rounded-full shadow-lg">
-                {cartItemCount}
-              </span>
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white shadow-lg">{cartItemCount}</span>
             )}
-            <LuShoppingCart size={24} className="text-neutral-300" />
+            <LuShoppingCart size={24} className="text-neutral-gray-6" />
           </Link>
 
           {userInfo ? (
             <ProfileDropdown userinfo={userInfo} />
           ) : (
-            <Link
-              to="/login"
-              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
-            >
+            <Link to="/login" className="flex items-center gap-2 rounded-md bg-primary px-8 py-3 text-white shadow-sm transition duration-200 hover:bg-primary-shade1">
               <FaUser className="h-6 w-6" />
               <span>ورود / ثبت نام</span>
             </Link>
@@ -109,13 +103,7 @@ function Header() {
       </div>
 
       {/* Sidebar for mobile menu */}
-      <MobileSidebar
-        isOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        setIsSidebarOpen={setIsSidebarOpen}
-      />
+      <MobileSidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} searchTerm={searchTerm} setSearchTerm={setSearchTerm} setIsSidebarOpen={setIsSidebarOpen} />
     </header>
   );
 }
