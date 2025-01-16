@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Product } from "../types/product";
-import BestSallersProduct from "./BestSallersProduct";
+import BestSallersProduct from "./ProductCard";
 import HighlightBar from "./HighlightBar";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -10,20 +10,16 @@ interface BestSellersProps {
 
 function BestSellers({ products }: BestSellersProps) {
   return (
-    <div className="mt-16 mx-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-lg md:text-2xl font-semibold mb-4">پر فروش ترین ها</h2>
+    <div className="mx-4 mt-16">
+      <div className="flex items-center justify-between">
+        <h2 className="mb-4 text-lg font-semibold md:text-2xl">پر فروش ترین ها</h2>
         <Link to="/products" className="flex items-center gap-2 text-lg">
           <span>تمام محصولات</span>
           <FaArrowLeft />
         </Link>
       </div>
       <HighlightBar />
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 gap-y-6 mt-10">
-        {products?.slice(0, 12).map(product => (
-          <BestSallersProduct key={product._id} product={product} />
-        ))}
-      </div>
+      <div className="mt-10 grid justify-items-center grid-cols-1 gap-4 gap-y-6 sm:grid-cols-2 md:grid-cols-4">{products?.slice(0, 8).map((product) => <BestSallersProduct key={product._id} product={product} />)}</div>
     </div>
   );
 }
