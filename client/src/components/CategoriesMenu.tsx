@@ -1,9 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
-import { Navigation } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import CategoriesItem from "./CategoriesItem";
 import HighlightBar from "./HighlightBar";
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 
 const categories = [
   { id: "Snacks", name: "تنقلات و خوراکی", img: "snacks" },
@@ -26,32 +25,25 @@ function CategoriesMenu() {
       <h2 className="mb-4 text-lg font-semibold md:text-3xl">دسته بندی ها</h2>
       <HighlightBar />
 
-      <div className="mt-4 flex items-center justify-between">
-        <button id="prevBtn" className="rounded-full border-2 bg-white p-4 text-neutral-300 shadow-md hover:text-neutral-500">
-          <FaLongArrowAltRight size={20} />
-        </button>
-        <button id="nextBtn" className="rounded-full border-2 bg-white p-4 text-neutral-300 shadow-md hover:text-neutral-500">
-          <FaLongArrowAltLeft size={20} />
-        </button>
-      </div>
-
       <Swiper
-        modules={[Navigation]}
+        modules={[Autoplay]}
         spaceBetween={10}
         slidesPerView={2}
+        autoplay={{
+          delay: 2000,
+          pauseOnMouseEnter: true,
+          disableOnInteraction: false,
+        }}
+        loop={true}
         breakpoints={{
           640: { slidesPerView: 3, spaceBetween: 15 },
           1024: { slidesPerView: 6, spaceBetween: 20 },
         }}
-        navigation={{
-          prevEl: `#prevBtn`,
-          nextEl: `#nextBtn`,
-        }}
         className="mt-10"
       >
-        {categories.map((categorie, index) => (
-          <SwiperSlide key={categorie.id} className="h-56">
-            <CategoriesItem id={categorie.id} name={categorie.name} img={categorie.img} className={index % 2 === 0 ? "bg-primary-1000" : "bg-secondary-1000"} />
+        {categories.map((categorie) => (
+          <SwiperSlide key={categorie.id} className="min-h-56">
+            <CategoriesItem id={categorie.id} name={categorie.name} img={categorie.img} />
           </SwiperSlide>
         ))}
       </Swiper>
