@@ -11,12 +11,12 @@ interface CategoriesItemProps {
 function CategoriesItem({ id, name, img, className }: CategoriesItemProps) {
   return (
     <Link to={`/products?category=${id}`}>
-      <div className={cn("flex h-full w-full max-w-48 flex-col items-center rounded-md bg-primary-tint1 px-4 py-6 text-center shadow-md", className)}>
-        <div className="mb-2 h-28 w-auto">
-          <img src={`/category/${img}.webp`} alt={name} className="h-full w-full object-contain" />
+      <div className={cn("flex h-full w-full max-w-48 flex-col items-center rounded-md bg-primary-tint1 text-center shadow-md", className)}>
+        <div className="h-32 w-full bg-white">
+          <img src={`/category/${img}.webp`} alt={name} className="py-2 object-contain h-full w-full" />
         </div>
-        <div>
-          <p className="text-secondary-100 mt-4 text-sm font-semibold md:text-base lg:text-xl">{name}</p>
+        <div className="px-4 py-2">
+          <p className="text-secondary-100 text-sm font-semibold md:text-base lg:text-xl">{name}</p>
         </div>
       </div>
     </Link>
