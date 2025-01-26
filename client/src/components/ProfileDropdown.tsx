@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { FaLock, FaRegUser } from "react-icons/fa";
 import { FiHeart, FiClock, FiLogOut, FiGrid } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { GetMeResponse } from "../types/UserType";
 import { useLogoutMutation } from "../services/UsersApi";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
+import { LuUser } from "react-icons/lu";
+import { MdLockOutline } from "react-icons/md";
 
 const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,16 +42,8 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
 
   return (
     <div className="relative">
-      <button
-        ref={buttonRef}
-        className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-gray-100 p-0 transition-all duration-300 hover:bg-gray-200 focus:outline-none"
-        onClick={toggleDropdown}
-      >
-        {userinfo.data.user.photo ? (
-          <img src={userinfo.data.user.photo} alt="user profile" className="h-full w-full rounded-full object-cover" />
-        ) : (
-          <FaRegUser className="h-16 w-16 p-4 text-gray-300" />
-        )}
+      <button ref={buttonRef} className="rounded-lg bg-primary px-5 py-3 text-white transition-all duration-300 hover:bg-primary-shade1 focus:outline-none" onClick={toggleDropdown}>
+        {userinfo.data.user.photo ? <img src={userinfo.data.user.photo} alt="user profile" className="h-full w-full rounded-full object-cover" /> : <LuUser size={30} className="text-white" />}
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -67,56 +60,60 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
               }
             }}
           >
-            <div className="w-[278px] rounded-2xl bg-white px-6 py-5">
-              <div className="mb-2 flex items-center border-b border-b-gray-200 pb-5">
+            <div className="w-[278px] rounded-lg bg-white px-6 py-5">
+              <div className="mb-2 flex items-center border-b-2 border-b-neutral-gray-4 pb-5">
                 <div className="shrink-0">
                   <img src={userinfo.data.user.photo || `/userLogo.jpg`} alt={userinfo.data.user.name} className="inline-block h-14 w-14 rounded-full object-cover" />
                 </div>
                 <div className="mr-2.5 flex flex-col gap-y-1 overflow-hidden">
-                  <span className="inline-block truncate text-lg text-gray-700">{userinfo.data.user.name}</span>
+                  <span className="inline-block truncate text-lg text-neutral-gray-8">{userinfo.data.user.name}</span>
                 </div>
               </div>
               <Link
                 to={userinfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
-                className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40"
+                className="flex h-[46px] items-center justify-between rounded-md px-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiGrid className="h-5 w-5" />
+                  <FiGrid  size={23} />
                   پنل کاربری
                 </span>
               </Link>
               <Link
                 to="/user/change-password"
-                className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40"
+                className="flex h-[46px] items-center justify-between rounded-md px-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FaLock className="h-5 w-5" />
+                  <MdLockOutline  size={23} />
                   تغییر رمز عبور
                 </span>
               </Link>
-              <Link to="/user/favorites" className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40" onClick={() => setIsOpen(false)}>
+              <Link
+                to="/user/favorites"
+                className="flex h-[46px] items-center justify-between rounded-md px-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60"
+                onClick={() => setIsOpen(false)}
+              >
                 <span className="flex items-center gap-x-3">
-                  <FiHeart className="h-5 w-5" />
+                  <FiHeart  size={23} />
                   محصولات مورد علاقه
                 </span>
               </Link>
 
               <Link
                 to="/user/order-history"
-                className="flex h-[46px] items-center justify-between rounded-xl px-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40"
+                className="flex h-[46px] items-center justify-between rounded-md px-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiClock className="h-5 w-5" />
+                  <FiClock  size={23} />
                   تاریخچه سفارشات
                 </span>
               </Link>
-              <div className="mt-2 border-t border-t-gray-200 pt-2">
-                <button onClick={handleLogout} className="flex w-full items-center justify-between rounded-xl px-2.5 py-2.5 text-gray-700 transition-colors hover:bg-neutral-100/40">
+              <div className="mt-2 border-t-2 border-t-neutral-gray-4 pt-2">
+                <button onClick={handleLogout} className="flex w-full items-center justify-between rounded-xl px-2md py-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60">
                   <span className="flex items-center gap-x-3">
-                    <FiLogOut className="h-5 w-5" />
+                    <FiLogOut  size={23} />
                     خروج
                   </span>
                 </button>
