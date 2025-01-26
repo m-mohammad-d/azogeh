@@ -1,14 +1,7 @@
-interface BannerProps {
-  img: string;
-}
-function Banner({ img }: BannerProps) {
+function Banner() {
   return (
     <div className="mx-4 md:mx-0">
-      <img
-        src={`/${img}.webp`}
-        className="h-auto w-full object-fill relative overflow-hidden aspect-[116/71] max-h-[400px]"
-        alt="banner"
-      />
+      <img src="/banner-1481.png" className="h-auto w-full object-cover" alt="banner" />
     </div>
   );
 }
