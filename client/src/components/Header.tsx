@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
-import { LuShoppingCart } from "react-icons/lu";
+import { PiShoppingCartThin } from "react-icons/pi";
 import Search from "./Search";
 import { useGetMeQuery } from "../services/UsersApi";
 import ProfileDropdown from "./ProfileDropdown";
@@ -63,7 +63,7 @@ function Header() {
 
         {/* Burger Menu Icon */}
         <div className="lg:hidden">
-          <Button onClick={toggleSidebar} className="text-neutral-gray-7 focus:outline-none" size="x-small" variant="tertiary">
+          <Button onClick={toggleSidebar} className="text-neutral-gray-7 focus:outline-none px-2" size="x-small" variant="tertiary">
             <CiMenuBurger className="text-2xl" />
           </Button>
         </div>
@@ -71,14 +71,18 @@ function Header() {
         {/* Full-size navigation */}
         <nav className="hidden items-center gap-8 lg:flex">
           {navigationLinks.map((link) => (
-            <Link key={link.path} to={link.path} className={cn("text-neutral-gray-8 transition duration-200 hover:text-primary", location.pathname === link.path && "border-b-2 border-primary")}>
+            <Link
+              key={link.path}
+              to={link.path}
+              className={cn("text-neutral-gray-8 transition duration-200 hover:text-primary", location.pathname === link.path && "border-b-2 border-primary text-primary")}
+            >
               {link.label}
             </Link>
           ))}
         </nav>
 
         {/* Show Search bar only in desktop view */}
-        <div className="mx-4 hidden w-full max-w-lg lg:block">
+        <div className="mx-4 hidden w-full max-w-sm xl:max-w-lg lg:block">
           <Search />
         </div>
 
@@ -86,15 +90,15 @@ function Header() {
         <div className="hidden gap-4 lg:flex lg:items-center">
           <Link to="/cart" className="relative flex h-10 w-10 items-center justify-center" aria-label="View Cart">
             {cartItemCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white shadow-lg">{cartItemCount}</span>
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">{cartItemCount}</span>
             )}
-            <LuShoppingCart size={24} className="text-neutral-gray-6" />
+            <PiShoppingCartThin size={30} className="text-primary" strokeWidth={12} />
           </Link>
 
           {userInfo ? (
             <ProfileDropdown userinfo={userInfo} />
           ) : (
-            <Link to="/login" className="flex items-center gap-2 rounded-md bg-primary px-8 py-3 text-white shadow-sm transition duration-200 hover:bg-primary-shade1">
+            <Link to="/login" className="flex items-center gap-2 rounded-md bg-primary px-8 py-3 text-white transition duration-500 ease-in-out hover:bg-primary-shade1">
               <FaUser className="h-6 w-6" />
               <span>ورود / ثبت نام</span>
             </Link>

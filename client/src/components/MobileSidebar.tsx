@@ -14,13 +14,7 @@ interface MobileSidebarProps {
   setIsSidebarOpen: (value: boolean) => void;
 }
 
-const MobileSidebar: React.FC<MobileSidebarProps> = ({
-  isOpen,
-  toggleSidebar,
-  searchTerm,
-  setSearchTerm,
-  setIsSidebarOpen,
-}) => {
+const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, toggleSidebar, searchTerm, setSearchTerm, setIsSidebarOpen }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isSearchFullScreen, setIsSearchFullScreen] = useState(false);
 
@@ -32,78 +26,53 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({
   };
   return (
     <>
-      <div
-        className={`fixed top-0 z-50 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-        ref={sidebarRef}
-      >
-        <div className="p-4 flex justify-between items-center">
-          <h2 className="text-xl font-semibold">منو</h2>
-          <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
-            <IoMdClose />
+      <div className={`fixed left-0 top-0 z-50 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"}`} ref={sidebarRef}>
+        <div className="mt-6 p-2">
+          <button onClick={toggleSidebar} className="text-neutral-gray-7 focus:outline-none">
+            <IoMdClose size={25} />
           </button>
         </div>
 
         {/* Sidebar Search Bar */}
-        <div className="p-4">
+        <div className="p-2">
           <input
             type="text"
             placeholder="جستجو"
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
             onFocus={toggleSearchFullScreen}
-            className="w-full bg-[#F6F5F5] px-4 py-2 rounded-xl focus:outline-none focus:border-gray-200 focus:ring-gray-300 transition duration-200 ease-in-out"
+            className="w-full rounded-md bg-[#F6F5F5] px-4 py-2 transition duration-200 ease-in-out focus:border-gray-200 focus:outline-none focus:ring-gray-300"
           />
         </div>
 
         <nav className="flex flex-col p-4">
-          <Link
-            to="/about"
-            onClick={toggleSidebar}
-            className="mb-4 flex items-center gap-2 text-gray-700 hover:text-primary-500 transition duration-200"
-          >
-            <FaInfoCircle className="h-5 w-5" />
+          <Link to="/about" onClick={toggleSidebar} className="hover:text-primary-500 mb-4 flex items-center gap-2 text-gray-700 transition duration-200">
+            <FaInfoCircle className="h-5 w-5 text-primary" />
             <span>درباره ما</span>
           </Link>
-          <Link
-            to="/services"
-            onClick={toggleSidebar}
-            className="mb-4 flex items-center gap-2 text-gray-700 hover:text-primary-500 transition duration-200"
-          >
-            <FaServicestack className="h-5 w-5" />
+          <Link to="/services" onClick={toggleSidebar} className="hover:text-primary-500 mb-4 flex items-center gap-2 text-gray-700 transition duration-200">
+            <FaServicestack className="h-5 w-5 text-primary" />
             <span>سرویس ها</span>
           </Link>
-          <Link
-            to="/contact"
-            onClick={toggleSidebar}
-            className="mb-4 flex items-center gap-2 text-gray-700 hover:text-primary-500 transition duration-200"
-          >
-            <FaPhoneAlt className="h-5 w-5" />
+          <Link to="/contact" onClick={toggleSidebar} className="hover:text-primary-500 mb-4 flex items-center gap-2 text-gray-700 transition duration-200">
+            <FaPhoneAlt className="h-5 w-5 text-primary" />
             <span>تماس با ما</span>
           </Link>
-          <Link
-            to="/cart"
-            onClick={toggleSidebar}
-            className="mb-4 flex items-center gap-2 text-gray-700 hover:text-primary-500 transition duration-200"
-          >
-            <LuShoppingCart className="h-5 w-5" />
+          <Link to="/cart" onClick={toggleSidebar} className="hover:text-primary-500 mb-4 flex items-center gap-2 text-gray-700 transition duration-200">
+            <LuShoppingCart className="h-5 w-5 text-primary" />
             <p>سبد خرید</p>
           </Link>
           {/* Login Button in Sidebar */}
           {userInfo ? (
             <Link
               to={userInfo.data.user.role === "admin" ? "/admin/home" : "/user/edit-profile"}
-              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
+              className="flex items-center gap-2 rounded-md bg-primary px-8 py-3 text-white shadow-md transition duration-200 hover:bg-primary-shade1"
             >
               <FaUser className="h-6 w-6" />
               <span>داشبورد</span>
             </Link>
           ) : (
-            <Link
-              to="/login"
-              className="flex items-center gap-2 bg-primary-500 px-8 py-3 rounded-lg shadow-lg text-white hover:bg-primary-600 transition duration-200"
-            >
+            <Link to="/login" className="flex items-center gap-2 rounded-md bg-primary px-8 py-3 text-white shadow-md transition duration-200 hover:bg-primary-shade1">
               <FaUser className="h-6 w-6" />
               <span>ورود / ثبت نام</span>
             </Link>

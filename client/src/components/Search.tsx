@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import { Product } from "../types/product";
 import { Link } from "react-router-dom";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -12,16 +13,16 @@ function Search() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-
+  resetInput;
   const handleProductClick = () => {
-    setSearchTerm(""); // Reset search term to close results
+    resetInput();
   };
 
   // Close search results if clicking outside the search result box
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
-        setSearchTerm("");
+        resetInput();
       }
     };
 
@@ -34,18 +35,28 @@ function Search() {
     };
   }, [searchTerm]);
 
+  function resetInput(): void {
+    setSearchTerm("");
+  }
+
   return (
-    <div className="relative w-full max-w-4xl">
-      <div className="relative mx-auto w-full max-w-4xl">
+    <div className="relative w-full max-w-xl 2xl:max-w-4xl">
+      <div className="relative mx-auto w-full max-w-xl 2xl:max-w-4xl">
         <input
           type="text"
           placeholder="جستجو کنید ..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="w-full rounded-lg bg-neutral-gray-1 px-7 py-2 pr-14 text-right text-neutral-gray-6 transition duration-200 ease-in-out focus:border focus:border-neutral-gray-3 focus:outline-none"
+          className="w-full rounded-md bg-neutral-gray-2 px-7 py-3 pr-14 text-right text-neutral-gray-8 transition duration-200 ease-in-out placeholder:text-neutral-gray-7 focus:outline-none"
         />
         <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-400">
-          <img src="/icon/Search.svg" alt="جستجو" className="size-7" />
+          {searchTerm.length === 0 ? (
+            <img src="/icon/Search.svg" alt="جستجو" className="size-7" />
+          ) : (
+            <button onClick={resetInput}>
+              <IoCloseCircleOutline size={25} className="text-neutral-gray-8" />
+            </button>
+          )}
         </span>
       </div>
 
@@ -54,7 +65,7 @@ function Search() {
           {isLoading ? (
             <p className="text-center">در حال بارگذاری...</p>
           ) : error ? (
-            <p className="text-status-error text-center">خطا در دریافت محصولات</p>
+            <p className="text-center text-status-error">خطا در دریافت محصولات</p>
           ) : products?.data?.products?.length ? (
             <ul>
               {products.data.products.map((product: Product) => (
@@ -70,7 +81,7 @@ function Search() {
               ))}
             </ul>
           ) : (
-            <p className="text-status-error text-center">محصولی یافت نشد.</p>
+            <p className="text-center text-status-error">محصولی یافت نشد.</p>
           )}
         </div>
       )}
