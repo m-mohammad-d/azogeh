@@ -57,15 +57,15 @@ const DiscountTimer = ({ initialendDate, state = "active" }: DiscountTimerProps)
 
   return (
     <div className="flex items-center justify-start space-x-2">
-      <div className={cn("ml-2 rounded-md bg-primary-tint5 p-1 text-xs text-white md:p-3 md:text-base", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
+      <div className={cn("ml-2 rounded-md font-bold bg-primary-tint1 p-1 text-xs text-primary md:p-3 md:text-lg", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
         <span>{formatTime(timeLeft.seconds)}</span>
       </div>
-      <div className={cn("font-bold", state === "disable" ? "text-neutral-gray-3" : "text-primary-tint5")}>:</div>
-      <div className={cn("ml-2 rounded-md bg-primary-tint5 p-1 text-xs text-white md:p-3 md:text-base", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
+      <div className={cn("font-bold", state === "disable" ? "text-neutral-gray-3" : "text-primary-tint1")}>:</div>
+      <div className={cn("ml-2 rounded-md font-bold bg-primary-tint1 p-1 text-xs text-primary md:p-3 md:text-lg", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
         <span>{formatTime(timeLeft.minutes)}</span>
       </div>
-      <div className={cn("font-bold", state === "disable" ? "text-neutral-gray-3" : "text-primary-tint5")}>:</div>
-      <div className={cn("rounded-md bg-primary-tint5 p-1 text-xs text-white md:p-3 md:text-base", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
+      <div className={cn("font-bold", state === "disable" ? "text-neutral-gray-3" : "text-primary-tint1")}>:</div>
+      <div className={cn("rounded-md font-bold bg-primary-tint1 p-1 text-xs text-primary md:p-3 md:text-lg", state === "disable" && "bg-neutral-gray-3 text-neutral-gray-5")}>
         <span>{formatTime(timeLeft.hours)}</span>
       </div>
     </div>
