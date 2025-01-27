@@ -16,48 +16,48 @@ function Sorting({ selectedSort, onSortChange, isFilterOpen, setIsFilterOpen }: 
     <div className="flex items-center gap-4 mb-6">
       <div className="hidden lg:flex lg:gap-4">
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "-countInStock" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+          className={`text-neutral-gray-7 hover:text-primary-400 ${
+            selectedSort === "-countInStock" ? "font-bold border-b border-primary text-primary" : ""
           }`}
           onClick={() => handleSortClick("-countInStock")}
         >
           بیشترین موجودی
         </button>
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "countInStock" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+          className={`text-neutral-gray-7 hover:text-primary-400 ${
+            selectedSort === "countInStock" ? "font-bold border-b border-primary text-primary" : ""
           }`}
           onClick={() => handleSortClick("countInStock")}
         >
           کمترین موجودی
         </button>
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "-discount" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+          className={`text-neutral-gray-7 hover:text-primary-400 ${
+            selectedSort === "-discount" ? "font-bold border-b border-primary text-primary" : ""
           }`}
           onClick={() => handleSortClick("-discount")}
         >
           بیشترین تخفیف
         </button>
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "discount" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+          className={`text-neutral-gray-7 hover:text-primary-400 ${
+            selectedSort === "discount" ? "font-bold border-b border-primary text-primary" : ""
           }`}
           onClick={() => handleSortClick("discount")}
         >
           کمترین تخفیف
         </button>
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "-price" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+          className={`text-neutral-gray-7 hover:text-primary-400 ${
+            selectedSort === "-price" ? "font-bold border-b border-primary text-primary" : ""
           }`}
           onClick={() => handleSortClick("-price")}
         >
           گران‌ترین
         </button>
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "price" ? "font-bold border-b border-primary-700 text-primary-500" : ""
+          className={`text-neutral-gray-7 hover:text-primary-400 ${
+            selectedSort === "price" ? "font-bold border-b border-primary text-primary" : ""
           }`}
           onClick={() => handleSortClick("price")}
         >
