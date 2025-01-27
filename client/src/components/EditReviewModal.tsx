@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaStar } from "react-icons/fa";
 import SmallSpinner from "./SmallSpinner";
+import Button from "./Button";
 
 // Zod schema for form validation
 const editReviewSchema = z.object({
@@ -56,20 +57,18 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({ isOpen, onClose, onCo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">ویرایش دیدگاه</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl">
+        <h2 className="mb-6 text-3xl font-bold text-gray-800">ویرایش دیدگاه</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-gray-700">امتیاز:</label>
-            <div className="flex mb-2 space-x-1">
-              {[1, 2, 3, 4, 5].map(star => (
+            <label className="mb-2 block text-lg font-medium text-gray-700">امتیاز:</label>
+            <div className="mb-2 flex space-x-1">
+              {[1, 2, 3, 4, 5].map((star) => (
                 <FaStar
                   key={star}
                   size={35}
-                  className={`cursor-pointer transition-colors ${
-                    errors.rating ? "text-gray-300" : star <= rating ? "text-yellow-400" : "text-gray-300"
-                  } hover:text-yellow-500`}
+                  className={`cursor-pointer transition-colors ${errors.rating ? "text-gray-300" : star <= rating ? "text-yellow-400" : "text-gray-300"} hover:text-yellow-500`}
                   onClick={() => {
                     setRating(star);
                     setValue("rating", star);
@@ -77,39 +76,27 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({ isOpen, onClose, onCo
                 />
               ))}
             </div>
-            {errors.rating && <p className="text-red-500 text-sm mt-1">لطفاً یک امتیاز بین ۱ تا ۵ انتخاب کنید.</p>}
+            {errors.rating && <p className="mt-1 text-sm text-red-500">لطفاً یک امتیاز بین ۱ تا ۵ انتخاب کنید.</p>}
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-gray-700">نظرات:</label>
+            <label className="mb-2 block text-lg font-medium text-gray-700">نظرات:</label>
             <textarea
               {...register("comment")}
-              className="w-full border border-gray-300 rounded-xl p-3 transition-shadow focus:shadow-md focus:outline-none"
+              className="w-full rounded-xl border border-gray-300 p-3 transition-shadow focus:shadow-md focus:outline-none"
               rows={6}
               placeholder="دیدگاه خود را بنویسید..."
             ></textarea>
-            {errors.comment && (
-              <p className="text-red-500 text-sm mt-1">لطفاً دیدگاه خود را با حداقل ۵ کاراکتر وارد کنید.</p>
-            )}
+            {errors.comment && <p className="mt-1 text-sm text-red-500">لطفاً دیدگاه خود را با حداقل ۵ کاراکتر وارد کنید.</p>}
           </div>
 
           <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              className="bg-red-500 text-white px-5 py-3 rounded-xl shadow-md hover:bg-red-600 transition-all"
-              onClick={onClose}
-            >
+            <Button type="button" shape={8} size="x-small" className="bg-red-500 text-base hover:bg-red-600" onClick={onClose}>
               انصراف
-            </button>
-            <button
-              type="submit"
-              className={`bg-primary-500 text-white px-5 py-3 rounded-xl shadow-md hover:bg-primary-600 transition-all ${
-                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={isSubmitting}
-            >
+            </Button>
+            <Button type="submit" className={`${isSubmitting ? "cursor-not-allowed opacity-50" : ""}`} disabled={isSubmitting}>
               {isSubmitting ? <SmallSpinner /> : "ثبت تغییرات"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

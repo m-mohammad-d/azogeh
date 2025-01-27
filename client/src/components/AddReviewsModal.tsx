@@ -4,6 +4,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaStar } from "react-icons/fa";
 import SmallSpinner from "./SmallSpinner";
+import Button from "./Button";
+import { cn } from "../utils/util";
 
 // Zod schema for form validation
 const reviewSchema = z.object({
@@ -51,57 +53,47 @@ const AddReviewsModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">ثبت دیدگاه</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl">
+        <h2 className="mb-6 text-3xl font-bold text-gray-800">ثبت دیدگاه</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-gray-700">رتبه‌بندی شما</label>
-            <div className="flex mb-2 space-x-1">
-              {[1, 2, 3, 4, 5].map(star => (
+            <label className="mb-2 block text-lg font-medium text-gray-700">رتبه‌بندی شما</label>
+            <div className="mb-2 flex space-x-1">
+              {[1, 2, 3, 4, 5].map((star) => (
                 <FaStar
                   key={star}
                   size={35}
-                  className={`cursor-pointer transition-colors ${
-                    rating && rating >= star ? "text-yellow-400" : "text-gray-300"
-                  } hover:text-yellow-500`}
+                  className={`cursor-pointer transition-colors ${rating && rating >= star ? "text-yellow-400" : "text-gray-300"} hover:text-yellow-500`}
                   onClick={() => handleStarClick(star)}
                 />
               ))}
             </div>
-            {errors.rating && <p className="text-red-500 text-sm mt-1">لطفاً یک امتیاز بین ۱ تا ۵ انتخاب کنید.</p>}
+            {errors.rating && <p className="mt-1 text-sm text-red-500">لطفاً یک امتیاز بین ۱ تا ۵ انتخاب کنید.</p>}
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-gray-700">دیدگاه شما</label>
+            <label className="mb-2 block text-lg font-medium text-gray-700">دیدگاه شما</label>
             <textarea
               {...register("comment")}
-              className="w-full border border-gray-300 rounded-xl p-3 transition-shadow focus:shadow-md focus:outline-none"
+              className={cn("w-full rounded-md border border-neutral-gray-2 p-3 transition-shadow focus:shadow focus:outline-none" , errors.comment && "border-status-error")}
               rows={6}
               placeholder="دیدگاه خود را بنویسید..."
             ></textarea>
-            {errors.comment && (
-              <p className="text-red-500 text-sm mt-1">لطفاً دیدگاه خود را با حداقل ۵ کاراکتر وارد کنید.</p>
-            )}
+            {errors.comment && <p className="mt-1 text-sm text-status-error">لطفاً دیدگاه خود را با حداقل ۵ کاراکتر وارد کنید.</p>}
           </div>
 
           <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              className="bg-red-500 text-white px-5 py-3 rounded-xl shadow-md hover:bg-red-600 transition-all"
-              onClick={onClose}
-            >
+            <Button type="button" shape={8} className="bg-red-500 hover:bg-red-600 text-base" size="x-small" onClick={onClose}>
               انصراف
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
-              className={`bg-primary-500 text-white px-5 py-3 rounded-xl shadow-md hover:bg-primary-600 transition-all ${
-                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`${isSubmitting ? "cursor-not-allowed opacity-50" : ""}`}
               disabled={isSubmitting}
             >
               {isSubmitting ? <SmallSpinner /> : "ارسال"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
