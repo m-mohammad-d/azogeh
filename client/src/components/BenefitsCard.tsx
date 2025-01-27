@@ -8,7 +8,7 @@ const items = [
 ];
 function BenefitsCard() {
   return (
-    <div className="w-full bg-neutral-200 mt-16 py-10 rounded-lg">
+    <div className="w-full bg-neutral-gray-1 mt-16 py-10 rounded-lg">
       <div className="mx-auto w-1/2" >
         <div className="grid grid-cols-2 items-center gap-5 lg:grid-cols-4">
           {items.map((item) => (
