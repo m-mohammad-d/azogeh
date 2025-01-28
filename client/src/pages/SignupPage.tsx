@@ -1,29 +1,25 @@
 // @ts-nocheck
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { RiEyeCloseLine } from "react-icons/ri";
-import { FaEye } from "react-icons/fa";
+import { useEffect, useRef } from "react";
 import { useGetMeQuery, useSignUpMutation } from "../services/UsersApi";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorResponse } from "../types/ErrorType";
-import InputField from "../components/InputField";
+import Input from "../components/Input";
 import SmallSpinner from "../components/SmallSpinner";
 import ReCAPTCHA from "react-google-recaptcha";
+import Button from "../components/Button";
 
 const schema = z
   .object({
     name: z.string().min(3, "نام باید حداقل 3 کاراکتر باشد.").max(15, "نام باید حداکثر 15 کاراکتر باشد."),
-    email: z.string().email("ایمیل نامعتبر است.").nonempty("ایمیل نمی‌تواند خالی باشد."),
+    email: z.string().email("ایمیل نامعتبر است.").min(1 , "ایمیل نمی‌تواند خالی باشد."),
     password: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
-    passwordConfirmation: z
-      .string()
-      .min(8, "تکرار پسورد باید حداقل 8 کاراکتر باشد.")
-      .max(15, "تکرار پسورد باید حداکثر 15 کاراکتر باشد."),
+    passwordConfirmation: z.string().min(8, "تکرار پسورد باید حداقل 8 کاراکتر باشد.").max(15, "تکرار پسورد باید حداکثر 15 کاراکتر باشد."),
   })
-  .refine(data => data.password === data.passwordConfirmation, {
+  .refine((data) => data.password === data.passwordConfirmation, {
     message: "پسوردها مطابقت ندارند.",
     path: ["passwordConfirmation"],
   });
@@ -32,8 +28,6 @@ type FormData = z.infer<typeof schema>;
 
 function SignUpPage() {
   const { data: user } = useGetMeQuery({});
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA | null>();
 
   const [signup, { isLoading }] = useSignUpMutation();
@@ -76,86 +70,42 @@ function SignUpPage() {
   };
 
   return (
-    <div className="flex items-center justify-center my-20 mx-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border-gray-100 border">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-          ثبت نام در <span className="text-primary-500">اذوقه</span>
+    <div className="mx-4 my-20 flex items-center justify-center">
+      <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
+        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">
+          ثبت نام در <span className="text-primary">اذوقه</span>
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <InputField
-            id="name"
-            type="text"
-            label="نام و نام خانوادگی"
-            placeholder="نام و نام خانوادگی"
-            register={register}
-            error={errors.name}
-          />
+          <div className="mb-6">
+            <Input id="name" type="text" label="نام و نام خانوادگی" placeholder="نام و نام خانوادگی" register={register} errorMessage={errors.name?.message} {...register("name")} />
 
-          <InputField
-            id="email"
-            type="email"
-            label="ایمیل"
-            placeholder="ایمیل"
-            register={register}
-            error={errors.email}
-          />
+            <Input id="email" type="email" label="ایمیل" placeholder="ایمیل" register={register} errorMessage={errors.email?.message} {...register("email")} />
 
-          <div className="relative mb-6">
-            <InputField
-              id="password"
-              type={showPassword ? "text" : "password"}
-              label="پسورد"
-              placeholder="پسورد"
-              register={register}
-              error={errors.password}
-            />
-            <div className="absolute top-7 left-6 cursor-pointer text-gray-500">
-              {showPassword ? (
-                <FaEye onClick={() => setShowPassword(false)} />
-              ) : (
-                <RiEyeCloseLine onClick={() => setShowPassword(true)} />
-              )}
-            </div>
-          </div>
-          <div className="relative mb-6">
-            <InputField
+            <Input id="password" type="password" label="پسورد" placeholder="پسورد" register={register} errorMessage={errors.password?.message} {...register("password")} />
+
+            <Input
               id="passwordConfirmation"
-              type={showConfirmPassword ? "text" : "password"}
+              type="password"
               label="تکرار پسورد"
               placeholder="تکرار پسورد"
               register={register}
-              error={errors.passwordConfirmation}
+              errorMessage={errors.passwordConfirmation?.message}
+              {...register("passwordConfirmation")}
             />
-            <div className="absolute top-7 left-6 cursor-pointer text-gray-500">
-              {showConfirmPassword ? (
-                <FaEye onClick={() => setShowConfirmPassword(false)} />
-              ) : (
-                <RiEyeCloseLine onClick={() => setShowConfirmPassword(true)} />
-              )}
-            </div>
           </div>
-
-            <div className="mb-6 flex justify-center">
-              <ReCAPTCHA
-                sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR"
-                ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>}
-              />
-            </div>
-          <div className="flex items-center justify-between mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-            >
-              {isLoading ? <SmallSpinner /> : "ثبت نام"}
-            </button>
+          <div className="mb-6 flex justify-center">
+            <ReCAPTCHA sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR" ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>} />
+          </div>
+          <div className="mb-4 flex items-center justify-between">
+            <Button type="submit" className="w-full">{isLoading ? <SmallSpinner /> : "ثبت نام"}</Button>
           </div>
         </form>
 
-        <div className="text-center space-x-5">
+        <div className="space-x-5 text-center">
           <p className="text-sm text-gray-600">
             قبلاً ثبت‌نام کرده‌اید؟
-            <Link to="/login" className="text-primary-400 hover:underline mr-1">
+            <Link to="/login" className="text-primary mr-1 hover:underline">
               ورود
             </Link>
           </p>
