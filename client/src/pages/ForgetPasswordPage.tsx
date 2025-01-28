@@ -2,19 +2,21 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputField from "../components/InputField";
 import { useForgetPasswordMutation } from "../services/UsersApi";
 import toast from "react-hot-toast";
 import PasswordResetLinkSent from "../components/PasswordResetLinkSent";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import SmallSpinner from "../components/SmallSpinner";
 
 const schema = z.object({
-  email: z.string().email("ایمیل نامعتبر است.").nonempty("ایمیل نمی‌تواند خالی باشد."),
+  email: z.string().email("ایمیل نامعتبر است.").min(1, "ایمیل نمی‌تواند خالی باشد."),
 });
 
 type FormData = z.infer<typeof schema>;
 
 const ForgotPasswordPage = () => {
-  const [forgetPassword] = useForgetPasswordMutation();
+  const [forgetPassword, { isLoading }] = useForgetPasswordMutation();
   const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
@@ -28,38 +30,28 @@ const ForgotPasswordPage = () => {
     try {
       await forgetPassword({ email: data.email }).unwrap();
       toast.success("لینک بازنشانی پسورد به ایمیل شما ارسال شد. ایمیل خود را چک کنید.");
-      setIsSuccess(true); 
+      setIsSuccess(true);
     } catch (error) {
       toast.error("مشکلی در ارسال لینک بازنشانی وجود دارد.");
     }
   };
 
   if (isSuccess) {
-    return <PasswordResetLinkSent />; 
+    return <PasswordResetLinkSent />;
   }
 
   return (
-    <div className="flex items-center justify-center my-20 mx-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border border-gray-100">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">بازیابی رمز عبور</h1>
+    <div className="mx-4 my-20 flex items-center justify-center">
+      <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
+        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">بازیابی رمز عبور</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <InputField
-              id="email"
-              type="email"
-              label="ایمیل خود را وارد کنید"
-              placeholder="ایمیل خود را برای بازنشانی پسورد وارد کنید"
-              error={errors.email}
-              register={register}
-            />
+            <Input id="email" type="email" label="ایمیل" placeholder="ایمیل خود را برای بازنشانی پسورد وارد کنید" errorMessage={errors.email?.message} {...register("email")} />
           </div>
-          <div className="flex items-center justify-between mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-            >
-              ارسال لینک بازیابی
-            </button>
+          <div className="mb-4 flex items-center justify-between">
+            <Button type="submit" className="w-full">
+              {isLoading ? <SmallSpinner /> : " ارسال لینک بازیابی "}
+            </Button>
           </div>
         </form>
         <p>لینک بازیابی پسورد به ایمیل شما ارسال میشود.</p>

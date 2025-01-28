@@ -5,13 +5,14 @@ import { cn } from "../utils/util";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   size?: 32 | 40 | 48 | 56;
+  label?: string;
   className?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, size = 40, type = "text", className, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, label, size = 40, type = "text", className, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const baseStyles = "relative w-full mt-4 bg-transparent border border-neutral-gray-3 rounded-md focus:border-primary transition duration-300 outline-none focus:outline-none";
+  const baseStyles = "relative w-full mt-2 bg-transparent border border-neutral-gray-3 rounded-md focus:border-primary transition duration-300 outline-none focus:outline-none";
 
   const stateStyles = {
     disabled: "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed",
@@ -26,8 +27,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, size = 4
   };
 
   return (
-    <div className="w-full min-w-[200px] max-w-sm">
+    <div className="w-full min-w-[200px] max-w-sm mt-4">
       <div>
+        {label && <label className="text-neutral-gray-8">{label}</label>}
         <input
           type={type === "password" && showPassword ? "text" : type}
           className={cn(baseStyles, errorMessage && stateStyles.error, props.disabled && stateStyles.disabled, sizeStyles[size], className)}
@@ -36,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, size = 4
         />
 
         {type === "password" && (
-          <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute left-2 top-[2.3rem] -translate-y-1/2 transform text-gray-500">
+          <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute left-2 top-[3.3rem] -translate-y-1/2 transform text-gray-500">
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         )}
