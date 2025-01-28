@@ -1,35 +1,49 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useUpdatePasswordMutation } from "../../services/UsersApi";
 import toast from "react-hot-toast";
-import { ErrorResponse } from "react-router-dom";
 import SmallSpinner from "../../components/SmallSpinner";
+import Input from "../../components/Input";
+import { ErrorResponse } from "../../types/ErrorType";
+import Button from "../../components/Button";
 
-interface UserProfile {
-  passwordCurrent: string;
-  password: string;
-  passwordConfirmation: string;
-}
+const passwordSchema = z
+  .object({
+    passwordCurrent: z.string().min(8, "رمز عبور فعلی باید حداقل ۸ کاراکتر باشد"),
+    password: z.string().min(8, "رمز عبور جدید باید حداقل ۸ کاراکتر باشد").regex(/[A-Z]/, "رمز عبور باید حداقل یک حرف بزرگ داشته باشد").regex(/[0-9]/, "رمز عبور باید حداقل یک عدد داشته باشد"),
+    passwordConfirmation: z.string(),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "رمز عبور جدید با تکرار آن مطابقت ندارد",
+    path: ["passwordConfirmation"],
+  });
+
+type PasswordFormValues = z.infer<typeof passwordSchema>;
 
 function ChangePasswordPage() {
-  const [userProfile, setUserProfile] = useState<UserProfile>({
-    passwordCurrent: "",
-    password: "",
-    passwordConfirmation: "",
+  const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordSchema),
+    defaultValues: {
+      passwordCurrent: "",
+      password: "",
+      passwordConfirmation: "",
+    },
   });
-  const [updatePassword , {isLoading}] = useUpdatePasswordMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserProfile({ ...userProfile, [name]: value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: PasswordFormValues) => {
     try {
-      await updatePassword(userProfile).unwrap();
+      await updatePassword(data).unwrap();
       toast.success("پسورد با موفقیت عوض شد");
-    } catch (error: unknown) {
+      reset();
+    } catch (error) {
       toast.error((error as ErrorResponse).data.message, {
         duration: 6000,
       });
@@ -37,58 +51,24 @@ function ChangePasswordPage() {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto">
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-400 mb-4 text-center">ویرایش رمز عبور</h2>
-        <div className="mb-4">
-          <label htmlFor="passwordCurrent" className="block text-gray-700 font-medium mb-2">
-            رمز عبور فعلی
-          </label>
-          <input
-            type="password"
-            name="passwordCurrent"
-            id="passwordCurrent"
-            value={userProfile.passwordCurrent}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300"
-            required
-          />
+    <div className="flex items-center justify-center p-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md p-6 sm:p-8">
+        <h2 className="mb-6 text-center text-2xl font-bold text-gray-700">
+          تغییر رمز عبور
+          <span className="mt-2 block text-sm font-normal text-gray-400">برای امنیت حساب خود از رمز عبور قوی استفاده کنید</span>
+        </h2>
+
+        <div className="mb-4 space-y-5">
+          <Input type="password" label="رمز عبور فعلی" placeholder="رمز عبور فعلی خود را وارد کنید" errorMessage={errors.passwordCurrent?.message} {...register("passwordCurrent")} />
+
+          <Input type="password" label="رمز عبور جدید" placeholder="رمز عبور جدید (حداقل ۸ کاراکتر)" errorMessage={errors.password?.message} {...register("password")} />
+
+          <Input type="password" label="تکرار رمز عبور جدید" placeholder="رمز عبور جدید را تکرار کنید" errorMessage={errors.passwordConfirmation?.message} {...register("passwordConfirmation")} />
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-            رمز عبور جدید
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={userProfile.password}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="passwordConfirmation" className="block text-gray-700 font-medium mb-2">
-            تکرار رمز عبور
-          </label>
-          <input
-            type="password"
-            name="passwordConfirmation"
-            id="passwordConfirmation"
-            value={userProfile.passwordConfirmation}
-            onChange={handleChange}
-            placeholder="تکرار رمز عبور"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-primary-500 text-white py-2 rounded-md hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-300"
-        >
-          {isLoading ? <SmallSpinner/> : "تغییر رمز عبور"}
-        </button>
+
+        <Button type="submit" disabled={isLoading} className="w-full">
+          {isLoading ? <SmallSpinner /> : "تغییر رمز عبور"}
+        </Button>
       </form>
     </div>
   );
