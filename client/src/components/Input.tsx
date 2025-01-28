@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, label, s
 
   return (
     <div className="w-full min-w-[200px] max-w-sm mt-4">
-      <div>
+      <div className="relative">
         {label && <label className="text-neutral-gray-8">{label}</label>}
         <input
           type={type === "password" && showPassword ? "text" : type}
