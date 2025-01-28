@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { ForwardedRef, forwardRef, useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { cn } from "../utils/util";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   size?: 32 | 40 | 48 | 56;
+  className?: string;
 }
 
-const Input: React.FC<InputProps> = ({ errorMessage, size = 40, type = "text", ...props }) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, size = 40, type = "text", className, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const baseStyles = "w-full bg-transparent border border-neutral-gray-3 rounded-md focus:border-primary transition duration-300 outline-none focus:outline-none";
+  const baseStyles = "relative w-full mt-4 bg-transparent border border-neutral-gray-3 rounded-md focus:border-primary transition duration-300 outline-none focus:outline-none";
 
   const stateStyles = {
     disabled: "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed",
@@ -26,15 +27,16 @@ const Input: React.FC<InputProps> = ({ errorMessage, size = 40, type = "text", .
 
   return (
     <div className="w-full min-w-[200px] max-w-sm">
-      <div className="relative">
+      <div>
         <input
-          {...props}
           type={type === "password" && showPassword ? "text" : type}
-          className={cn(baseStyles, errorMessage && stateStyles.error, props.disabled && stateStyles.disabled, sizeStyles[size], props.className)}
+          className={cn(baseStyles, errorMessage && stateStyles.error, props.disabled && stateStyles.disabled, sizeStyles[size], className)}
+          {...props}
+          ref={ref}
         />
 
         {type === "password" && (
-          <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
+          <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute left-2 top-[2.3rem] -translate-y-1/2 transform text-gray-500">
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         )}
@@ -43,6 +45,6 @@ const Input: React.FC<InputProps> = ({ errorMessage, size = 40, type = "text", .
       {errorMessage && <p className="mt-1 text-sm text-red-500">{errorMessage}</p>}
     </div>
   );
-};
+});
 
 export default Input;
