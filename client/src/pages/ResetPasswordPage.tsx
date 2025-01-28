@@ -3,20 +3,18 @@ import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputField from "../components/InputField";
 import toast from "react-hot-toast";
 import { useResetPasswordMutation } from "../services/UsersApi";
 import PasswordResetSuccess from "../components/ResetPasswordSuccsess";
+import Input from "../components/Input";
+import Button from "../components/Button";
 
 const schema = z
   .object({
     newPassword: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
-    confirmPassword: z
-      .string()
-      .min(8, "تایید پسورد باید حداقل 8 کاراکتر باشد.")
-      .max(15, "تایید پسورد باید حداکثر 15 کاراکتر باشد."),
+    confirmPassword: z.string().min(8, "تایید پسورد باید حداقل 8 کاراکتر باشد.").max(15, "تایید پسورد باید حداکثر 15 کاراکتر باشد."),
   })
-  .refine(data => data.newPassword === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: "پسوردها مطابقت ندارند",
     path: ["confirmPassword"],
   });
@@ -71,39 +69,27 @@ function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex items-center justify-center my-20 mx-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border border-gray-100">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">تغییر رمز عبور</h1>
+    <div className="mx-4 my-20 flex items-center justify-center">
+      <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
+        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">تغییر رمز عبور</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
-            <InputField
-              id="newPassword"
-              type="password"
-              label="رمز عبور جدید"
-              placeholder="رمز عبور جدید خود را وارد کنید"
-              register={register}
-              error={errors.newPassword}
-            />
+            <Input id="newPassword" type="password" label="رمز عبور جدید" placeholder="رمز عبور جدید خود را وارد کنید" {...register("newPassword")} errorMessage={errors.newPassword?.message} />
           </div>
 
           <div className="mb-4">
-            <InputField
+            <Input
               id="confirmPassword"
               type="password"
               label="تایید رمز عبور"
               placeholder="رمز عبور خود را دوباره وارد کنید"
-              register={register}
-              error={errors.confirmPassword}
+              {...register("confirmPassword")}
+              errorMessage={errors.confirmPassword?.message}
             />
           </div>
 
-          <div className="flex items-center justify-between mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500"
-            >
-              تغییر رمز عبور
-            </button>
+          <div className="mb-4 flex items-center justify-between">
+            <Button type="submit" className="w-full">تغییر رمز عبور</Button>
           </div>
         </form>
       </div>
