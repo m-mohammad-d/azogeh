@@ -9,6 +9,7 @@ import { useLogoutMutation, useUpdateInfoMutation } from "../services/UsersApi";
 import { BsPlus } from "react-icons/bs";
 import { useImageUploader } from "../hooks/useImageUploader";
 import SmallSpinner from "./SmallSpinner";
+import Button from "./Button";
 
 interface ProfileCardProps {
   userInfo?: GetMeResponse;
@@ -32,35 +33,27 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
 
   const handleLogOut = () => {
     toast.custom(
-      t => (
-        <div
-          className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-auto transform transition-transform duration-300 ${
-            t.visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}
-        >
-          <p className="text-gray-800 text-lg">آیا مطمئن هستید که می‌خواهید خارج شوید؟</p>
-          <div className="flex justify-end mt-6 space-x-4 rtl:space-x-reverse">
-            <button
-              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md transition-colors duration-200"
-              onClick={() => toast.dismiss(t.id)}
-            >
+      (t) => (
+        <div className={`mx-auto w-full max-w-md transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300 ${t.visible ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}>
+          <p className="text-lg text-gray-800">آیا مطمئن هستید که می‌خواهید خارج شوید؟</p>
+          <div className="mt-6 flex justify-end space-x-4 rtl:space-x-reverse">
+            <button className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 transition-colors duration-200 hover:bg-gray-300" onClick={() => toast.dismiss(t.id)}>
               انصراف
             </button>
-            <button
-              className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md transition-colors duration-200"
+            <Button
               onClick={() => {
                 confirmLogOut();
                 toast.dismiss(t.id);
               }}
             >
               بله، خارج شو
-            </button>
+            </Button>
           </div>
         </div>
       ),
       {
         duration: Infinity,
-      }
+      },
     );
   };
 
@@ -97,18 +90,18 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md max-w-xs mx-auto md:max-w-full">
+    <div className="mx-auto max-w-xs rounded-xl bg-white shadow-md md:max-w-full">
       <div className="flex flex-col items-center py-8">
         <div className="relative">
           {profileImagePreview ? (
-            <img src={profileImagePreview} alt="Profile Preview" className="w-24 h-24 object-cover rounded-full" />
+            <img src={profileImagePreview} alt="Profile Preview" className="h-24 w-24 rounded-full object-cover" />
           ) : (
-            <img src="/userLogo.jpg" alt="Profile" className="w-24 h-24 object-cover rounded-full" />
+            <img src="/userLogo.jpg" alt="Profile" className="h-24 w-24 rounded-full object-cover" />
           )}
           <button
             type="button"
             onClick={() => document.getElementById("profileImage")?.click()}
-            className="absolute bottom-0 right-0 bg-blue-500 text-white w-6 h-6 flex items-center justify-center rounded-full hover:bg-blue-400"
+            className="absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-400"
           >
             <BsPlus />
           </button>
@@ -116,58 +109,53 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ userInfo }) => {
         </div>
 
         {profileImageFile && (
-          <button
-            type="button"
-            onClick={handleSaveChanges}
-            disabled={isUpdating}
-            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-400"
-          >
+          <button type="button" onClick={handleSaveChanges} disabled={isUpdating} className="mt-2 rounded-full bg-green-500 px-4 py-2 text-white hover:bg-green-400">
             {isUpdating ? <SmallSpinner /> : "ذخیره عکس"}
           </button>
         )}
 
-        <h2 className="text-lg font-semibold mt-4">{userInfo?.data?.user?.name}</h2>
+        <h2 className="mt-4 text-lg font-semibold">{userInfo?.data?.user?.name}</h2>
         <p className="text-gray-500">{userInfo?.data?.user?.email}</p>
       </div>
 
       <div className="border-t border-gray-200 px-6 py-4">
-        <div className="flex justify-between text-sm mb-4">
+        <div className="mb-4 flex justify-between text-sm">
           <span>تعداد خرید</span>
           <span>45</span>
         </div>
-        <div className="flex justify-between text-sm mb-4">
+        <div className="mb-4 flex justify-between text-sm">
           <span>تعداد سفارش‌ها</span>
           <span>70</span>
         </div>
       </div>
 
       <div className="border-t border-gray-200">
-        <ul className="py-4 px-6 space-y-6 text-sm">
-          <li className="flex gap-2 items-center">
-            <Link to="/user/order-history" className="flex gap-2 items-center">
+        <ul className="space-y-6 px-6 py-4 text-sm">
+          <li className="flex items-center gap-2">
+            <Link to="/user/order-history" className="flex items-center gap-2">
               <AiOutlineHistory size={20} />
               <span>تاریخچه سفارشات</span>
             </Link>
           </li>
-          <li className="flex gap-2 items-center">
-            <Link to="/user/edit-profile" className="flex gap-2 items-center">
+          <li className="flex items-center gap-2">
+            <Link to="/user/edit-profile" className="flex items-center gap-2">
               <TbUserEdit size={20} />
               <span>ویرایش مشخصات</span>
             </Link>
           </li>
-          <li className="flex gap-2 items-center">
-            <Link to="/user/favorites" className="flex gap-2 items-center">
+          <li className="flex items-center gap-2">
+            <Link to="/user/favorites" className="flex items-center gap-2">
               <MdFavoriteBorder size={20} />
               <span>محصولات مورد علاقه</span>
             </Link>
           </li>
-          <li className="flex gap-2 items-center">
-            <Link to="/user/change-password" className="flex gap-2 items-center">
+          <li className="flex items-center gap-2">
+            <Link to="/user/change-password" className="flex items-center gap-2">
               <MdLockOutline size={20} />
               <span>تغییر رمز عبور</span>
             </Link>
           </li>
-          <li className="flex gap-2 items-center cursor-pointer" onClick={handleLogOut}>
+          <li className="flex cursor-pointer items-center gap-2" onClick={handleLogOut}>
             <MdOutlineLogout size={20} />
             <span>خروج</span>
           </li>
