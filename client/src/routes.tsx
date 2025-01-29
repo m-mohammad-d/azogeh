@@ -28,7 +28,6 @@ import UpdateProduct from "./pages/Dashboard/UpdateProduct";
 import ManageOrder from "./pages/Dashboard/ManageOrder";
 import OrderPage from "./pages/OrderPage";
 import PaymentPage from "./pages/UserPanel/PaymentPage";
-import NotificationPage from "./pages/Dashboard/NotificationPage";
 
 const router = createBrowserRouter([
   {
@@ -132,7 +131,6 @@ const router = createBrowserRouter([
       { path: "/admin/manage-users", element: <UserListPage /> },
       { path: "/admin/manage-orders", element: <ManageOrder /> },
       { path: "/admin/manage-order/:id", element: <OrderPage /> },
-      { path: "/admin/notification", element: <NotificationPage /> },
     ],
   },
 ]);

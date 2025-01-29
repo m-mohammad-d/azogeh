@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { FiMenu, FiLogOut } from "react-icons/fi";
 import { FaUsers, FaBox, FaShoppingCart, FaBoxOpen } from "react-icons/fa";
-import { MdClose, MdNotifications, MdOutlineDashboard } from "react-icons/md";
+import { MdClose, MdOutlineDashboard } from "react-icons/md";
 import { useGetMeQuery, useLogoutMutation } from "../services/UsersApi";
 import Spinner from "../components/Spinner";
 import toast from "react-hot-toast";
@@ -93,7 +93,6 @@ function AdminLayout() {
             { to: "/admin/manage-products", icon: <FaBox className="mr-2 text-lg" />, label: "مدیریت محصولات" },
             { to: "/admin/add-product", icon: <FaBoxOpen className="mr-2 text-lg" />, label: "اضافه کردن محصول" },
             { to: "/admin/manage-orders", icon: <FaShoppingCart className="mr-2 text-lg" />, label: "مدیریت سفارشات" },
-            { to: "/admin/notification", icon: <MdNotifications className="mr-2 text-lg" />, label: "اعلانات موجودی" },
           ].map(({ to, icon, label }) => (
             <Link key={to} to={to} className="hover:bg-primary-700 flex items-center gap-3 rounded-md p-4 transition-colors" aria-label={label}>
               {icon}
