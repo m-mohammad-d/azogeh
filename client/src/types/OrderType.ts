@@ -45,7 +45,7 @@ export interface OrderItemListResponse {
 export interface Order {
   _id: string;
   user: User;
-  orderItems: OrderItemRequest[];
+  orderItems: OrderItemListResponse[];
   shippingAddress: ShippingAddress;
   paymentMethod: string;
   itemsPrice: number;
@@ -73,7 +73,7 @@ export interface TopSellingProduct {
 }
 
 export interface TopSellingProductResponse {
-  data: TopSellingProduct[]; 
+  data: TopSellingProduct[];
   result: number;
   status: string;
 }
