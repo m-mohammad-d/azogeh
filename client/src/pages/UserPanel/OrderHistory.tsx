@@ -28,7 +28,7 @@ function OrderHistory() {
         <h1 className="mb-6 text-3xl font-bold text-gray-800">تاریخچه سفارشات</h1>
 
         {/* Filter Tabs */}
-        <div className="mb-6 overflow-x-auto rounded-lg border bg-white shadow-sm">
+        <div className="mb-6 overflow-x-auto border-b bg-white">
           <div className="flex">
             {[
               { key: "all", label: "همه سفارشات" },
