@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { saveShippingAddress } from "../store/CartSlice";
 import { shippingAddress } from "../types/CartType";
 import LocationSelector from "./LocationSelector";
+import { cn } from "../utils/util";
+import Button from "./Button";
 
 interface Province {
   id: number;
@@ -45,19 +47,19 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
 
   useEffect(() => {
     fetch("/data/provinces.json")
-      .then(response => response.json())
-      .then(data => setProvinces(data))
-      .catch(error => console.error("Error loading provinces:", error));
+      .then((response) => response.json())
+      .then((data) => setProvinces(data))
+      .catch((error) => console.error("Error loading provinces:", error));
 
     fetch("/data/cities.json")
-      .then(response => response.json())
-      .then(data => setCities(data))
-      .catch(error => console.error("Error loading cities:", error));
+      .then((response) => response.json())
+      .then((data) => setCities(data))
+      .catch((error) => console.error("Error loading cities:", error));
   }, []);
 
   const onSubmit = (data: shippingAddress) => {
-    const selectedProvince = provinces.find(prov => prov.id === parseInt(data.province));
-    const selectedCity = cities.find(city => city.id === parseInt(data.city));
+    const selectedProvince = provinces.find((prov) => prov.id === parseInt(data.province));
+    const selectedCity = cities.find((city) => city.id === parseInt(data.city));
 
     if (selectedProvince && selectedCity) {
       const shippingData = {
@@ -72,44 +74,34 @@ const AddressSelection: React.FC<AddressSelectionProps> = ({ onNext }) => {
   };
 
   const selectedProvince = watch("province");
-  const filteredCities = selectedProvince ? cities.filter(city => city.province_id === parseInt(selectedProvince)) : [];
+  const filteredCities = selectedProvince ? cities.filter((city) => city.province_id === parseInt(selectedProvince)) : [];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <h2 className="text-lg font-bold mb-2">مرحله ۱: انتخاب آدرس</h2>
+      <h2 className="mb-2 text-lg font-bold">مرحله ۱: انتخاب آدرس</h2>
 
       <LocationSelector
-        options={provinces.map(province => ({ id: province.id, name: province.name }))}
+        options={provinces.map((province) => ({ id: province.id, name: province.name }))}
         value={watch("province")}
-        onChange={selectedValue => setValue("province", selectedValue)}
+        onChange={(selectedValue) => setValue("province", selectedValue)}
         label="استان"
         placeholder="استان را انتخاب کنید"
       />
-      {errors.province && <p className="text-error-400">{errors.province.message}</p>}
+      {errors.province && <p className="text-status-error">{errors.province.message}</p>}
       <LocationSelector
-        options={filteredCities.map(city => ({ id: city.id, name: city.name }))}
+        options={filteredCities.map((city) => ({ id: city.id, name: city.name }))}
         value={watch("city")}
-        onChange={selectedValue => setValue("city", selectedValue)}
+        onChange={(selectedValue) => setValue("city", selectedValue)}
         label=" شهر"
         placeholder="شهر را انتخاب کنید"
         disabled={!selectedProvince}
       />
-      {errors.city && <p className="text-error-400">{errors.city.message}</p>}
+      {errors.city && <p className="text-status-error">{errors.city.message}</p>}
 
-      <input
-        type="text"
-        {...register("street")}
-        placeholder="آدرس خیابان"
-        className="border border-gray-200 rounded-lg px-4 py-2 w-full mt-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
-      />
-      {errors.street && <p className="text-error-400">{errors.street.message}</p>}
+      <input type="text" {...register("street")} placeholder="آدرس خیابان" className={cn("mt-2 w-full rounded-md border border-gray-200 px-4 py-2", errors.street && "border-status-error")} />
+      {errors.street && <p className="text-status-error">{errors.street.message}</p>}
 
-      <button
-        type="submit"
-        className="mt-4 bg-primary-500 hover:bg-primary-600 transition duration-300 ease-in-out text-white px-6 py-3 rounded-lg shadow-md"
-      >
-        ادامه
-      </button>
+      <Button>ادامه</Button>
     </form>
   );
 };

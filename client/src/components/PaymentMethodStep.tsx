@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { savePaymentMethod } from "../store/CartSlice";
 import { FaMoneyBillWave, FaCreditCard, FaHandshake } from "react-icons/fa";
+import Button from "./Button";
 
 interface PaymentMethod {
   id: number;
@@ -45,7 +46,7 @@ const PaymentMethodStep: React.FC<PaymentMethodStepProps> = ({ onNext }) => {
 
   const handleSubmit = () => {
     if (paymentMethod) {
-      const selectedMethod = paymentMethods.find(method => method.id === paymentMethod);
+      const selectedMethod = paymentMethods.find((method) => method.id === paymentMethod);
       if (selectedMethod) {
         dispatch(savePaymentMethod(selectedMethod.name));
       }
@@ -57,30 +58,27 @@ const PaymentMethodStep: React.FC<PaymentMethodStepProps> = ({ onNext }) => {
 
   return (
     <div>
-      <h2 className="text-lg font-bold mb-4">مرحله ۲: انتخاب روش پرداخت</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-        {paymentMethods.map(method => (
+      <h2 className="mb-4 text-lg font-bold">مرحله ۲: انتخاب روش پرداخت</h2>
+      <div className="mb-4 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {paymentMethods.map((method) => (
           <div
             key={method.id}
             onClick={() => handlePaymentMethodChange(method.id)}
-            className={`border rounded-lg p-6 cursor-pointer transition transform hover:scale-105 flex items-center shadow-md hover:shadow-lg ${
-              paymentMethod === method.id ? "bg-primary-200 border-primary-400" : "bg-white border-gray-200"
+            className={`flex transform cursor-pointer items-center rounded-lg border p-6 shadow-md transition hover:scale-105 hover:shadow-lg ${
+              paymentMethod === method.id ? "border-primary bg-primary-tint2" : "border-gray-200 bg-white"
             }`}
           >
             <div className="text-primary-600 ml-4">{method.icon}</div>
             <div>
               <h3 className="text-xl font-semibold">{method.name}</h3>
-              <p className="text-gray-600 text-sm">{method.description}</p>
+              <p className="text-sm text-gray-600">{method.description}</p>
             </div>
           </div>
         ))}
       </div>
-      <button
-        onClick={handleSubmit}
-        className="mt-4 bg-primary-500 hover:bg-primary-600 transition duration-300 ease-in-out text-white px-6 py-3 rounded-lg shadow-md"
-      >
+      <Button onClick={handleSubmit}>
         ادامه
-      </button>
+      </Button>
     </div>
   );
 };

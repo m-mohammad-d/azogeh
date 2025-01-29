@@ -40,7 +40,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
   return (
     <div className="relative">
       <div
-        className={`border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none`}
+        className={`border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none`}
         onClick={() => !disabled && setIsOpen(true)}
       >
         <label className="block text-sm font-medium text-gray-700">{label}</label>

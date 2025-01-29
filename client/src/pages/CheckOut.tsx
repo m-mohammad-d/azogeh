@@ -19,7 +19,7 @@ const CheckOut: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   const handleNextStep = () => {
-    setCurrentStep(prevStep => prevStep + 1);
+    setCurrentStep((prevStep) => prevStep + 1);
   };
 
   const handleCompleteOrder = async () => {
@@ -54,13 +54,13 @@ const CheckOut: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center my-20 mx-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl border-gray-200 border">
+    <div className="mx-4 my-20 flex items-center justify-center">
+      <div className="w-full max-w-2xl rounded-md border border-gray-200 bg-white p-8 shadow-md">
         {currentStep === 1 && <AddressSelection onNext={handleNextStep} />}
         {currentStep === 2 && <PaymentMethodStep onNext={handleNextStep} />}
         {currentStep === 3 && <ConfirmationStep onConfirm={handleCompleteOrder} />}
         <div className="mt-4">
-          <p>مرحله {currentStep} از 4</p>
+          <p>مرحله {currentStep} از3 </p>
         </div>
       </div>
     </div>
