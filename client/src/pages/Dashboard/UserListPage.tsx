@@ -28,50 +28,33 @@ function UserListPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">لیست کاربران</h1>
+      <h1 className="mb-4 text-center text-2xl font-bold">لیست کاربران</h1>
 
       {/* Desktop Sorting Buttons */}
-      <div className="hidden lg:flex lg:gap-4 mb-6">
-        <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "-name" ? "font-bold border-b border-primary-700 text-primary-500" : ""
-          }`}
-          onClick={() => handleSortClick("-name")}
-        >
+      <div className="mb-6 hidden lg:flex lg:gap-4">
+        <button className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "-name" ? "border-primary-shade2 text-primary border-b font-bold" : ""}`} onClick={() => handleSortClick("-name")}>
           نام (نزولی)
         </button>
-        <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "name" ? "font-bold border-b border-primary-700 text-primary-500" : ""
-          }`}
-          onClick={() => handleSortClick("name")}
-        >
+        <button className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "name" ? "border-primary-shade2 text-primary border-b font-bold" : ""}`} onClick={() => handleSortClick("name")}>
           نام (صعودی)
         </button>
         <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "-email" ? "font-bold border-b border-primary-700 text-primary-500" : ""
-          }`}
+          className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "-email" ? "border-primary-shade2 text-primary border-b font-bold" : ""}`}
           onClick={() => handleSortClick("-email")}
         >
           ایمیل (نزولی)
         </button>
-        <button
-          className={`text-gray-300 hover:text-primary-400 ${
-            selectedSort === "email" ? "font-bold border-b border-primary-700 text-primary-500" : ""
-          }`}
-          onClick={() => handleSortClick("email")}
-        >
+        <button className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "email" ? "border-b border-primary-shade2 font-bold text-primary" : ""}`} onClick={() => handleSortClick("email")}>
           ایمیل (صعودی)
         </button>
       </div>
 
       {/* Mobile Sorting Dropdown */}
-      <div className="lg:hidden flex items-center gap-4 mb-6">
+      <div className="mb-6 flex items-center gap-4 lg:hidden">
         <select
           value={selectedSort}
-          onChange={e => handleSortClick(e.target.value)}
-          className="w-full rounded-lg p-3 text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-500 transition duration-200"
+          onChange={(e) => handleSortClick(e.target.value)}
+          className="focus:ring-primary-400 focus:border-primary-500 w-full rounded-lg border border-gray-300 p-3 text-gray-700 transition duration-200 focus:outline-none focus:ring-2"
         >
           <option value="">مرتب‌سازی</option>
           <option value="-name">نام (نزولی)</option>
@@ -82,7 +65,7 @@ function UserListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {users.map(user => (
+        {users.map((user) => (
           <UserCard key={user.id} name={user.name} email={user.email} photo={user.photo} onBan={() => handleBan(user.id)} />
         ))}
       </div>
