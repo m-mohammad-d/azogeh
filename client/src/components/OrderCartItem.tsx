@@ -52,7 +52,7 @@ const OrderCartItem: React.FC<OrderCartItemProps> = ({ order, products }) => {
         <h3 className="font-semibold">محصولات سفارش:</h3>
         <div className="flex flex-wrap">
           {order.orderItems.map(orderItem => {
-            const product = products.find(p => p._id === orderItem.product._id);
+            const product = products.find(p => p._id === orderItem.product);
             return (
               product && (
                 <div key={orderItem._id} className="flex items-center mr-4 mb-2">
