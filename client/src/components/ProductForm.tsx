@@ -2,11 +2,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema, ProductFormData } from "../schemas/productSchema";
 import { useState, useEffect } from "react";
+import Input from "../components/Input";
+import Button from "./Button";
 
-type ProductFormProps = {
+interface ProductFormProps {
   onSubmit: (data: ProductFormData, image: File | null) => void;
   initialValues?: ProductFormData;
-};
+}
 
 function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
   const {
@@ -17,10 +19,12 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
     watch,
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
+    defaultValues: initialValues,
   });
 
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(initialValues?.image || null);
   const [file, setFile] = useState<File | null>(null);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -44,153 +48,47 @@ function ProductForm({ onSubmit, initialValues }: ProductFormProps) {
       setImageUrl(initialValues.image);
     }
   }, [initialValues]);
-
-  const handleFormSubmit = async (data: ProductFormData) => {
+  const handleFormSubmit = (data: ProductFormData) => {
     onSubmit(data, file);
   };
-
   return (
-    <div>
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            نام محصول
-          </label>
-          <input
-            id="name"
-            type="text"
-            {...register("name")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.name ? "border-red-500" : ""}`}
-          />
-          {errors.name && <span className="text-error-400 text-sm">{errors.name.message}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            توضیحات محصول
-          </label>
-          <textarea
-            id="description"
-            {...register("description")}
-            rows={4}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.description ? "border-red-500" : ""}`}
-          />
-          {errors.description && <span className="text-error-400 text-sm">{errors.description.message}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-            قیمت محصول
-          </label>
-          <input
-            id="price"
-            type="number"
-            {...register("price")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.price ? "border-red-500" : ""}`}
-          />
-          {errors.price && <span className="text-error-400 text-sm">{errors.price.message}</span>}
-        </div>
-
-
-        <div>
-          <label htmlFor="discount" className="block text-sm font-medium text-gray-700">
-            تخفیف محصول
-          </label>
-          <input
-            id="discount"
-            type="number"
-            {...register("discount")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.discount ? "border-red-500" : ""}`}
-          />
-          {errors.discount && <span className="text-error-400 text-sm">{errors.discount.message}</span>}
-        </div>
-        <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-            دسته‌بندی محصول
-          </label>
-          <input
-            id="category"
-            type="text"
-            {...register("category")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.category ? "border-red-500" : ""}`}
-          />
-          {errors.category && <span className="text-error-400 text-sm">{errors.category.message}</span>}
-        </div>
-
-
-        <div>
-          <label htmlFor="brand" className="block text-sm font-medium text-gray-700">
-            برند
-          </label>
-          <input
-            id="brand"
-            type="text"
-            {...register("brand")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.brand ? "border-red-500" : ""}`}
-          />
-          {errors.brand && <span className="text-error-400 text-sm">{errors.brand.message}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="countInStock" className="block text-sm font-medium text-gray-700">
-            تعداد موجودی
-          </label>
-          <input
-            id="countInStock"
-            type="number"
-            {...register("countInStock")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.countInStock ? "border-red-500" : ""}`}
-          />
-          {errors.countInStock && <span className="text-error-400 text-sm">{errors.countInStock.message}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="isAvailable" className="block text-sm font-medium text-gray-700">
-            در دسترس
-          </label>
-          <select
-            id="isAvailable"
-            {...register("isAvailable")}
-            className={`mt-1 p-2 border rounded-md w-full ${errors.isAvailable ? "border-red-500" : ""}`}
-          >
-            <option value="true">موجود</option>
-            <option value="false">ناموجود</option>
-          </select>
-          {errors.isAvailable && <span className="text-error-400 text-sm">{errors.isAvailable.message}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-            تصویر محصول
-          </label>
-          <div className="flex items-center space-x-3">
-            <input id="image" type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
-            <label
-              htmlFor="image"
-              className="cursor-pointer bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 transition-all"
-            >
-              انتخاب تصویر
-            </label>
-            <span className="text-sm text-gray-600">
-              {watch("image") ? "تصویر انتخاب شده" : "هیچ تصویری انتخاب نشده"}
-            </span>
-          </div>
-
-          {imageUrl && (
-            <div className="mt-3">
-              <img src={imageUrl} alt="Product Preview" className="w-32 h-32 object-cover" />
-            </div>
-          )}
-
-          {errors.image && <span className="text-error-400 text-sm">{errors.image.message}</span>}
-        </div>
-        <div>
-          <button type="submit" className="w-full p-2 bg-primary-600 text-white rounded-md">
-            اضافه کردن محصول
-          </button>
-        </div>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+      <Input fullWidth label="نام محصول" {...register("name")} errorMessage={errors.name?.message} />
+      <div>
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+          توضیحات محصول
+        </label>
+        <textarea id="description" {...register("description")} rows={4} className={`mt-1 w-full rounded-md border p-2 ${errors.description ? "border-red-500" : ""}`} />
+        {errors.description && <span className="text-error-400 text-sm">{errors.description.message}</span>}
+      </div>
+      <Input fullWidth label="قیمت محصول" type="number" {...register("price")} errorMessage={errors.price?.message} />
+      <Input fullWidth label="تخفیف محصول" type="number" {...register("discount")} errorMessage={errors.discount?.message} />
+      <Input fullWidth label="دسته‌بندی محصول" {...register("category")} errorMessage={errors.category?.message} />
+      <Input fullWidth label="برند" {...register("brand")} errorMessage={errors.brand?.message} />
+      <Input fullWidth label="تعداد موجودی" type="number" {...register("countInStock")} errorMessage={errors.countInStock?.message} />
+      <div>
+        <label htmlFor="isAvailable" className="block text-sm font-medium text-gray-700">
+          در دسترس
+        </label>
+        <select id="isAvailable" {...register("isAvailable")} className="mt-1 w-full rounded-md border p-2">
+          <option value="true">موجود</option>
+          <option value="false">ناموجود</option>
+        </select>
+        {errors.isAvailable && <span className="text-error-400 text-sm">{errors.isAvailable.message}</span>}
+      </div>
+      <div>
+        <input id="image" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+        <label htmlFor="image" className="bg-primary mt-4 hover:bg-primary cursor-pointer rounded-md px-4 py-2 text-white transition-all">
+          انتخاب تصویر
+        </label>
+        <span className="text-sm text-gray-600">{watch("image") ? "تصویر انتخاب شده" : "هیچ تصویری انتخاب نشده"}</span>
+        {imageUrl && <img src={imageUrl} alt="Product Preview" className="mt-3 h-32 w-32 object-cover" />}
+        {errors.image && <span className="text-error-400 text-sm">{errors.image.message}</span>}
+      </div>
+      <div className="flex items-center justify-center">
+        <Button type="submit">اضافه کردن محصول</Button>
+      </div>
+    </form>
   );
 }
 

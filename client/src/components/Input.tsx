@@ -5,11 +5,12 @@ import { cn } from "../utils/util";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   size?: 32 | 40 | 48 | 56;
+  fullWidth?: boolean;
   label?: string;
   className?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, label, size = 40, type = "text", className, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, label, fullWidth = false, size = 40, type = "text", className, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const baseStyles = "relative w-full mt-2 bg-transparent border border-neutral-gray-3 rounded-md focus:border-primary transition duration-300 outline-none focus:outline-none";
@@ -27,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, label, s
   };
 
   return (
-    <div className="w-full min-w-[200px] max-w-sm mt-4">
+    <div className={cn("mt-4 w-full min-w-[200px]", fullWidth ? "max-w-full" : "w-full")}>
       <div className="relative">
         {label && <label className="text-neutral-gray-8">{label}</label>}
         <input
