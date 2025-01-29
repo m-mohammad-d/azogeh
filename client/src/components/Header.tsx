@@ -11,6 +11,7 @@ import MobileSidebar from "./MobileSidebar";
 import { FaUser } from "react-icons/fa";
 import { cn } from "../utils/util";
 import Button from "./Button";
+import AnimatedHeaderText from "./AnimatedHeaderText";
 
 const navigationLinks = [
   { path: "/about", label: "درباره ما" },
@@ -53,7 +54,7 @@ function Header() {
 
   return (
     <header>
-      <div className="h-12 w-full bg-primary"></div>
+      <AnimatedHeaderText />
       <div className="mx-auto mt-10 flex max-w-screen-xl items-center justify-between p-4">
         <div className="flex items-center gap-8">
           <Link to="/">
@@ -63,7 +64,7 @@ function Header() {
 
         {/* Burger Menu Icon */}
         <div className="lg:hidden">
-          <Button onClick={toggleSidebar} className="text-neutral-gray-7 focus:outline-none px-2" size="x-small" variant="tertiary">
+          <Button onClick={toggleSidebar} className="px-2 text-neutral-gray-7 focus:outline-none" size="x-small" variant="tertiary">
             <CiMenuBurger className="text-2xl" />
           </Button>
         </div>
@@ -82,16 +83,14 @@ function Header() {
         </nav>
 
         {/* Show Search bar only in desktop view */}
-        <div className="mx-4 hidden w-full max-w-sm xl:max-w-lg lg:block">
+        <div className="mx-4 hidden w-full max-w-sm lg:block xl:max-w-lg">
           <Search />
         </div>
 
         {/* Show Login Button only in desktop view */}
         <div className="hidden gap-4 lg:flex lg:items-center">
           <Link to="/cart" className="relative flex h-10 w-10 items-center justify-center" aria-label="View Cart">
-            {cartItemCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">{cartItemCount}</span>
-            )}
+            {cartItemCount > 0 && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">{cartItemCount}</span>}
             <PiShoppingCartThin size={30} className="text-primary" strokeWidth={12} />
           </Link>
 
