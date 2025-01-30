@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { OrderListResponse, OrderRequest, TopSellingProductResponse } from "../types/OrderType";
+import { API_BASE_URL } from "../config";
 
 export const OrderApi = createApi({
   reducerPath: "OrderApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   tagTypes: ["order"],
   endpoints: builder => ({
     createOrder: builder.mutation({
