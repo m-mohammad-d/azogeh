@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GetAllUsersResponse, GetUsersCountResponse } from "../types/UserType";
+import { API_BASE_URL } from "../config";
 
 const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/users",
+    baseUrl: `${API_BASE_URL}/users`,
     credentials: "include",
   }),
   tagTypes: ["userInfo"],
