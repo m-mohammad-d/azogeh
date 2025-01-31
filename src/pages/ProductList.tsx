@@ -14,7 +14,7 @@ interface PriceRange {
 
 function ProductList() {
   const [availableOnly, setAvailableOnly] = useState<boolean>(true);
-  const [priceRange, setPriceRange] = useState<PriceRange>({ min: 0, max: 500000 });
+  const [priceRange, setPriceRange] = useState<PriceRange>({ min: 0, max: 10000000 });
   const [brand, setBrand] = useState<string>("all");
   const [category, setCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -142,6 +142,7 @@ function ProductList() {
         </div>
         <div className={`max-w-full lg:w-1/4 ${isFilterOpen ? "block" : "hidden lg:block"}`} id="filter-section">
           <Filter
+          products={data?.data.products}
             availableOnly={availableOnly}
             priceRange={priceRange}
             brand={brand}

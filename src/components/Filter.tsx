@@ -1,6 +1,8 @@
 import React from "react";
+import { Product } from "../types/product";
 
 interface FilterProps {
+  products: Product[] | undefined;
   availableOnly: boolean;
   priceRange: { min: number; max: number };
   brand: string;
@@ -25,19 +27,93 @@ const categories = [
   { value: "Pickles", name: "ترشیجات" },
   { value: "Sweets", name: "شیرینی جات" },
 ];
+
 const brands = [
-  { value: "golestan", name: "گلستان" },
-  { value: "cheetoz", name: "چی توز" },
-  { value: "Lina", name: "لینا" },
-  { value: "seven", name: "سون" },
-  { value: "Damdaran", name: "دامداران" },
-  { value: "Domino", name: "دومینو" },
-  { value: "Tabiat", name: "طبیعت" },
-  { value: "Sanich", name: "سن ایچ" },
-  { value: "Mahya", name: "مهیا" },
-  { value: "Pemina", name: "پمینا" },
-  { value: "farmand", name: "فرمند" },
-  { value: "Sahar", name: "سحر" },
+  "خوشبخت",
+  "مهرام",
+  "کاریبو",
+  "کامبیز",
+  "لواسانی",
+  "بدر",
+  "اصالت",
+  "بیژن",
+  "سلامت",
+  "بهروز",
+  "چین چین",
+  "نادری",
+  "کاپو",
+  "کینوفیت",
+  "رشد",
+  "خشکپاک",
+  "سوربن",
+  "پگاه",
+  "مهیا پروتئین",
+  "تلاونگ",
+  "فرش",
+  "ترخون بانو",
+  "سیمرغ",
+  "همیشک",
+  "گلها",
+  "گرین فیلد",
+  "هانی",
+  "متفرقه",
+  "دستچین کالا",
+  "سرمد",
+  "دلپذیر",
+  "رعنا",
+  "گلدن گیت",
+  "الیت",
+  "مه پروتئین",
+  "گلستان",
+  "طبیعت",
+  "روژین",
+  "اروم آدا",
+  "هایلی",
+  "پیک",
+  "دنت",
+  "کاله",
+  "کالین",
+  "مانداسوی",
+  "پارمیدا",
+  "جمانه",
+  "کوپا",
+  "فرمند",
+  "سایرو",
+  "تواضع",
+  "مینو",
+  "باراکا",
+  "لوکوما",
+  "هراز",
+  "دالیا",
+  "رامک",
+  "میهن",
+  "رانی",
+  "موریس",
+  "سان استار",
+  "لایف استار",
+  "واتا",
+  "سن ایچ",
+  "هوفنبرگ",
+  "تیمز",
+  "کلاسنو",
+  "الگادو",
+  "مصطفوی",
+  "کیوب لند",
+  "شاتل",
+  "باربیکن",
+  "سپرایت",
+  "نیکا",
+  "مولتی کوکو",
+  "چای احمد",
+  "گل کیس",
+  "مولتی کافه",
+  "مولتی میت",
+  "نسکافه",
+  "دو غزال",
+  "بن مانو",
+  "_",
+  "چی توز",
+  "مزمز",
 ];
 const Filter: React.FC<FilterProps> = ({ availableOnly, priceRange, brand, category, handleSetAvailableOnly, handlePriceChange, handleBrandChange, handleCategoryChange, resetFilters }) => {
   return (
@@ -50,10 +126,10 @@ const Filter: React.FC<FilterProps> = ({ availableOnly, priceRange, brand, categ
       {/* Brand Filter */}
       <div className="mb-4">
         <label className="mb-2 block">برند</label>
-        <select value={brand} onChange={handleBrandChange} className="w-full border-neutral-gray-3 rounded-md border p-2">
+        <select value={brand} onChange={handleBrandChange} className="w-full rounded-md border border-neutral-gray-3 p-2">
           <option value="all">همه</option>
           {brands.map((brand) => (
-            <option value={brand.name}>{brand.name}</option>
+            <option value={brand}>{brand}</option>
           ))}
         </select>
       </div>
@@ -61,7 +137,7 @@ const Filter: React.FC<FilterProps> = ({ availableOnly, priceRange, brand, categ
       {/* Category Filter */}
       <div className="mb-4">
         <label className="mb-2 block">نوع</label>
-        <select value={category} onChange={handleCategoryChange} className="w-full border-neutral-gray-3 rounded-md border p-2">
+        <select value={category} onChange={handleCategoryChange} className="w-full rounded-md border border-neutral-gray-3 p-2">
           <option value="all">همه</option>
           {categories.map((category) => (
             <option value={category.name}>{category.name}</option>
@@ -83,9 +159,9 @@ const Filter: React.FC<FilterProps> = ({ availableOnly, priceRange, brand, categ
       <div className="mb-4">
         <label className="mb-2 block">رنج قیمت</label>
         <div className="mb-2 flex items-center">
-          <input type="number" value={priceRange.min} min="0" max="500000" onChange={(e) => handlePriceChange(e, "min")} className="mr-2 w-1/2 rounded-md border-neutral-gray-3 border p-2" />
+          <input type="number" value={priceRange.min} min="0" max="10000000" onChange={(e) => handlePriceChange(e, "min")} className="mr-2 w-1/2 rounded-md border border-neutral-gray-3 p-2" />
           <span className="mx-2">تا</span>
-          <input type="number" value={priceRange.max} min="0" max="500000" onChange={(e) => handlePriceChange(e, "max")} className="w-1/2 rounded-md border-neutral-gray-3 border p-2" />
+          <input type="number" value={priceRange.max} min="0" max="10000000" onChange={(e) => handlePriceChange(e, "max")} className="w-1/2 rounded-md border border-neutral-gray-3 p-2" />
         </div>
         <div className="mt-2 text-sm">حداکثر قیمت: {priceRange.max.toLocaleString()} تومان</div>
       </div>
