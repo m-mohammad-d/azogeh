@@ -5,6 +5,7 @@ import Pagination from "../../components/Pagination";
 import Spinner from "../../components/Spinner";
 import toast from "react-hot-toast";
 import { Link, useSearchParams } from "react-router-dom";
+import MetaTags from "../../components/MetaTag";
 
 function ManageProducts() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,6 +40,8 @@ function ManageProducts() {
 
   return (
     <div className="mx-auto max-w-6xl bg-gray-100 p-4">
+      <MetaTags title="مدیریت محصولات | داشبورد" description="مدیریت محصولات موجود در سیستم." />
+
       <h2 className="mb-6 text-center text-2xl font-semibold">مدیریت محصولات</h2>
       <div className="grid grid-cols-1 gap-6">
         {products?.data.products.map((product) => (

@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
 import UserCard from "../../components/UserCard";
 import { useGetAllUserQuery, useDeleteUserMutation } from "../../services/UsersApi";
+import MetaTags from "../../components/MetaTag";
 
 function UserListPage() {
   const [selectedSort, setSelectedSort] = useState<string>("");
@@ -28,23 +29,34 @@ function UserListPage() {
 
   return (
     <div className="p-4">
+      <MetaTags title="لیست کاربران | داشبورد" description="مشاهده و مدیریت کاربران." />
+
       <h1 className="mb-4 text-center text-2xl font-bold">لیست کاربران</h1>
 
       {/* Desktop Sorting Buttons */}
       <div className="mb-6 hidden lg:flex lg:gap-4">
-        <button className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "-name" ? "border-primary-shade2 text-primary border-b font-bold" : ""}`} onClick={() => handleSortClick("-name")}>
+        <button
+          className={`text-neutral-gray-8 hover:text-primary-tint5 ${selectedSort === "-name" ? "border-b border-primary-shade2 font-bold text-primary" : ""}`}
+          onClick={() => handleSortClick("-name")}
+        >
           نام (نزولی)
         </button>
-        <button className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "name" ? "border-primary-shade2 text-primary border-b font-bold" : ""}`} onClick={() => handleSortClick("name")}>
+        <button
+          className={`text-neutral-gray-8 hover:text-primary-tint5 ${selectedSort === "name" ? "border-b border-primary-shade2 font-bold text-primary" : ""}`}
+          onClick={() => handleSortClick("name")}
+        >
           نام (صعودی)
         </button>
         <button
-          className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "-email" ? "border-primary-shade2 text-primary border-b font-bold" : ""}`}
+          className={`text-neutral-gray-8 hover:text-primary-tint5 ${selectedSort === "-email" ? "border-b border-primary-shade2 font-bold text-primary" : ""}`}
           onClick={() => handleSortClick("-email")}
         >
           ایمیل (نزولی)
         </button>
-        <button className={`hover:text-primary-tint5 text-neutral-gray-8 ${selectedSort === "email" ? "border-b border-primary-shade2 font-bold text-primary" : ""}`} onClick={() => handleSortClick("email")}>
+        <button
+          className={`text-neutral-gray-8 hover:text-primary-tint5 ${selectedSort === "email" ? "border-b border-primary-shade2 font-bold text-primary" : ""}`}
+          onClick={() => handleSortClick("email")}
+        >
           ایمیل (صعودی)
         </button>
       </div>

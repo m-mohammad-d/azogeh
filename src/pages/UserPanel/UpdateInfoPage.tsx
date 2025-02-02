@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import SmallSpinner from "../../components/SmallSpinner";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import MetaTags from "../../components/MetaTag";
 
 const updateInfoSchema = z.object({
   name: z.string().min(3, "نام باید حداقل 3 کاراکتر باشد").max(15, "نام نمی‌تواند بیشتر از 15 کاراکتر باشد"),
@@ -52,11 +53,11 @@ const UpdateInfoPage: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <MetaTags title="ویرایش اطلاعات | پنل کاربری" description="ویرایش اطلاعات شخصی." />
+
       <div className="w-full max-w-md space-y-8">
         <form onSubmit={handleSubmit(onSubmit)} className="rounded-lg bg-white p-8">
-          <h2 className="mb-8 text-center text-2xl font-bold text-gray-700">
-            ویرایش مشخصات
-          </h2>
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-700">ویرایش مشخصات</h2>
 
           <div className="space-y-6">
             <Input type="text" label="نام کامل" placeholder="مثال: علی محمدی" className="w-full" errorMessage={errors.name?.message} {...register("name")} />

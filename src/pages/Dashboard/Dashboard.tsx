@@ -8,6 +8,7 @@ import CountUp from "react-countup";
 import { useTopSellingProductsQuery } from "../../services/OrderApi";
 import { FaChartSimple } from "react-icons/fa6";
 import { PiUsersThree } from "react-icons/pi";
+import MetaTags from "../../components/MetaTag";
 
 // Chart colors
 const salesChartColors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#E7E9ED"];
@@ -38,6 +39,8 @@ function Dashboard() {
 
   return (
     <div className="p-4">
+      <MetaTags title="داشبورد | مدیریت" description="پنل مدیریت فروشگاه." />
+
       <h1 className="mb-4 text-center text-2xl font-bold">داشبورد</h1>
 
       <div className="mx-auto mb-6 grid w-full grid-cols-1 gap-6 md:grid-cols-2">

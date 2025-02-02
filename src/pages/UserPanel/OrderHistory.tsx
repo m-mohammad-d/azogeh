@@ -4,6 +4,7 @@ import Spinner from "../../components/Spinner";
 import { useGetMyOrdersQuery } from "../../services/OrderApi";
 import OrderHistoryCard from "../../components/OrderHistoryCard";
 import { useGetProductsQuery } from "../../services/ApiProduct";
+import MetaTags from "../../components/MetaTag";
 
 function OrderHistory() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +25,8 @@ function OrderHistory() {
 
   return (
     <div className="min-h-screen p-4 md:p-6">
+      <MetaTags title="تاریخچه سفارشات | پنل کاربری" description="مشاهده سفارش‌های قبلی." />
+
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-6 text-3xl font-bold text-gray-800">تاریخچه سفارشات</h1>
 

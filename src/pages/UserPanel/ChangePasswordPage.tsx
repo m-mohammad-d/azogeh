@@ -7,6 +7,7 @@ import SmallSpinner from "../../components/SmallSpinner";
 import Input from "../../components/Input";
 import { ErrorResponse } from "../../types/ErrorType";
 import Button from "../../components/Button";
+import MetaTags from "../../components/MetaTag";
 
 const passwordSchema = z
   .object({
@@ -52,6 +53,8 @@ function ChangePasswordPage() {
 
   return (
     <div className="flex items-center justify-center p-4">
+      <MetaTags title="تغییر رمز عبور | پنل کاربری" description="تغییر رمز عبور حساب کاربری." />
+
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md p-6 sm:p-8">
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-700">
           تغییر رمز عبور

@@ -5,6 +5,7 @@ import DataTable from "../../components/DataTable";
 import { useGetAllOrderQuery } from "../../services/OrderApi";
 import { Order } from "../../types/OrderType";
 import { Link } from "react-router-dom";
+import MetaTags from "../../components/MetaTag";
 export type Column<T> = {
   key: keyof T;
   label: string;
@@ -18,8 +19,7 @@ function ManageOrder() {
     direction: null,
   });
 
-  const sortParam =
-    sortConfig.key && sortConfig.direction ? `${sortConfig.direction === "asc" ? "" : "-"}${sortConfig.key}` : "";
+  const sortParam = sortConfig.key && sortConfig.direction ? `${sortConfig.direction === "asc" ? "" : "-"}${sortConfig.key}` : "";
 
   const { data, isLoading: isLoadingOrders } = useGetAllOrderQuery({ sort: sortParam });
 
@@ -51,30 +51,19 @@ function ManageOrder() {
     {
       key: "isPaid",
       label: "وضعیت پرداخت",
-      render: (order: Order) => (
-        <span className={`font-semibold ${order.isPaid ? "text-green-600" : "text-red-600"}`}>
-          {order.isPaid ? "پرداخت شده" : "پرداخت نشده"}
-        </span>
-      ),
+      render: (order: Order) => <span className={`font-semibold ${order.isPaid ? "text-green-600" : "text-red-600"}`}>{order.isPaid ? "پرداخت شده" : "پرداخت نشده"}</span>,
     },
     {
       key: "isDelivered",
       label: "وضعیت تحویل",
-      render: (order: Order) => (
-        <span className={`font-semibold ${order.isDelivered ? "text-blue-600" : "text-yellow-600"}`}>
-          {order.isDelivered ? "تحویل داده شده" : "تحویل نشده"}
-        </span>
-      ),
+      render: (order: Order) => <span className={`font-semibold ${order.isDelivered ? "text-blue-600" : "text-yellow-600"}`}>{order.isDelivered ? "تحویل داده شده" : "تحویل نشده"}</span>,
     },
     { key: "totalPrice", label: "مجموع قیمت", sortable: true },
     {
       key: "_id",
       label: "جزئیات",
       render: (order: Order) => (
-        <Link
-          to={`/admin/manage-order/${order._id}`}
-          className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition"
-        >
+        <Link to={`/admin/manage-order/${order._id}`} className="rounded-md bg-indigo-500 px-4 py-2 text-white transition hover:bg-indigo-600">
           نمایش
         </Link>
       ),
@@ -82,8 +71,9 @@ function ManageOrder() {
   ];
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
-      <h1 className="text-3xl font-extrabold mb-6 text-gray-900">مدیریت سفارشات</h1>
+    <div className="mx-auto max-w-screen-xl p-6">
+      <MetaTags title="مدیریت سفارش‌ها | داشبورد" description="مدیریت سفارش‌های کاربران." />
+      <h1 className="mb-6 text-3xl font-extrabold text-gray-900">مدیریت سفارشات</h1>
       <DataTable data={currentOrders} columns={columns} onSort={handleSort} sortConfig={sortConfig} />
       <div className="mt-6">
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />

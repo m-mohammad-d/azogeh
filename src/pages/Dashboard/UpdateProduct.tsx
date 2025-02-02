@@ -5,6 +5,7 @@ import ProductForm from "../../components/ProductForm";
 import toast from "react-hot-toast";
 import { ProductFormData } from "../../schemas/productSchema";
 import Spinner from "../../components/Spinner";
+import MetaTags from "../../components/MetaTag";
 
 function UpdateProduct() {
   const { id: productId } = useParams();
@@ -40,8 +41,10 @@ function UpdateProduct() {
   if (error) return <p>مشکلی پیش آمده است</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold mb-6">ویرایش محصول</h2>
+    <div className="mx-auto max-w-3xl rounded-lg bg-white p-4 shadow-lg">
+      <MetaTags title="ویرایش محصول | داشبورد" description="ویرایش اطلاعات یک محصول." />
+
+      <h2 className="mb-6 text-2xl font-semibold">ویرایش محصول</h2>
       <ProductForm onSubmit={onSubmit} initialValues={product?.data.product} />
     </div>
   );
