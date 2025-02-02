@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useGetMeQuery } from "../services/UsersApi";
 import { FaExclamationTriangle } from "react-icons/fa";
 import SimilarProduct from "../components/SimilarProduct";
+import MetaTags from "../components/MetaTag";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,6 +74,13 @@ const ProductDetailPage: React.FC = () => {
 
   return (
     <div className="mx-auto mt-16 w-full max-w-screen-xl">
+      <MetaTags
+        title={`اذوقه | ${productData?.data.product.name || "جزئیات محصول"}`}
+        description={productData?.data.product.description || ""}
+        keywords="جزئیات محصول, خرید آنلاین, قیمت محصول"
+        image={productData?.data.product.image}
+        url={`https://azogeh.onrender.com/product/${productData?.data.product.id}`}
+      />
       {productData && reviewsData && (
         <>
           <ProductInfo product={productData.data.product} onAddToCart={handleAddToCart} />

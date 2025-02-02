@@ -11,8 +11,9 @@ import SmallSpinner from "../components/SmallSpinner";
 import ReCAPTCHA from "react-google-recaptcha";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import MetaTags from "../components/MetaTag";
 const schema = z.object({
-  email: z.string().email("ایمیل نامعتبر است.").min(1 , "ایمیل نمی‌تواند خالی باشد."),
+  email: z.string().email("ایمیل نامعتبر است.").min(1, "ایمیل نمی‌تواند خالی باشد."),
   password: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
 });
 
@@ -54,6 +55,7 @@ function LoginPage() {
 
   return (
     <div className="mx-4 my-20 flex items-center justify-center">
+      <MetaTags title="ورود به حساب | اذوقه" description="برای خرید و دسترسی به ویژگی‌های بیشتر، وارد حساب کاربری خود شوید." keywords="ورود, ورود به حساب, فروشگاه آنلاین" />
       <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">
           به <span className="text-primary-500">اذوقه</span> خوش آمدید

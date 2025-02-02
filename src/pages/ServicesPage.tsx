@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import MetaTags from "../components/MetaTag";
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 50 },
@@ -8,6 +9,7 @@ const fadeUpVariant = {
 const ServicesPage = () => {
   return (
     <div className="mx-4 mt-16 py-12">
+      <MetaTags title="خدمات ما | اذوقه" description="خدمات ویژه ما را برای خرید سریع و راحت مشاهده کنید." keywords="خدمات, فروشگاه آنلاین, خرید راحت" />
       <motion.div className="container mx-auto mb-12 text-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
         <h1 className="mb-4 text-2xl font-bold text-gray-800 md:text-3xl">سرویس‌های ما</h1>
         <p className="text-xl text-gray-600">در اذوقه، با ارائه خدمات متنوع و با کیفیت، تجربه خرید آنلاین مواد غذایی را برای شما آسان‌تر و سریع‌تر کرده‌ایم.</p>

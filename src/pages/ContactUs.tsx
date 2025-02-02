@@ -1,8 +1,10 @@
 import { FaGithub, FaLinkedin, FaTelegram, FaGlobe, FaDribbble } from "react-icons/fa";
 import { motion } from "framer-motion";
+import MetaTags from "../components/MetaTag";
 const ContactUs = () => {
   return (
     <div className="mx-4 mt-12 py-12">
+      <MetaTags title="تماس با ما | اذوقه" description="برای هر گونه سوال یا پیشنهاد، با تیم پشتیبانی ما در ارتباط باشید." keywords="تماس با ما, پشتیبانی, فروشگاه آنلاین" />
       <div className="container mx-auto mb-12 text-center">
         <h1 className="mb-4 text-2xl font-bold text-gray-800 md:text-3xl">تماس با ما</h1>
         <p className="mb-8 text-xl text-gray-600">

@@ -9,6 +9,7 @@ import { resetCart } from "../store/CartSlice";
 import { useCreateOrderMutation } from "../services/OrderApi";
 import { RootState } from "../store";
 import { Product } from "../types/product";
+import MetaTags from "../components/MetaTag";
 
 const CheckOut: React.FC = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const CheckOut: React.FC = () => {
 
   return (
     <div className="mx-4 my-20 flex items-center justify-center">
+      <MetaTags title="تکمیل خرید | اذوقه" description="مراحل پایانی خرید خود را در این صفحه تکمیل کنید. ارسال سریع و مطمئن برای شما." keywords="تکمیل خرید, پرداخت آنلاین, خرید مواد غذایی" />
       <div className="w-full max-w-2xl rounded-md border border-gray-200 bg-white p-8 shadow-md">
         {currentStep === 1 && <AddressSelection onNext={handleNextStep} />}
         {currentStep === 2 && <PaymentMethodStep onNext={handleNextStep} />}

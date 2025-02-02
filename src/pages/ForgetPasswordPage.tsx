@@ -8,6 +8,7 @@ import PasswordResetLinkSent from "../components/PasswordResetLinkSent";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import SmallSpinner from "../components/SmallSpinner";
+import MetaTags from "../components/MetaTag";
 
 const schema = z.object({
   email: z.string().email("ایمیل نامعتبر است.").min(1, "ایمیل نمی‌تواند خالی باشد."),
@@ -42,6 +43,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <div className="mx-4 my-20 flex items-center justify-center">
+      <MetaTags title="بازیابی رمز عبور | اذوقه" description="رمز عبور خود را فراموش کرده‌اید؟ مراحل بازیابی رمز عبور را دنبال کنید." keywords="بازیابی رمز عبور, ورود به حساب, فروشگاه آنلاین" />
       <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">بازیابی رمز عبور</h1>
         <form onSubmit={handleSubmit(onSubmit)}>

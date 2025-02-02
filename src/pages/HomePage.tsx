@@ -6,6 +6,7 @@ import BenefitsCard from "../components/BenefitsCard";
 import { useGetProductsQuery } from "../services/ApiProduct";
 import Spinner from "../components/Spinner";
 import SpecialOfferProducts from "../components/SpecialOfferProducts";
+import MetaTags from "../components/MetaTag";
 
 function HomePage() {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -15,8 +16,15 @@ function HomePage() {
 
   return (
     <div>
+      <MetaTags
+        title="خرید آنلاین مواد غذایی | اذوقه"
+        description="با بهترین قیمت‌ها و تخفیف‌های ویژه مواد غذایی را خریداری کنید. ارسال سریع به تمام نقاط."
+        keywords="خرید آنلاین, مواد غذایی, فروشگاه آنلاین"
+        image="/public/LOGO.webp"
+        url="https://azogeh.onrender.com"
+      />
       <div className="mx-auto mt-8 max-w-screen-xl md:mt-16">
-        <Banner/>
+        <Banner />
         <CategoriesMenu />
         <SpecialOfferProducts products={data?.data.products} />
         <BestSellers products={data?.data.products} />

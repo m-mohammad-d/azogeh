@@ -6,6 +6,7 @@ import Pagination from "../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import Sorting from "../components/Sorting";
+import MetaTags from "../components/MetaTag";
 
 interface PriceRange {
   min: number;
@@ -35,13 +36,13 @@ function ProductList() {
       setAvailableOnly(isAvailableParam === "true");
     }
     if (minPriceParam !== null) {
-      setPriceRange(prevRange => ({
+      setPriceRange((prevRange) => ({
         ...prevRange,
         min: Number(minPriceParam),
       }));
     }
     if (maxPriceParam !== null) {
-      setPriceRange(prevRange => ({
+      setPriceRange((prevRange) => ({
         ...prevRange,
         max: Number(maxPriceParam),
       }));
@@ -83,7 +84,7 @@ function ProductList() {
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, category: "min" | "max") => {
     const value = Number(e.target.value);
-    setPriceRange(prevRange => ({
+    setPriceRange((prevRange) => ({
       ...prevRange,
       [category]: value,
     }));
@@ -130,19 +131,15 @@ function ProductList() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-16">
+    <div className="mx-auto mt-16 max-w-screen-xl">
+      <MetaTags title="لیست محصولات | اذوقه" description="تمامی محصولات موجود در فروشگاه اذوقه را مشاهده کنید." keywords="لیست محصولات, خرید آنلاین, فروشگاه مواد غذایی" />
       <div className="flex flex-col lg:flex-row">
         <div className="block lg:hidden">
-          <Sorting
-            selectedSort={selectedSort}
-            onSortChange={handleSortChange}
-            isFilterOpen={isFilterOpen}
-            setIsFilterOpen={setIsFilterOpen}
-          />
+          <Sorting selectedSort={selectedSort} onSortChange={handleSortChange} isFilterOpen={isFilterOpen} setIsFilterOpen={setIsFilterOpen} />
         </div>
         <div className={`max-w-full lg:w-1/4 ${isFilterOpen ? "block" : "hidden lg:block"}`} id="filter-section">
           <Filter
-          products={data?.data.products}
+            products={data?.data.products}
             availableOnly={availableOnly}
             priceRange={priceRange}
             brand={brand}
@@ -155,21 +152,12 @@ function ProductList() {
           />
         </div>
 
-        <div className="w-full lg:w-3/4 lg:mx-8">
+        <div className="w-full lg:mx-8 lg:w-3/4">
           <div className="hidden lg:block">
-            <Sorting
-              selectedSort={selectedSort}
-              onSortChange={handleSortChange}
-              isFilterOpen={isFilterOpen}
-              setIsFilterOpen={setIsFilterOpen}
-            />
+            <Sorting selectedSort={selectedSort} onSortChange={handleSortChange} isFilterOpen={isFilterOpen} setIsFilterOpen={setIsFilterOpen} />
           </div>
 
-          {Productserror ? (
-            <div className="text-center text-xl text-gray-600 mt-10">محصولی مطابق با فیلترهای شما یافت نشد.</div>
-          ) : (
-            <ProductGrid products={data?.data.products} />
-          )}
+          {Productserror ? <div className="mt-10 text-center text-xl text-gray-600">محصولی مطابق با فیلترهای شما یافت نشد.</div> : <ProductGrid products={data?.data.products} />}
         </div>
       </div>
 

@@ -8,6 +8,7 @@ import { useResetPasswordMutation } from "../services/UsersApi";
 import PasswordResetSuccess from "../components/ResetPasswordSuccsess";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import MetaTags from "../components/MetaTag";
 
 const schema = z
   .object({
@@ -70,6 +71,7 @@ function ResetPasswordPage() {
 
   return (
     <div className="mx-4 my-20 flex items-center justify-center">
+      <MetaTags title="بازنشانی رمز عبور | اذوقه" description="رمز عبور خود را بازنشانی کنید تا به راحتی وارد حساب کاربری خود شوید." keywords="بازنشانی رمز عبور, ورود به حساب, فروشگاه آنلاین" />
       <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">تغییر رمز عبور</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +91,9 @@ function ResetPasswordPage() {
           </div>
 
           <div className="mb-4 flex items-center justify-between">
-            <Button type="submit" className="w-full">تغییر رمز عبور</Button>
+            <Button type="submit" className="w-full">
+              تغییر رمز عبور
+            </Button>
           </div>
         </form>
       </div>

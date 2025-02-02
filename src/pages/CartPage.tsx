@@ -10,6 +10,7 @@ import Pagination from "../components/Pagination";
 import { separateThousands } from "../utils/FormatNumber";
 import CartItem from "../components/CartItem";
 import Button from "../components/Button";
+import MetaTags from "../components/MetaTag";
 
 function CartPage() {
   const dispatch = useDispatch();
@@ -57,6 +58,11 @@ function CartPage() {
 
   return (
     <div className="mx-auto mt-8 max-w-screen-lg rounded-lg border border-gray-200 bg-white px-4 py-6 shadow">
+      <MetaTags
+        title="سبد خرید | اذوقه"
+        description="سبد خرید شما شامل محصولات مختلف از فروشگاه اذوقه است. برای تکمیل خرید، مراحل پرداخت را دنبال کنید."
+        keywords="سبد خرید, خرید آنلاین, مواد غذایی"
+      />
       <h1 className="mb-6 text-center text-2xl font-bold text-neutral-gray-8">سبد خرید</h1>
 
       {cartItems.length === 0 ? (

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import MetaTags from "../components/MetaTag";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 50 },
@@ -18,6 +19,7 @@ const fadeInRight = {
 const AboutUs = () => {
   return (
     <div className="mx-4 mt-16 py-12">
+      <MetaTags title="درباره ما | اذوقه" description="ما در اذوقه بهترین و تازه‌ترین مواد غذایی را برای شما فراهم می‌کنیم. با ما بیشتر آشنا شوید." keywords="درباره ما, فروشگاه آنلاین, مواد غذایی" />
       <motion.div className="container mx-auto mb-12 text-center" variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
         <h1 className="mb-4 text-2xl font-bold text-gray-800 md:text-3xl">درباره اذوقه</h1>
         <p className="text-xl text-gray-600">اذوقه با هدف ارائه بهترین محصولات غذایی سالم و ارگانیک، تجربه خرید آنلاین را برای شما آسان کرده است.</p>

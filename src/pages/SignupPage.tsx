@@ -11,11 +11,12 @@ import Input from "../components/Input";
 import SmallSpinner from "../components/SmallSpinner";
 import ReCAPTCHA from "react-google-recaptcha";
 import Button from "../components/Button";
+import MetaTags from "../components/MetaTag";
 
 const schema = z
   .object({
     name: z.string().min(3, "نام باید حداقل 3 کاراکتر باشد.").max(15, "نام باید حداکثر 15 کاراکتر باشد."),
-    email: z.string().email("ایمیل نامعتبر است.").min(1 , "ایمیل نمی‌تواند خالی باشد."),
+    email: z.string().email("ایمیل نامعتبر است.").min(1, "ایمیل نمی‌تواند خالی باشد."),
     password: z.string().min(8, "پسورد باید حداقل 8 کاراکتر باشد.").max(15, "پسورد باید حداکثر 15 کاراکتر باشد."),
     passwordConfirmation: z.string().min(8, "تکرار پسورد باید حداقل 8 کاراکتر باشد.").max(15, "تکرار پسورد باید حداکثر 15 کاراکتر باشد."),
   })
@@ -71,6 +72,7 @@ function SignUpPage() {
 
   return (
     <div className="mx-4 my-20 flex items-center justify-center">
+      <MetaTags title="ثبت نام | اذوقه" description="برای دسترسی به امکانات بیشتر، در فروشگاه اذوقه ثبت نام کنید." keywords="ثبت نام, ایجاد حساب, فروشگاه آنلاین" />
       <div className="w-full max-w-md rounded-lg border border-gray-100 bg-white p-8 shadow-xl">
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">
           ثبت نام در <span className="text-primary">اذوقه</span>
@@ -98,14 +100,16 @@ function SignUpPage() {
             <ReCAPTCHA sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR" ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>} />
           </div>
           <div className="mb-4 flex items-center justify-between">
-            <Button type="submit" className="w-full">{isLoading ? <SmallSpinner /> : "ثبت نام"}</Button>
+            <Button type="submit" className="w-full">
+              {isLoading ? <SmallSpinner /> : "ثبت نام"}
+            </Button>
           </div>
         </form>
 
         <div className="space-x-5 text-center">
           <p className="text-sm text-gray-600">
             قبلاً ثبت‌نام کرده‌اید؟
-            <Link to="/login" className="text-primary mr-1 hover:underline">
+            <Link to="/login" className="mr-1 text-primary hover:underline">
               ورود
             </Link>
           </p>
