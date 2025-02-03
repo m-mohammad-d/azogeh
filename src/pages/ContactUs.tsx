@@ -12,97 +12,119 @@ const ContactUs = () => {
           میتونید از طریق لینگ های زیر با ما در ارتباط باشید.{" "}
         </p>
 
-        <div className="mb-16 grid gap-8 md:grid-cols-3">
+        <div className="space-y-6">
           {/* فرانت‌اند دولوپر */}
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: "easeOut" }} viewport={{ once: true }}>
-            <div className="rounded-md bg-white p-6 shadow-lg">
-              <img src="avatar-frontend.jpg" alt="Frontend Developer Avatar" className="mx-auto mb-4 h-32 w-32 rounded-full" />
-              <h2 className="mb-4 text-2xl font-bold text-gray-800 md:text-3xl">برنامه‌نویس فرانت‌اند</h2>
-              <p className="mb-4 text-lg text-gray-600">
-                سلام! من محمد هستم، یه برنامه‌نویس فرانت‌اند که علاقه‌مند به ساختن تجربه‌های کاربری جذاب و کاربردی هستم. بیشتر با React و Tailwind CSS کار می‌کنم و همیشه دنبال اینم که پروژه‌هام هم
-                عملکرد خوبی داشته باشن، هم کیفیت بالا. برای این پروژه، از تکنولوژی‌هایی مثل React و Tailwind CSS استفاده کردم و حسابی روی جزئیات کار وقت گذاشتم. چالش‌های جدید برام هیجان‌انگیزن و همیشه
-                دنبال یادگیری ابزارها و تکنولوژی‌های به‌روز هستم تا بتونم توی کارم بهتر بشم. 😊
-              </p>
-              <p className="mb-4 text-lg text-gray-600">
-                اگر خواستی با من در ارتباط باشی، می‌تونی از طریق تلگرام به من پیام بدی. همچنین، پروژه‌هایی که تا حالا انجام دادم رو می‌تونی تو گیت‌هاب ببینی.
-              </p>
-
-              <div className="flex justify-center space-x-4 space-x-reverse">
-                <a href="https://github.com/m-mohammad-d" target="_blank" rel="noopener noreferrer">
-                  <FaGithub size={30} className="text-gray-800 hover:text-gray-600" />
-                </a>
-                <a href="https://linkedin.com/in/silver-shade-90b2a6302" target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin size={30} className="text-blue-600 hover:text-blue-500" />
-                </a>
-                <a href="https://t.me/silver_shade1" target="_blank" rel="noopener noreferrer">
-                  <FaTelegram size={30} className="text-blue-400 hover:text-blue-300" />
-                </a>
-                <a href="https://m-mohammad-d.vercel.app/" target="_blank" rel="noopener noreferrer">
-                  <FaGlobe size={30} className="text-green-600 hover:text-green-500" />
-                </a>
+            <div className="flex flex-col items-center justify-between gap-x-4 rounded-md border border-neutral-gray-4 bg-white p-6 shadow-md lg:flex-row-reverse">
+              <div className="w-full md:w-1/3">
+                <img src="avatar-frontend.jpg" alt="Frontend Developer Avatar" className="mx-auto mb-4 h-32 w-32 rounded-full" />
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">برنامه‌نویس فرانت‌اند</h2>
+              </div>
+              <div className="px-6">
+                <div>
+                  <p className="mb-4 text-lg text-gray-600">
+                    سلام! من محمد هستم، یه برنامه‌نویس فرانت‌اند که علاقه‌مند به ساختن تجربه‌های کاربری جذاب و کاربردی هستم. بیشتر با React و Tailwind CSS کار می‌کنم و همیشه دنبال اینم که پروژه‌هام هم
+                    عملکرد خوبی داشته باشن، هم کیفیت بالا. برای این پروژه، از تکنولوژی‌هایی مثل React و Tailwind CSS استفاده کردم و حسابی روی جزئیات کار وقت گذاشتم. چالش‌های جدید برام هیجان‌انگیزن و
+                    همیشه دنبال یادگیری ابزارها و تکنولوژی‌های به‌روز هستم تا بتونم توی کارم بهتر بشم. 😊
+                  </p>
+                  <p className="mb-4 text-lg text-gray-600">
+                    اگر خواستی با من در ارتباط باشی، می‌تونی از طریق تلگرام به من پیام بدی. همچنین، پروژه‌هایی که تا حالا انجام دادم رو می‌تونی تو گیت‌هاب ببینی.
+                  </p>
+                </div>
+                <div className="flex justify-center space-x-4 space-x-reverse">
+                  <a href="https://github.com/m-mohammad-d" target="_blank" rel="noopener noreferrer">
+                    <FaGithub size={30} className="text-gray-800 hover:text-gray-600" />
+                  </a>
+                  <a href="https://linkedin.com/in/silver-shade-90b2a6302" target="_blank" rel="noopener noreferrer">
+                    <FaLinkedin size={30} className="text-blue-600 hover:text-blue-500" />
+                  </a>
+                  <a href="https://t.me/silver_shade1" target="_blank" rel="noopener noreferrer">
+                    <FaTelegram size={30} className="text-blue-400 hover:text-blue-300" />
+                  </a>
+                  <a href="https://m-mohammad-d.vercel.app/" target="_blank" rel="noopener noreferrer">
+                    <FaGlobe size={30} className="text-green-600 hover:text-green-500" />
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
 
           {/* بک‌اند دولوپر */}
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: "easeOut" }} viewport={{ once: true }}>
-            <div className="rounded-md bg-white p-6 shadow-lg">
-              <img src="/avatar-backend.png" alt="Backend Developer Avatar" className="mx-auto mb-4 h-32 w-32 rounded-full" />
-              <h2 className="mb-4 text-2xl font-bold text-gray-800 md:text-3xl">برنامه‌نویس بک‌اند</h2>
-              <p className="mb-4 text-lg text-gray-600">
-                در این پروژه، من به عنوان توسعه‌دهنده بک‌اند مسئولیت طراحی و پیاده‌سازی بخش سرور را بر عهده داشتم. با استفاده از فناوری‌هایی مثل Node.js، Express، و TypeScript توانستم APIهایی سریع و
-                امن ایجاد کنم که نیازهای فرانت‌اند را به بهترین شکل ممکن پاسخ دهد.
-              </p>
-              <p className="mb-4 text-lg text-gray-600">
-                یکی از بخش‌های کلیدی کارم، مدیریت پایگاه داده با MongoDB و اطمینان از امنیت و بهینه‌سازی درخواست‌ها بود. همچنین با ابزارهایی مثل Cloudinary برای مدیریت فایل‌ها، و تکنیک‌های مختلف
-                امنیتی، تلاش کردم تا سروری مقیاس‌پذیر و قابل اعتماد بسازم.
-              </p>
-              <p className="mb-4 text-lg text-gray-600">
-                تجربه همکاری با تیم فرانت‌اند و یکپارچه‌سازی مؤثر، به من کمک کرد تا معماری پروژه را به گونه‌ای طراحی کنم که قابلیت توسعه و نگهداری بالایی داشته باشد. این پروژه فرصتی عالی برای رشد
-                حرفه‌ای من و تقویت مهارت‌هایم در توسعه بک‌اند بود.
-              </p>
-              <div className="flex justify-center space-x-4 space-x-reverse">
-                <a href="https://github.com/h3nrzi" target="_blank" rel="noopener noreferrer">
-                  <FaGithub size={30} className="text-gray-800 hover:text-gray-600" />
-                </a>
-                <a href="https://linkedin.com/in/h3nrzi" target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin size={30} className="text-blue-600 hover:text-blue-500" />
-                </a>
-                <a href="https://t.me/h3nrzi" target="_blank" rel="noopener noreferrer">
-                  <FaTelegram size={30} className="text-blue-400 hover:text-blue-300" />
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  <FaGlobe size={30} className="text-green-600 hover:text-green-500" />
-                </a>
+            <div className="flex flex-col items-center justify-between gap-x-4 rounded-md border border-neutral-gray-4 bg-white p-6 shadow-md lg:flex-row">
+              <div className="md:w-1/3">
+                <img src="/avatar-backend.png" alt="Backend Developer Avatar" className="mx-auto mb-4 h-32 w-32 rounded-full" />
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">برنامه‌نویس بک‌اند</h2>
+              </div>
+
+              <div className="px-6">
+                <div>
+                  <p className="mb-4 text-lg text-gray-600">
+                    در این پروژه، من به عنوان توسعه‌دهنده بک‌اند مسئولیت طراحی و پیاده‌سازی بخش سرور را بر عهده داشتم. با استفاده از فناوری‌هایی مثل Node.js، Express، و TypeScript توانستم APIهایی سریع
+                    و امن ایجاد کنم که نیازهای فرانت‌اند را به بهترین شکل ممکن پاسخ دهد.
+                  </p>
+                  <p className="mb-4 text-lg text-gray-600">
+                    یکی از بخش‌های کلیدی کارم، مدیریت پایگاه داده با MongoDB و اطمینان از امنیت و بهینه‌سازی درخواست‌ها بود. همچنین با ابزارهایی مثل Cloudinary برای مدیریت فایل‌ها، و تکنیک‌های مختلف
+                    امنیتی، تلاش کردم تا سروری مقیاس‌پذیر و قابل اعتماد بسازم.
+                  </p>
+                  <p className="mb-4 text-lg text-gray-600">
+                    تجربه همکاری با تیم فرانت‌اند و یکپارچه‌سازی مؤثر، به من کمک کرد تا معماری پروژه را به گونه‌ای طراحی کنم که قابلیت توسعه و نگهداری بالایی داشته باشد. این پروژه فرصتی عالی برای رشد
+                    حرفه‌ای من و تقویت مهارت‌هایم در توسعه بک‌اند بود.
+                  </p>
+                </div>
+                <div className="flex justify-center space-x-4 space-x-reverse">
+                  <a href="https://github.com/h3nrzi" target="_blank" rel="noopener noreferrer">
+                    <FaGithub size={30} className="text-gray-800 hover:text-gray-600" />
+                  </a>
+                  <a href="https://linkedin.com/in/h3nrzi" target="_blank" rel="noopener noreferrer">
+                    <FaLinkedin size={30} className="text-blue-600 hover:text-blue-500" />
+                  </a>
+                  <a href="https://t.me/h3nrzi" target="_blank" rel="noopener noreferrer">
+                    <FaTelegram size={30} className="text-blue-400 hover:text-blue-300" />
+                  </a>
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    <FaGlobe size={30} className="text-green-600 hover:text-green-500" />
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: "easeOut" }} viewport={{ once: true }}>
-            <div className="rounded-md bg-white p-6 shadow-lg">
-              <img src="/avatar-designer.png" alt="designer Avatar" className="mx-auto mb-4 h-32 w-32 rounded-full" />
-              <h2 className="mb-4 text-2xl font-bold text-gray-800 md:text-3xl">طراح UIUX</h2>
-              <p className="mb-8 text-lg text-gray-600">سلام من یک طراح رابط کاربری و تجربه کاربری هستم که با هدف بهبود تجربه کاربری و ایجاد طراحی های جذاب و کاربر پسند فعالیت می کنم.</p>
-              <p className="mb-8 text-lg text-gray-600">تمرکز من بر روی تحقیق و شناخت نیازهای کاربران است تا بتوانم طراحی هایی ارائه بدهم که هم زیبا و کارا باشند.</p>
-              <p className="mb-8 text-lg text-gray-600">
-                در مسیر طراحی، از تحلیل رفتار کاربران تا اجرای دقیق طرح های بصری و تعاملات کاربردی، تلاش می کنم پروژه ها به گونه ای توسعه یابند که هم از نظر زیباشناسی و هم از نظر کارایی در بالاترین
-                سطح قرار بگیرند.
-              </p>
-              <div className="flex justify-center space-x-4 space-x-reverse">
-                <a href="" target="_blank" rel="noopener noreferrer">
-                  <FaDribbble size={30} className="text-pink-500" />
-                </a>
-                <a href="https://ir.linkedin.com/in/marzieh-zekavati-2a25b8347" target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin size={30} className="text-blue-600 hover:text-blue-500" />
-                </a>
-                <a href="https://t.me/Monnight_UI" target="_blank" rel="noopener noreferrer">
-                  <FaTelegram size={30} className="text-blue-400 hover:text-blue-300" />
-                </a>
+            <div className="flex flex-col items-center justify-between gap-x-4 rounded-md border border-neutral-gray-4 bg-white p-6 shadow-md lg:flex-row-reverse">
+              <div className="md:w-1/3">
+                <img src="/avatar-designer.png" alt="designer Avatar" className="mx-auto mb-4 h-32 w-32 rounded-full" />
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">طراح UIUX</h2>
+              </div>
+
+              <div className="px-6">
+                <div>
+                  <p className="mb-8 text-lg text-gray-600">سلام من یک طراح رابط کاربری و تجربه کاربری هستم که با هدف بهبود تجربه کاربری و ایجاد طراحی های جذاب و کاربر پسند فعالیت می کنم.</p>
+                  <p className="mb-8 text-lg text-gray-600">تمرکز من بر روی تحقیق و شناخت نیازهای کاربران است تا بتوانم طراحی هایی ارائه بدهم که هم زیبا و کارا باشند.</p>
+                  <p className="mb-8 text-lg text-gray-600">
+                    در مسیر طراحی، از تحلیل رفتار کاربران تا اجرای دقیق طرح های بصری و تعاملات کاربردی، تلاش می کنم پروژه ها به گونه ای توسعه یابند که هم از نظر زیباشناسی و هم از نظر کارایی در
+                    بالاترین سطح قرار بگیرند.
+                  </p>
+                </div>
+                <div className="flex justify-center space-x-4 space-x-reverse">
+                  <a href="https://dribbble.com/Zekavati" target="_blank" rel="noopener noreferrer">
+                    <FaDribbble size={30} className="text-pink-500" />
+                  </a>
+                  <a href="https://www.figma.com/@Marziehzekavati" target="_blank" rel="noopener noreferrer">
+                    <img src="/icon/figma-icon.png" alt="figma" className="h-8 w-8" />
+                  </a>
+                  <a href="https://ir.linkedin.com/in/marzieh-zekavati-2a25b8347" target="_blank" rel="noopener noreferrer">
+                    <FaLinkedin size={30} className="text-blue-600 hover:text-blue-500" />
+                  </a>
+                  <a href="https://t.me/Monnight_UI" target="_blank" rel="noopener noreferrer">
+                    <FaTelegram size={30} className="text-blue-400 hover:text-blue-300" />
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
 
-        <p className="text-xl text-gray-600">خوشحال می‌شویم اگر با ما در ارتباط باشید و نظرات یا پیشنهادات خود را به اشتراک بگذارید!❤</p>
+        <p className="mt-12 text-xl text-gray-600">خوشحال می‌شویم اگر با ما در ارتباط باشید و نظرات یا پیشنهادات خود را به اشتراک بگذارید!❤</p>
       </div>
     </div>
   );
