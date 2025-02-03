@@ -14,7 +14,7 @@ function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       to={`/product/${_id}`}
-      className="relative block w-full max-w-[18rem] transform cursor-pointer overflow-hidden rounded-md bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+      className="relative block w-full h-96 max-w-[18rem] transform cursor-pointer overflow-hidden rounded-md bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       <article className="flex h-full flex-col p-4">
         {discount > 0 && <div className="absolute left-2 top-2 z-10 flex size-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-white">{discount}%</div>}

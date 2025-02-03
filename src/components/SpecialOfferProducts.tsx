@@ -19,31 +19,27 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
       <h2 className="mb-6 text-lg font-semibold md:mb-8 md:text-2xl lg:text-3xl">تخفیف‌های مارکتی</h2>
       <HighlightBar />
 
-      <div className="relative mt-10 h-full rounded-xl bg-primary px-4 py-2 shadow-lg lg:rounded-2xl">
+      <div className="relative mt-10 h-full rounded-md bg-primary px-4 py-2 shadow-lg lg:rounded-2xl">
         <div className="flex w-full items-center justify-between rounded-lg md:hidden">
           <div className="flex items-center gap-1">
             <h2 className="text-sm font-semibold text-white md:text-2xl">تخفیف ویژه %</h2>
-            <DiscountTimer initialendDate={initialEndDate} />
           </div>
-          <div className="flex items-center gap-1">
-            <p className="text-sm font-medium text-white">مشاهده</p>
-            <FaArrowLeft className="text-white" />
-          </div>
+          <DiscountTimer initialendDate={initialEndDate} />
         </div>
 
         <Swiper
           modules={[Autoplay]}
           spaceBetween={10}
-          slidesPerView={1}
+          slidesPerView={1.3}
           autoplay={{
             delay: 2000,
             pauseOnMouseEnter: true,
             disableOnInteraction: false,
           }}
           breakpoints={{
-            450: { slidesPerView: 2, spaceBetween: 10 },
-            768: { slidesPerView: 3, spaceBetween: 20 },
-            1024: { slidesPerView: 4, spaceBetween: 25 },
+            450: { slidesPerView: 2.3, spaceBetween: 10 },
+            768: { slidesPerView: 3.3, spaceBetween: 20 },
+            1024: { slidesPerView: 4.3, spaceBetween: 25 },
           }}
           className="h-full"
         >
@@ -57,7 +53,7 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
           </SwiperSlide>
 
           {discountedProducts?.map((product, index) => (
-            <SwiperSlide key={index} className="flex items-center justify-center mt-4">
+            <SwiperSlide key={index} className="mt-4 flex items-center justify-center py-4">
               <ProductCard product={product} />
             </SwiperSlide>
           ))}
