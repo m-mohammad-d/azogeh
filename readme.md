@@ -1,19 +1,19 @@
 # 🍱 Azoghe – Online Grocery Store
 
-![Azoghe Banner](assets/banner.png)
+![Azoghe Banner](./asset/banner.png)
 
 ---
 
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="assets/Screenshots-1.png" width="500">
-  <img src="assets/Screenshots-2.png" width="500">
-  <img src="assets/Screenshots-3.png" width="500">
-  <img src="assets/Screenshots-4.png" width="500">
-  <img src="assets/Screenshots-5.png" width="500">
-  <img src="assets/Screenshots-6.png" width="500">
-  <img src="assets/Screenshots-7.png" width="500">
+  <img src="./asset/Screenshots-1.png" width="500">
+  <img src="./asset/Screenshots-2.png" width="500">
+  <img src="./asset/Screenshots-3.png" width="500">
+  <img src="./asset/Screenshots-4.png" width="500">
+  <img src="./asset/Screenshots-5.png" width="500">
+  <img src="./asset/Screenshots-6.png" width="500">
+  <img src="./asset/Screenshots-7.png" width="500">
 </p>
 
 ---
@@ -106,5 +106,3 @@ This project is licensed under the **MIT License**.
 ---
 
 💙 **Enjoy using Azoghe? Give it a star ⭐ on GitHub!**
-
-```
