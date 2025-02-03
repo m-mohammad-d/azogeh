@@ -19,7 +19,7 @@ function BestSellers({ products }: BestSellersProps) {
         </Link>
       </div>
       <HighlightBar />
-      <div className="mt-10 grid justify-items-center grid-cols-1 gap-4 gap-y-6 sm:grid-cols-2 md:grid-cols-4">{products?.slice(0, 8).map((product) => <BestSallersProduct key={product._id} product={product} />)}</div>
+      <div className="mt-10 grid justify-items-center gap-4 gap-y-6 grid-cols-2 md:grid-cols-4">{products?.slice(0, 8).map((product) => <BestSallersProduct key={product._id} product={product} />)}</div>
     </div>
   );
 }
