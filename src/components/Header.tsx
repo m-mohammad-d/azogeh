@@ -91,7 +91,7 @@ function Header() {
         <div className="hidden gap-4 lg:flex lg:items-center">
           <Link to="/cart" className="relative flex h-10 w-10 items-center justify-center" aria-label="View Cart">
             {cartItemCount > 0 && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">{cartItemCount}</span>}
-            <PiShoppingCartThin size={30} className="text-primary" strokeWidth={12} />
+            <PiShoppingCartThin size={30} className="text-neutral-gray-8" strokeWidth={12} />
           </Link>
 
           {userInfo ? (
