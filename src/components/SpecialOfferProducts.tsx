@@ -16,7 +16,7 @@ function SpecialOfferProducts({ products }: SpecialOfferProductsProps) {
 
   return (
     <div className="mt-16 px-4 md:px-8">
-      <h2 className="mb-6 text-lg font-semibold md:mb-8 md:text-2xl lg:text-3xl">تخفیف‌های مارکتی</h2>
+      <h2 className="mb-4 text-base font-semibold sm:text-lg md:text-3xl">تخفیف‌های مارکتی</h2>
       <HighlightBar />
 
       <div className="relative mt-10 h-full rounded-md bg-primary px-4 py-2 shadow-lg lg:rounded-2xl">

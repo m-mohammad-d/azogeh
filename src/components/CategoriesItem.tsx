@@ -16,7 +16,7 @@ function CategoriesItem({ id, name, img, className }: CategoriesItemProps) {
           <img src={`/category/${img}.webp`} alt={name} className="py-2 object-contain h-full w-full" />
         </div>
         <div className="px-4 py-2">
-          <p className="text-secondary-100 text-sm font-semibold md:text-base lg:text-xl">{name}</p>
+          <p className="text-secondary-100 h-12 line-clamp-2 text-sm font-semibold md:text-base lg:text-xl">{name}</p>
         </div>
       </div>
     </Link>

@@ -22,13 +22,13 @@ const categories = [
 function CategoriesMenu() {
   return (
     <div className="mb-6 mt-6 px-4 md:mt-20">
-      <h2 className="mb-4 text-lg font-semibold md:text-3xl">دسته بندی ها</h2>
+      <h2 className="mb-4 text-base font-semibold sm:text-lg md:text-3xl">دسته بندی ها</h2>
       <HighlightBar />
 
       <Swiper
         modules={[Autoplay]}
         spaceBetween={10}
-        slidesPerView={2}
+        slidesPerView={2.2}
         autoplay={{
           delay: 2000,
           pauseOnMouseEnter: true,
@@ -36,7 +36,7 @@ function CategoriesMenu() {
         }}
         loop={true}
         breakpoints={{
-          640: { slidesPerView: 3, spaceBetween: 15 },
+          640: { slidesPerView: 4.3, spaceBetween: 15 },
           1024: { slidesPerView: 6, spaceBetween: 20 },
         }}
         className="mt-10"
