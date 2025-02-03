@@ -29,11 +29,11 @@ const AnimatedHeaderText = () => {
     <div className="flex h-12 w-full items-center justify-center overflow-hidden bg-primary">
       <motion.div
         key={currentText}
-        initial={{ y: 50, opacity: 0 }} 
-        animate={{ y: 0, opacity: 1 }} 
-        exit={{ y: -50, opacity: 0 }} 
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -50, opacity: 0 }}
         transition={{ duration: 1 }}
-        className="text-xl text-white"
+        className="text-xs line-clamp-1 text-white sm:text-base md:text-lg lg:text-xl"
       >
         {headerTexts[currentText]}
       </motion.div>
