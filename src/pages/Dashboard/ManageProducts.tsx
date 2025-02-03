@@ -20,7 +20,7 @@ function ManageProducts() {
   }, [currentPage, setSearchParams]);
 
   if (isLoading) return <Spinner />;
-  if (error) return <p>خطا در دریافت داده‌ها!</p>;
+  if (error) return <p className="text-center text-red-500">خطا در دریافت داده‌ها!</p>;
 
   const totalPages = products?.pagination?.pages;
 
@@ -43,35 +43,35 @@ function ManageProducts() {
       <MetaTags title="مدیریت محصولات | داشبورد" description="مدیریت محصولات موجود در سیستم." />
 
       <h2 className="mb-6 text-center text-2xl font-semibold">مدیریت محصولات</h2>
-      <div className="grid grid-cols-1 gap-6">
+
+      <div className="space-y-6">
         {products?.data.products.map((product) => (
-          <div key={product.id} className="flex transform items-center justify-between rounded-lg border-b p-4 shadow-lg transition-all duration-300 ease-in-out hover:scale-105">
-            <img src={`${product.image}`} alt={product.name} className="h-24 w-24 rounded-lg object-cover" />
-            <div className="mr-6 flex flex-grow flex-col">
+          <div key={product.id} className="flex flex-col items-center gap-4 rounded-lg bg-white p-4 shadow-md transition-all duration-300 hover:shadow-lg sm:flex-row">
+            <img src={product.image} alt={product.name} className="h-24 w-24 rounded-lg object-cover sm:h-28 sm:w-28" />
+
+            <div className="flex flex-grow flex-col text-center sm:text-right">
               <span className="text-lg font-semibold text-gray-800">{product.name}</span>
               <span className="mt-1 text-gray-600">قیمت: {product.price.toLocaleString()} تومان</span>
-              <div className="mt-2 flex items-center justify-between">
-                <span className="text-gray-600">تعداد موجودی: {product.countInStock}</span>
-              </div>
+              <span className="mt-1 text-gray-600">موجودی: {product.countInStock}</span>
             </div>
-            <div className="mt-4 flex items-center gap-4">
+
+            <div className="mt-4 flex items-center gap-2 sm:mt-0 sm:gap-4">
               <Link to={`/admin/update-product/${product.id}`}>
-                <button className="flex transform items-center rounded-md bg-blue-600 px-6 py-2 text-white shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:bg-blue-700 hover:shadow-lg">
-                  <FaEdit />
+                <button className="rounded-md bg-blue-600 p-2 text-white transition-all hover:bg-blue-700 sm:p-3">
+                  <FaEdit className="text-lg sm:text-xl" />
                 </button>
               </Link>
-              <button
-                className="flex transform items-center rounded-md bg-red-600 px-6 py-2 text-white shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:bg-red-700 hover:shadow-lg"
-                onClick={() => handleDeleteProduct(product.id)}
-              >
-                <FaRegTrashAlt />
+              <button className="rounded-md bg-red-600 p-2 text-white transition-all hover:bg-red-700 sm:p-3" onClick={() => handleDeleteProduct(product.id)}>
+                <FaRegTrashAlt className="text-lg sm:text-xl" />
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      <Pagination currentPage={currentPage} totalPages={totalPages || 0} onPageChange={handlePageChange} />
+      <div className="mt-8 flex justify-center">
+        <Pagination currentPage={currentPage} totalPages={totalPages || 0} onPageChange={handlePageChange} />
+      </div>
     </div>
   );
 }
