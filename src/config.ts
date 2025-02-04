@@ -1,1 +1,1 @@
-export const API_BASE_URL = import.meta.env.PROD ? "https://test-az-1.onrender.com/api" : "/api";
+export const API_BASE_URL = import.meta.env.PROD ? "https://azooghe.onrender.com/api" : "/api";
