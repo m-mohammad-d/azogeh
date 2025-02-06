@@ -43,7 +43,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
   return (
     <div className="relative">
       <button ref={buttonRef} className="rounded-lg bg-primary px-5 py-3 text-white transition-all duration-300 hover:bg-primary-shade1 focus:outline-none" onClick={toggleDropdown}>
-        {userinfo.data.user.photo ? <img src={userinfo.data.user.photo} alt="user profile" className="h-full w-full rounded-full object-cover" /> : <LuUser size={30} className="text-white" />}
+        <LuUser size={30} className="text-white" />
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -75,7 +75,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiGrid  size={23} />
+                  <FiGrid size={23} />
                   پنل کاربری
                 </span>
               </Link>
@@ -85,7 +85,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <MdLockOutline  size={23} />
+                  <MdLockOutline size={23} />
                   تغییر رمز عبور
                 </span>
               </Link>
@@ -95,7 +95,7 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiHeart  size={23} />
+                  <FiHeart size={23} />
                   محصولات مورد علاقه
                 </span>
               </Link>
@@ -106,14 +106,14 @@ const ProfileDropdown = ({ userinfo }: { userinfo: GetMeResponse }) => {
                 onClick={() => setIsOpen(false)}
               >
                 <span className="flex items-center gap-x-3">
-                  <FiClock  size={23} />
+                  <FiClock size={23} />
                   تاریخچه سفارشات
                 </span>
               </Link>
               <div className="mt-2 border-t-2 border-t-neutral-gray-4 pt-2">
-                <button onClick={handleLogout} className="flex w-full items-center justify-between rounded-xl px-2md py-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60">
+                <button onClick={handleLogout} className="px-2md flex w-full items-center justify-between rounded-xl py-2.5 text-neutral-gray-8 transition-colors hover:bg-neutral-100/60">
                   <span className="flex items-center gap-x-3">
-                    <FiLogOut  size={23} />
+                    <FiLogOut size={23} />
                     خروج
                   </span>
                 </button>
