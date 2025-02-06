@@ -4,11 +4,11 @@ import { API_BASE_URL } from "../config";
 
 export const OrderApi = createApi({
   reducerPath: "OrderApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL, credentials: "include" }),
   tagTypes: ["order"],
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     createOrder: builder.mutation({
-      query: formData => ({
+      query: (formData) => ({
         url: "orders",
         method: "POST",
         body: formData,
@@ -55,12 +55,4 @@ export const OrderApi = createApi({
   }),
 });
 
-export const {
-  useCreateOrderMutation,
-  useGetOneOrderQuery,
-  useGetAllOrderQuery,
-  useGetMyOrdersQuery,
-  usePayOrderMutation,
-  useDeliverOrderMutation,
-  useTopSellingProductsQuery,
-} = OrderApi;
+export const { useCreateOrderMutation, useGetOneOrderQuery, useGetAllOrderQuery, useGetMyOrdersQuery, usePayOrderMutation, useDeliverOrderMutation, useTopSellingProductsQuery } = OrderApi;

@@ -4,9 +4,9 @@ import { API_BASE_URL } from "../config";
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL, credentials: "include" }),
   tagTypes: ["product"],
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getProducts: builder.query<
       FetchResponse<Product>,
       {
@@ -20,7 +20,7 @@ export const productsApi = createApi({
         search?: string;
       } | void
     >({
-      query: params => {
+      query: (params) => {
         let queryString = `products?`;
 
         if (params?.page !== undefined) {
@@ -52,11 +52,11 @@ export const productsApi = createApi({
       providesTags: ["product"],
     }),
     getProductById: builder.query<FetchResponseproduct<Product>, string>({
-      query: id => `products/${id}`,
+      query: (id) => `products/${id}`,
       providesTags: ["product"],
     }),
     getProductReviews: builder.query({
-      query: id => `/products/${id}/reviews`,
+      query: (id) => `/products/${id}/reviews`,
     }),
     submitReview: builder.mutation({
       query: ({ productId, rating, comment }) => ({
@@ -82,7 +82,7 @@ export const productsApi = createApi({
       }),
     }),
     CreateProduct: builder.mutation({
-      query: productData => ({
+      query: (productData) => ({
         url: "/products",
         method: "POST",
         body: productData,

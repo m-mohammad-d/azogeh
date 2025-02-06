@@ -3,10 +3,10 @@ import { API_BASE_URL } from "../config";
 
 export const imageApi = createApi({
   reducerPath: "imageApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
-  endpoints: builder => ({
+  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL, credentials: "include" }),
+  endpoints: (builder) => ({
     uploadImage: builder.mutation<{ data: { image: string } }, FormData>({
-      query: formData => ({
+      query: (formData) => ({
         url: "upload",
         method: "POST",
         body: formData,
@@ -16,4 +16,3 @@ export const imageApi = createApi({
 });
 
 export const { useUploadImageMutation } = imageApi;
-
