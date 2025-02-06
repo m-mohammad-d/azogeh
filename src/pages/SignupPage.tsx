@@ -97,7 +97,7 @@ function SignUpPage() {
             />
           </div>
           <div className="mb-6 flex justify-center">
-            <ReCAPTCHA sitekey="6LfLupYqAAAAAG1vdqt4yX6ik0KJikrzpUxACAFR" ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>} />
+            <ReCAPTCHA sitekey="6Lflr84qAAAAAJ5Ym9Qotvc4WlG4k8YlcY8kGici" ref={recaptchaRef as React.LegacyRef<ReCAPTCHA>} />
           </div>
           <div className="mb-4 flex items-center justify-between">
             <Button type="submit" className="w-full">
