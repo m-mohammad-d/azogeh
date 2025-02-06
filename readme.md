@@ -38,7 +38,8 @@ Azoghe is a **modern online grocery store** built with **React, TypeScript, and 
 
 Azoghe's backend is built separately to handle API requests, authentication, and order management.
 
-🔗 **[Azoghe Backend Repository](https://github.com/yourusername/azoghe-backend)**
+🔗 **[Azoghe Backend Repository](https://github.com/h3nrzi/shop-flow)**
+🔗 **[Azoghe Backend url]( https://azooghe.onrender.com)**
 
 ---
 
