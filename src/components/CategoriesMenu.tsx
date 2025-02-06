@@ -8,14 +8,13 @@ const categories = [
   { id: "Snacks", name: "تنقلات و خوراکی", img: "snacks" },
   { id: "Dairy", name: "لبنیات", img: "dairy" },
   { id: "Fruits", name: "میوه و سبزیجات", img: "frout" },
-  { id: "Canned", name: "محصولات کنسروی", img: "canned" },
+  { id: "Canned", name: "کنسرو و غذای اماده", img: "canned" },
   { id: "Cold-beverage", name: "نوشیدنی سرد", img: "cold-beverage" },
   { id: "Hot-beverage", name: "نوشیدنی گرم", img: "hot-beverage" },
-  { id: "Bakery", name: "نان و بیکری", img: "bread" },
   { id: "Spices", name: "ادویه جات", img: "spice" },
   { id: "Protein", name: "مواد پروتئینی", img: "Protein" },
   { id: "Legumes", name: "حبوبات", img: "Legumes" },
-  { id: "Pickles", name: "ترشیجات", img: "pickles" },
+  { id: "Pickles", name: "ترشی جات", img: "pickles" },
   { id: "Sweets", name: "شیرینی جات", img: "sweets" },
 ];
 

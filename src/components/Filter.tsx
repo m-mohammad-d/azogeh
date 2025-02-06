@@ -14,20 +14,18 @@ interface FilterProps {
   resetFilters: () => void;
 }
 const categories = [
-  { value: "Snacks", name: "تنقلات و خوراکی" },
-  { value: "Dairy", name: "لبنیات" },
-  { value: "Fruits", name: "میوه و سبزیجات" },
-  { value: "Canned", name: "محصولات کنسروی" },
-  { value: "Cold-beverage", name: "نوشیدنی سرد" },
-  { value: "Hot-beverage", name: "نوشیدنی گرم" },
-  { value: "Bakery", name: "نان و بیکری" },
-  { value: "Spices", name: "ادویه جات" },
-  { value: "Protein", name: "مواد پروتئینی" },
-  { value: "Legumes", name: "حبوبات" },
-  { value: "Pickles", name: "ترشیجات" },
-  { value: "Sweets", name: "شیرینی جات" },
+  { id: "Snacks", name: "تنقلات و خوراکی", img: "snacks" },
+  { id: "Dairy", name: "لبنیات", img: "dairy" },
+  { id: "Fruits", name: "میوه و سبزیجات", img: "frout" },
+  { id: "Canned", name: "کنسرو و غذای اماده", img: "canned" },
+  { id: "Cold-beverage", name: "نوشیدنی سرد", img: "cold-beverage" },
+  { id: "Hot-beverage", name: "نوشیدنی گرم", img: "hot-beverage" },
+  { id: "Spices", name: "ادویه جات", img: "spice" },
+  { id: "Protein", name: "مواد پروتئینی", img: "Protein" },
+  { id: "Legumes", name: "حبوبات", img: "Legumes" },
+  { id: "Pickles", name: "ترشی جات", img: "pickles" },
+  { id: "Sweets", name: "شیرینی جات", img: "sweets" },
 ];
-
 const brands = [
   "خوشبخت",
   "مهرام",
